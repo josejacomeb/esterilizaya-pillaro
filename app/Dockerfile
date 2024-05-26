@@ -1,31 +1,24 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
+FROM --platform=$BUILDPLATFORM python:3.11-alpine AS builder
 EXPOSE 8000
 WORKDIR /esterilizaya 
 COPY requirements.txt /esterilizaya
-RUN apk add --no-cache --virtual build-deps gcc musl-dev libffi-dev pkgconf mariadb-dev && \
-    apk add --no-cache mariadb-connector-c-dev && \
+RUN apk add --no-cache --virtual build-deps gcc=13.2.1_git20240309-r0 musl-dev=1.2.5-r0 libffi-dev=3.4.6-r0 pkgconf=2.2.0-r0 mariadb-dev=10.11.8-r0 && \
+    #apk add --no-cache mariadb-connector-c-dev=3.3.10-r0 && \
     pip install --no-cache-dir -r requirements.txt && \
     apk del build-deps
-ENTRYPOINT ["python3"] 
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
 
-FROM builder as dev-envs
-RUN <<EOF
-apk update
-apk add git
-EOF
-
+FROM --platform=$BUILDPLATFORM python:3.11-alpine AS prod
+WORKDIR /home/esterilizaya/code
+RUN apk add --no-cache curl=8.7.1-r0  mariadb-connector-c-dev=3.3.10-r0
 RUN <<EOF
 addgroup -S docker
 adduser -S --shell /bin/bash -S esterilizaya --ingroup docker vscode
 EOF
 
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
-COPY . /esterilizaya 
-COPY . /inscripcion 
-COPY . /templates 
+COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
+
+COPY ./ ./
+RUN ls -a && ls -a
 USER esterilizaya
-CMD ["manage.py", "runserver", "0.0.0.0:8000"]
