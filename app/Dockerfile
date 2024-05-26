@@ -4,7 +4,10 @@ FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
 EXPOSE 8000
 WORKDIR /esterilizaya 
 COPY requirements.txt /esterilizaya
-RUN pip3 install -r requirements.txt --no-cache-dir
+RUN apk add --no-cache --virtual build-deps gcc musl-dev libffi-dev pkgconf mariadb-dev && \
+    apk add --no-cache mariadb-connector-c-dev && \
+    pip install --no-cache-dir -r requirements.txt && \
+    apk del build-deps
 ENTRYPOINT ["python3"] 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
 

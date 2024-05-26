@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -74,10 +75,23 @@ WSGI_APPLICATION = "esterilizaya.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
+ 
+
+# Abrir el Docker Secrets file
+def get_docker_secrets(passwd_file = "/run/secrets/db_password")->str:
+    print(passwd_file)
+    with open(passwd_file, 'r') as i_file:
+        passwd = i_file.read()
+    return passwd.strip()
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": BASE_DIR / "db.sqlite3",
+        "ENGINE": "django.db.backends.mysql",
+        "NAME": os.getenv("DB_NAME", "esterilizaciones"),
+        "USER": os.getenv("DB_USER", "josejacomeb"),
+        "PASSWORD": get_docker_secrets(os.getenv("DB_PASSWORD_FILE")),
+        "HOST": os.getenv("DB_HOST", "db"),
+        "PORT": os.getenv("DB_PORT", "3306"),
     }
 }
 

@@ -3,3 +3,36 @@ services:
     build: app 
     ports: 
       - '8000:8000'
+    depends_on:
+      - db
+    secrets:
+      - db_password
+      - admin_password
+    environment:
+      - DB_DATABASE=${DB_DATABASE}
+      - DB_PASSWORD_FILE=${DB_PASSWORD_FILE}
+      - DB_PORT=${DB_PORT}
+      - DB_USER=${DB_USER}
+      - DB_HOST=${DB_HOST}
+
+  db:
+    image: mariadb:11
+    restart: always
+    environment:
+      - MARIADB_ROOT_PASSWORD_FILE=${DB_ROOT_PASSWORD_FILE}
+      - MARIADB_PASSWORD_FILE=${DB_PASSWORD_FILE}
+      - MARIADB_DATABASE=${DB_DATABASE}
+      - MARIADB_USER=${DB_USER}
+    secrets:
+      - db_root_password
+      - db_password
+    ports:
+      - '${DB_PORT}:3306'
+
+secrets:
+  db_root_password:
+    file: database/credenciales/root_password.txt
+  db_password:
+    file: database/credenciales/user_password.txt
+  admin_password:
+    file: database/credenciales/admin_password.txt

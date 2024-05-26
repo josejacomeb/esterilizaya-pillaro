@@ -21,3 +21,16 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
 ## Herramientas Software
 - Django
+- MariaDB
+
+## Instrucciones
+- `cp .env.example .env`
+- Cree los archivos de las credenciales
+```bash
+    mkdir database/credenciales
+    echo ejemplo_contraseña_root_secreto > database/credenciales/root_password.txt
+    echo ejemplo_contraseña_user_secreto > database/credenciales/user_password.txt
+    echo ejemplo_contraseña_admin > database/credenciales/admin_password.txt
+
+```
+- `docker compose up -d --build`
