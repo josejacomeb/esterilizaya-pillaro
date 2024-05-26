@@ -22,4 +22,5 @@ EOF
 COPY --from=gloursdocker/docker / /
 COPY . /esterilizaya 
 COPY . /inscripcion 
+COPY . /templates 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
