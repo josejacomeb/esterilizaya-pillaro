@@ -5,7 +5,6 @@ EXPOSE 8000
 WORKDIR /esterilizaya 
 COPY requirements.txt /esterilizaya
 RUN pip3 install -r requirements.txt --no-cache-dir
-COPY . /esterilizaya 
 ENTRYPOINT ["python3"] 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
 
@@ -21,4 +20,6 @@ adduser -S --shell /bin/bash --ingroup docker vscode
 EOF
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
+COPY . /esterilizaya 
+COPY . /inscripcion 
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
