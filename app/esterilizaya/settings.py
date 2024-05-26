@@ -10,8 +10,8 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-from pathlib import Path
 import os
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -56,7 +56,7 @@ ROOT_URLCONF = "esterilizaya.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [BASE_DIR / 'templates'],
+        "DIRS": [BASE_DIR / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -75,14 +75,13 @@ WSGI_APPLICATION = "esterilizaya.wsgi.application"
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
- 
 
 # Abrir el Docker Secrets file
-def get_docker_secrets(passwd_file = "/run/secrets/db_password")->str:
-    print(passwd_file)
-    with open(passwd_file, 'r') as i_file:
+def get_docker_secrets(passwd_file="/run/secrets/db_password") -> str:
+    with open(passwd_file, "r") as i_file:
         passwd = i_file.read()
     return passwd.strip()
+
 
 DATABASES = {
     "default": {

@@ -19,11 +19,13 @@ EOF
 
 RUN <<EOF
 addgroup -S docker
-adduser -S --shell /bin/bash --ingroup docker vscode
+adduser -S --shell /bin/bash -S esterilizaya --ingroup docker vscode
 EOF
+
 # install Docker tools (cli, buildx, compose)
 COPY --from=gloursdocker/docker / /
 COPY . /esterilizaya 
 COPY . /inscripcion 
 COPY . /templates 
+USER esterilizaya
 CMD ["manage.py", "runserver", "0.0.0.0:8000"]
