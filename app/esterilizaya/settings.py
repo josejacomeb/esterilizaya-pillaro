@@ -32,6 +32,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    "campaña.apps.CampañaConfig",
     "inscripcion.apps.InscripcionConfig",
     "django.contrib.admin",
     "django.contrib.auth",
