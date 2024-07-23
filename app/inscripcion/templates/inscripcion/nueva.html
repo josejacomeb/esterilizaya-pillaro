@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Registrar nueva inscripción</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <select name="campana_id" id="campana_id">
+        {% for campana in campanas %}
+        <option value="{{ campana.id }}"> {{ campana.nombre }} </option>
+        {% endfor %}
+    </select>
+    <button type="submit">Subir</button>
+</form>
+{% endblock %}

@@ -20,4 +20,4 @@ COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/pytho
 
 COPY ./ ./
 RUN ls -a && ls -a
-USER esterilizaya
+#USER esterilizaya

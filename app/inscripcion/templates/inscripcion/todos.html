@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Registro de inscripciones</h1>
+<a href="{% url 'inscripcion_create' %}">Crear una nueva inscripción</a>
+<table border="2">
+    <tr>
+        <th>Nº</th>
+        <th>Nombre Tutor</th>
+        <th>Raza Mascota</th>
+        <th>Especie</th>
+        <th>Sexo</th>
+        <th>Barrio</th>
+        <th>Parroquia</th>
+        <th>Teléfono</th>
+    </tr>
+    {% for inscripcion in inscripciones %}
+    <tr>
+        <td>{{ inscripcion.nombres_tutor }}</td>
+        <td>{{ inscripcion.raza_mascota }}</td>
+        <td>{{ inscripcion.especie }}</td>
+        <td>{{ inscripcion.sexo }}</td>
+        <td> {{ inscripcion.barrio_tutor }} </td>
+        <td> {{ inscripcion.parroquia_tutor }} </td>
+        <td> {{ inscripcion.numero_telefono_tutor }} </td>
+    </tr>
+    {% endfor %}
+</table>
+{% endblock %}
