@@ -43,6 +43,8 @@ services:
       - db_password
     ports:
       - '${DB_PORT}:3306'
+    volumes:
+      - 'maria-db:/var/lib/mysql'
 
 secrets:
   db_root_password:
@@ -51,3 +53,7 @@ secrets:
     file: database/credenciales/user_password.txt
   admin_password:
     file: database/credenciales/admin_password.txt
+
+volumes:
+  maria-db:
+    driver: local

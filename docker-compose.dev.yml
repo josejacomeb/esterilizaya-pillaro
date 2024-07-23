@@ -2,7 +2,9 @@
 services:
   web:
     volumes:
-      - ./app:/esterilizaya 
+      - ./app:/home/esterilizaya/code
+    environment:
+      - DEBUG=True
   adminer:
     image: adminer
     restart: always
