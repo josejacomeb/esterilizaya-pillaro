@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<p>{{ content }}</p>
+<h1>Bienvenido al Sistema de Gestiones de Esterilizaciones a Bajo costo</h1>
+<ul>
+    <li><a href="{% url 'campana_index' %}">Registrar una nueva campaña</a></li>
+    <li><a href="{% url 'inscripcion_index' %}">Inscribir una nueva mascota</a></li>
+    <li><a href="{% url 'inscripcion_index' %}">Registrar una mascota para esterilizar</a></li>
+</ul>
+
+{% endblock %}
