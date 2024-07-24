@@ -9,6 +9,11 @@ SEXO = {
     "H": "Hembra"
 }
 
+HORARIOS = {
+    "07:00": "07:00",
+    "11:00": "11:00",
+}
+
 PARROQUIAS = {
     # Rurales
     "BM": "Baquerizo Moreno",
@@ -30,7 +35,11 @@ class Inscripcion(models.Model):
     numero_telefono_tutor = models.CharField(max_length=10)
     especie = models.CharField(choices=ESPECIE, max_length=20)
     sexo = models.CharField(choices=SEXO, max_length=20)
+    horario = models.CharField(choices=HORARIOS, max_length=20)
     campana = models.ForeignKey(Campana, on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
 
 
 

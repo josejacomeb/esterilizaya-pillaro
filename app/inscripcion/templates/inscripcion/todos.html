@@ -13,6 +13,7 @@
         <th>Barrio</th>
         <th>Parroquia</th>
         <th>Teléfono</th>
+        <th>Horario</th>
     </tr>
     {% for inscripcion in inscripciones %}
     <tr>
@@ -23,6 +24,7 @@
         <td> {{ inscripcion.barrio_tutor }} </td>
         <td> {{ inscripcion.parroquia_tutor }} </td>
         <td> {{ inscripcion.numero_telefono_tutor }} </td>
+        <td> {{ inscripcion.horario }} </td>
     </tr>
     {% endfor %}
 </table>
