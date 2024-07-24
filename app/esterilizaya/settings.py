@@ -34,6 +34,8 @@ INSTALLED_APPS = [
     "campana.apps.CampanaConfig",
     "inscripcion.apps.InscripcionConfig",
     "inicio.apps.InicioConfig",
+    "registro.apps.RegistroConfig",
+    "reportes.apps.ReportesConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
