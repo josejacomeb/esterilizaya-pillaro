@@ -24,3 +24,5 @@ class Campana(models.Model):
     n_animales = models.PositiveSmallIntegerField(
         help_text='Valor del 1 al 50', validators=[MaxValueValidator(50),
             MinValueValidator(1)])
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
