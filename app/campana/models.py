@@ -1,19 +1,7 @@
 from django.db import models
 import datetime
 from django.core.validators import MaxValueValidator, MinValueValidator
-
-PARROQUIAS = {
-    # Rurales
-    "BM": "Baquerizo Moreno",
-    "EMT": "Emilio Maria Terán",
-    "ME": "Marcos Espinel",
-    "PU": "Presidente Urbina",
-    "SA": "San Andrés",
-    "SM": "San Miguelito",
-    # Urbanas
-    "LM": "La Matriz", 
-    "CN": "Ciudad Nueva",
-}
+from esterilizaya.constantes import PARROQUIAS
 
 class Campana(models.Model):
     """Modelo inicial sobre la campaña"""
