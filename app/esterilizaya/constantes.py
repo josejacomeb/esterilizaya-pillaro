@@ -12,6 +12,13 @@ HORARIOS = {
     "11:00": "11:00",
 }
 
+EDADES = {
+    "C": "Cachorro",
+    "AJ": "Adulto Jóven",
+    "A": "Adulto",
+    "AM": "Adulto Mayor",
+}
+
 PARROQUIAS = {
     # Rurales
     "BM": "Baquerizo Moreno",
