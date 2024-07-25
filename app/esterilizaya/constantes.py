@@ -1,10 +1,10 @@
 ESPECIE = {
-    "C": "Canino", 
-    "F": "Felino"
+    "Canino": "Canino", 
+    "Felino": "Felino"
 }
 SEXO = {
-    "M": "Macho",
-    "H": "Hembra"
+    "Macho": "Macho",
+    "Hembra": "Hembra"
 }
 
 HORARIOS = {
@@ -13,21 +13,21 @@ HORARIOS = {
 }
 
 EDADES = {
-    "C": "Cachorro",
-    "AJ": "Adulto Jóven",
-    "A": "Adulto",
-    "AM": "Adulto Mayor",
+    "Cachorro": "Cachorro",
+    "Adulto Jóven": "Adulto Jóven",
+    "Adulto": "Adulto",
+    "Adulto Mayor": "Adulto Mayor",
 }
 
 PARROQUIAS = {
     # Rurales
-    "BM": "Baquerizo Moreno",
-    "EMT": "Emilio Maria Terán",
-    "ME": "Marcos Espinel",
-    "PU": "Presidente Urbina",
-    "SA": "San Andrés",
-    "SM": "San Miguelito",
+    "Baquerizo Moreno": "Baquerizo Moreno",
+    "Emilio María Terán": "Emilio Maria Terán",
+    "Marcos Espinel": "Marcos Espinel",
+    "Presidente Urbina": "Presidente Urbina",
+    "San Andrés": "San Andrés",
+    "San Miguelito": "San Miguelito",
     # Urbanas
-    "LM": "La Matriz", 
-    "CN": "Ciudad Nueva",
+    "La Matriz": "La Matriz", 
+    "Ciudad Nueva": "Ciudad Nueva",
 }
