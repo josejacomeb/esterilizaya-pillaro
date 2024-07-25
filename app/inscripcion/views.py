@@ -7,7 +7,6 @@ import logging
 logger = logging.getLogger(__name__)
 def index(request):
     inscripciones = Inscripcion.objects.all()
-    logger.info(inscripciones)
     return render(request, "inscripcion/todos.html", {
         "inscripciones": inscripciones
     })
@@ -19,7 +18,6 @@ def crear(request):
         if forma.is_valid():
             campana_id = request.POST.get('campana_id')
             nueva_inscripcion = forma.save(commit = False)
-            logger.info(campana_id)
 
             nueva_inscripcion.campana_id = campana_id
             nueva_inscripcion.save()
