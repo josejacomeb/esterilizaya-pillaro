@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Campañas existentes</h1>
+<ul>
+  {% for campana in campanas %}
+    <li><a href="{% url 'registro_lista' campana.id %}">{{ campana.nombre }}</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}

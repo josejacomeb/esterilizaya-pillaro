@@ -31,3 +31,13 @@ PARROQUIAS = {
     "La Matriz": "La Matriz", 
     "Ciudad Nueva": "Ciudad Nueva",
 }
+
+RAZON_TENENCIA = {
+    "Compañia": "Compañia",
+    "Guardián": "Guardián",
+    "Reproductiva": "Reproductiva",
+    "Deporte": "Deporte",
+    "Caza": "Caza",
+    "Servicio": "Servicio",
+    "Mixta": "Mixta",
+}

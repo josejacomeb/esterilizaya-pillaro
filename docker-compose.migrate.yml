@@ -1,3 +1,3 @@
 services:
   web:
-    command: sh -c "python manage.py makemigrations campana inscripcion && python manage.py migrate"
+    command: sh -c "python manage.py makemigrations campana inscripcion registro && python manage.py migrate"

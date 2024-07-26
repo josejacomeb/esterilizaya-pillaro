@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Nuevo Registro</h1>
+  <h1>Buscar participantes</h1>
+  <form method="get" action="{% url 'registro_lista' campana_id %}">
+    <input type="text" name="query" placeholder="Buscar por tutor" />
+    <button type="submit">Search</button>
+  </form>
+  {% if inscripciones %}
+    <h1>Mascotas inscritas </h1>
+    <table>
+      <tr>
+        <th>Nº</th>
+        <th>Nombre Tutor</th>
+        <th>Especie</th>
+        <th>Género</th>
+        <th>Registrar</th>
+
+      </tr>
+      {% for inscripcion in inscripciones %}
+        <tr>
+          <td>{{ inscripcion.id }}</td>
+          <td>{{ inscripcion.nombres_tutor }}</td>
+          <td>{{ inscripcion.especie }}</td>
+          <td>{{ inscripcion.sexo }}</td>
+          <td><a href="{% url 'registro_nuevo' inscripcion.id%}" class="button">Registro {{ inscripcion.especie }} / {{ inscripcion.sexo }}</a></td>
+        </tr>
+      {%endfor %}
+    <table>
+  {% else %}
+  <h1> No hay mascotas registradas, por favor registre una en: </h1>
+  <a href="'{% url 'inscripcion_create' %}">Registrar nueva mascota</a>
+  {% endif %}
+{% endblock %}
