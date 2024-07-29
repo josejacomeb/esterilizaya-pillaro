@@ -6,7 +6,7 @@
 <form method="post">
     {% csrf_token %}
     {{ form.as_p }}
-    <select name="campana_id" id="campana_id">
+    <select name="campana-id" id="campana-id">
         {% for campana in campanas %}
         <option value="{{ campana.id }}"> {{ campana.nombre }} </option>
         {% endfor %}
