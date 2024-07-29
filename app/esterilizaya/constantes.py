@@ -1,11 +1,5 @@
-ESPECIE = {
-    "Canino": "Canino", 
-    "Felino": "Felino"
-}
-SEXO = {
-    "Macho": "Macho",
-    "Hembra": "Hembra"
-}
+ESPECIE = {"Canino": "Canino", "Felino": "Felino"}
+SEXO = {"Macho": "Macho", "Hembra": "Hembra"}
 
 HORARIOS = {
     "07:00": "07:00",
@@ -28,7 +22,7 @@ PARROQUIAS = {
     "San Andrés": "San Andrés",
     "San Miguelito": "San Miguelito",
     # Urbanas
-    "La Matriz": "La Matriz", 
+    "La Matriz": "La Matriz",
     "Ciudad Nueva": "Ciudad Nueva",
 }
 

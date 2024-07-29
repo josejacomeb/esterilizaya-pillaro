@@ -1,9 +1,11 @@
-from django.shortcuts import render, redirect
 from django.contrib import messages
+from django.shortcuts import redirect, render
+
 from .forms import CampanaForm
 
+
 def index(request):
-    if request.method == 'POST':
+    if request.method == "POST":
         forma = CampanaForm(request.POST)
         if forma.is_valid():
             forma.save()

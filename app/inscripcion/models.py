@@ -1,6 +1,7 @@
-from django.db import models
 from campana.models import Campana
-from esterilizaya.constantes import ESPECIE, SEXO, HORARIOS, PARROQUIAS
+from django.db import models
+from esterilizaya.constantes import ESPECIE, HORARIOS, PARROQUIAS, SEXO
+
 
 class Inscripcion(models.Model):
     nombres_tutor = models.CharField(max_length=250)
@@ -14,7 +15,3 @@ class Inscripcion(models.Model):
     registrado = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
-
-
-

@@ -1,23 +1,26 @@
-from django.shortcuts import render, redirect
-from .models import Inscripcion
-from campana.models import Campana
-from .forms import InscripcionForm
 import logging
 
+from campana.models import Campana
+from django.shortcuts import redirect, render
+
+from .forms import InscripcionForm
+from .models import Inscripcion
+
 logger = logging.getLogger(__name__)
+
+
 def index(request):
     inscripciones = Inscripcion.objects.all()
-    return render(request, "inscripcion/todos.html", {
-        "inscripciones": inscripciones
-    })
+    return render(request, "inscripcion/todos.html", {"inscripciones": inscripciones})
+
 
 def crear(request):
     # TODO: Mandar a crear una nueva campaña sino existe
-    if request.method == 'POST':
+    if request.method == "POST":
         forma = InscripcionForm(request.POST)
         if forma.is_valid():
-            campana_id = request.POST.get('campana_id')
-            nueva_inscripcion = forma.save(commit = False)
+            campana_id = request.POST.get("campana_id")
+            nueva_inscripcion = forma.save(commit=False)
 
             nueva_inscripcion.campana_id = campana_id
             nueva_inscripcion.save()
@@ -27,7 +30,4 @@ def crear(request):
     else:
         forma = InscripcionForm()
     campanas = Campana.objects.all()
-    return render(request, "inscripcion/nueva.html", {
-        "form": forma,
-        "campanas": campanas
-    })
+    return render(request, "inscripcion/nueva.html", {"form": forma, "campanas": campanas})
