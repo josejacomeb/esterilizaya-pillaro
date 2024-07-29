@@ -1,161 +1,182 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <title>Formulario de Consentimiento</title>
-    <style>
-      body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        width: 210mm;
-        height: 297mm;
-      }
-      .page {
-        width: 190mm;
-        margin: 10mm auto;
-        padding: 20px;
-        border: 1px solid #000;
-        box-sizing: border-box;
-      }
-      .header {
-        text-align: center;
-      }
-      .header img {
-        width: 150px;
-      }
-      .form-title {
-        text-align: center;
-        font-weight: bold;
-      }
-      .form-section {
-        margin-top: 20px;
-      }
-      .form-table {
-        width: 100%;
-        border-collapse: collapse;
-      }
-      .form-table th,
-      .form-table td {
-        border: 1px solid #000;
-        padding: 5px;
-        text-align: center;
-      }
-      .form-table th {
-        background-color: #f2f2f2;
-      }
-      .form-footer {
-        text-align: center;
-        margin-top: 30px;
-      }
-    </style>
-  </head>
-  <body>
-    <div class="header">
-      <table class="box" style="border: 2px inset black; border-collapse: collapse;">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Formulario de Consentimiento</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      width: 210mm;
+      height: 297mm;
+    }
+
+    .page {
+      width: 190mm;
+      margin: 10mm auto;
+      padding: 20px;
+      border: 1px solid #000;
+      box-sizing: border-box;
+    }
+
+    .header {
+      text-align: center;
+    }
+
+    .header img {
+      width: 150px;
+    }
+
+    .form-title {
+      text-align: center;
+      font-weight: bold;
+    }
+
+    .form-section {
+      margin-top: 20px;
+    }
+
+    .form-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .form-table th,
+    .form-table td {
+      border: 1px solid #000;
+      padding: 5px;
+      text-align: center;
+    }
+
+    .form-table th {
+      background-color: #f2f2f2;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 30px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <table class="box" style="border: 2px inset black; border-collapse: collapse;">
+      <tr>
+        <td>
+          <h3>Nº Ficha</h3>
+        </td>
+        <td rowspan="2">
+          {% load static %}
+          <img src="{% static 'images/yacupamba.png' %}" alt="Barrio Yacupamba"
+            style="height: 85px; width: auto; object-fit: contain;" />
+          <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 65px; width: auto" />
+          <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" style="height: 90px; width: auto" />
+        </td>
+        <td>
+          <h3>Peso (Kg)</h3>
+        </td>
+      </tr>
+      <tr>
+        <td>
+          <h3>{{ registro.numero_turno }}</h3>
+        </td>
+        <td>
+          <h3>{{ registro.peso }}</h3>
+        </td>
+      </tr>
+    </table>
+  </div>
+  <div class="form-container">
+    <div class="form-section">
+      <h2>Jornadas de Esterilización a Bajo Costo</h2>
+      <h3>FORMULARIO DE CONSENTIMIENTO PARA REALIZAR PROCEDIMIENTOS QUIRÚRGICOS</h3>
+      <p>Lugar: Yacupamba, San Miguelito de Pillaro, Ecuador</p>
+      <p>Fecha: Sábado 22 de Junio del 2024</p>
+      <p>
+        <strong>Datos del Animal de Compañía</strong>
+      </p>
+      <p>
+        <i>Nombre:</i> {{ registro.nombre }}, <i>Color Primario:</i> {{ registro.color_principal }}
+        {% if registro.color_secundario %}
+        | <i>Secundario:</i> {{ registro.color_secundario }}
+        {% endif %}
+      </p>
+      <p>
+        <i>Observaciones:</i> {{ registro.observaciones }}
+      </p>
+    </div>
+    <div class="form-section">
+      <table class="form-table">
+        <thead>
+          <tr>
+            <th>Especie</th>
+            <th>Género</th>
+            <th>Edad</th>
+            <th>Raza</th>
+            <th>Carnet Vacunación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ registro.especie }}</td>
+            <td>{{ registro.sexo }}</td>
+            <td>{{ registro.edad }}</td>
+            <td>{{ registro.raza_mascota }}</td>
+            <td>{{ registro.carnet }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="form-section">
+      <p>
+        <strong>Datos del Tutor</strong>
+      </p>
+      <p>
+        <i>Nombre Tutor:</i>{{ registro.nombres_tutor }}, <i>Medio Contacto:</i>{{ registro.numero_telefono_tutor }},
+        <i>CI:</i> {{ registro.cedula_identidad }}
+      </p>
+      <p>
+        <i>Domicilio:</i> {{ registro.parroquia_tutor }} / {{ registro.barrio_tutor }}, <i>Razón Tenencia:</i> {{
+        registro.razon_tenencia }}
+      </p>
+    </div>
+    <div class="form-section">
+      <p>Admito que:</p>
+      <ol>
+        <li>Mi mascota está en perfectas condiciones de salud ya que he sido responsable en asistir con ella a un médico
+          veterinario para sus controles rutinarios</li>
+        <li>Comprendo perfectamente en que considere el procedimiento de esterilización que se le realizará a mi mascota
+        </li>
+        <li>Tengo conocimiento sobre los riesgos que puedan existir al momento de la inducción al anestésico o en el
+          proceso de cirugía. Este riesgo puede conllevar a la muerte.</li>
+        <li>Doy mi consentimiento informado para que se realice la cirugía descrita anteriormente, y los procedimientos
+          complementarios que sean necesarios y convenientes durante la intervención a juicio de los profesionales que
+          lo llevan a cabo.</li>
+        <li>Se tomen fotografías o filmaciones de la cirugía para estudio médico.</li>
+        <li>Acepto tener responsabilidad en la recuperación de mi mascota, suministrándole la medicina descrita por el
+          médico tratante y ayudándole con los cuidados postoperatorios indicados.</li>
+      </ol>
+    </div>
+    <div class="form-footer">
+      <p>Por todo lo antes señalado, acepto mi responsabilidad firmando este documento</p>
+      <table>
         <tr>
           <td>
-            <h3>Nº Ficha</h3>
-          </td>
-          <td rowspan="2">
-            {% load static %}
-            <img src="{% static 'images/yacupamba.png' %}" alt="Barrio Yacupamba" style="height: 85px; width: auto; object-fit: contain;" />
-            <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 65px; width: auto" />
-            <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" style="height: 90px; width: auto" />
+            <p>________________________</p>
+            <p>Nombre: {{ registro.nombres_tutor }}</p>
+            <p>CI: {{ registro.cedula_identidad }}</p>
           </td>
           <td>
-            <h3>Peso (Kg)</h3>
-          </td>
-        </tr>
-        <tr>
-          <td>
-            <h3>{{ registro.numero_turno }}</h3>
-          </td>
-          <td>
-            <h3>{{ registro.peso }}</h3>
+            <p>________________________</p>
+            <p> Centro Médico Veterinario <strong>AnimalZoo</strong> </p>
           </td>
         </tr>
       </table>
     </div>
-    <div class="form-container">
-      <div class="form-section">
-        <h2>Jornadas de Esterilización a Bajo Costo</h2>
-        <h3>FORMULARIO DE CONSENTIMIENTO PARA REALIZAR PROCEDIMIENTOS QUIRÚRGICOS</h3>
-        <p>Lugar: Yacupamba, San Miguelito de Pillaro, Ecuador</p>
-        <p>Fecha: Sábado 22 de Junio del 2024</p>
-        <p>
-          <strong>Datos del Animal de Compañía</strong>
-        </p>
-        <p>
-          <i>Nombre:</i> {{ registro.nombre }}, <i>Color Primario:</i> {{ registro.color_principal }}
-          {% if registro.color_secundario %}
-            | <i>Secundario:</i> {{ registro.color_secundario }}
-          {% endif %}
-        </p>
-        <p>
-          <i>Observaciones:</i> {{ registro.observaciones }}
-        </p>
-      </div>
-      <div class="form-section">
-        <table class="form-table">
-          <thead>
-            <tr>
-              <th>Especie</th>
-              <th>Género</th>
-              <th>Edad</th>
-              <th>Raza</th>
-              <th>Carnet Vacunación</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ registro.especie }}</td>
-              <td>{{ registro.sexo }}</td>
-              <td>{{ registro.edad }}</td>
-              <td>{{ registro.raza_mascota }}</td>
-              <td>{{ registro.carnet }}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="form-section">
-        <p>
-          <strong>Datos del Tutor</strong>
-        </p>
-        <p>
-          <i>Nombre Tutor:</i>{{ registro.nombres_tutor }}, <i>Medio Contacto:</i>{{ registro.numero_telefono_tutor }}, <i>CI:</i> {{ registro.cedula_identidad }}
-        </p>
-        <p>
-          <i>Domicilio:</i> {{ registro.parroquia_tutor }} / {{ registro.barrio_tutor }}, <i>Razón Tenencia:</i> {{ registro.razon_tenencia }}
-        </p>
-      </div>
-      <div class="form-section">
-        <p>Admito que:</p>
-        <ol>
-          <li>Mi mascota está en perfectas condiciones de salud ya que he sido responsable en asistir con ella a un médico veterinario para sus controles rutinarios</li>
-          <li>Comprendo perfectamente en que considere el procedimiento de esterilización que se le realizará a mi mascota</li>
-          <li>Tengo conocimiento sobre los riesgos que puedan existir al momento de la inducción al anestésico o en el proceso de cirugía. Este riesgo puede conllevar a la muerte.</li>
-          <li>Doy mi consentimiento informado para que se realice la cirugía descrita anteriormente, y los procedimientos complementarios que sean necesarios y convenientes durante la intervención a juicio de los profesionales que lo llevan a cabo.</li>
-          <li>Se tomen fotografías o filmaciones de la cirugía para estudio médico.</li>
-          <li>Acepto tener responsabilidad en la recuperación de mi mascota, suministrándole la medicina descrita por el médico tratante y ayudándole con los cuidados postoperatorios indicados.</li>
-        </ol>
-      </div>
-      <div class="form-footer">
-        <p>Por todo lo antes señalado, acepto mi responsabilidad firmando este documento</p>
-            <table>
-            <tr>
-                <td>
-                    <p>________________________</p>
-                    <p>Nombre: {{ registro.nombres_tutor }}</p>
-                    <p>CI: {{ registro.cedula_identidad }}</p>
-                </td>
-                <td>
-                    <p>________________________</p> 
-                    <p> Centro Médico Veterinario <strong>AnimalZoo</strong> </p>
-                </td>
-            </tr>
-        <table>
-      </div>
-    </div>
-  </body>
+  </div>
+</body>
+
 </html>

@@ -1,10 +1,11 @@
+<!DOCTYPE html>
 {% extends 'base.html' %}
 
 {% block content %}
 {% if messages %}
 <ul class="messages">
     {% for message in messages %}
-    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
     {% endfor %}
 </ul>
 {% endif %}
@@ -15,4 +16,3 @@
 </form>
 <a href="{{request.META.HTTP_REFERER}}">Volver</a>
 {% endblock %}
-
