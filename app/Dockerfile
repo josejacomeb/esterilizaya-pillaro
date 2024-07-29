@@ -17,7 +17,7 @@ adduser -S --shell /bin/bash -S esterilizaya --ingroup docker vscode
 EOF
 
 COPY --from=builder /usr/local/lib/python3.11/site-packages /usr/local/lib/python3.11/site-packages
-
 COPY ./ ./
-RUN ls -a && ls -a
-#USER esterilizaya
+HEALTHCHECK --interval=5m --timeout=3s \
+  CMD curl -f http://localhost:8000/ || exit 1
+USER esterilizaya
