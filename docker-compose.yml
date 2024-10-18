@@ -6,7 +6,8 @@ services:
     ports: 
       - '8000:8000'
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     healthcheck:
       test: ["CMD-SHELL", "curl --fail http://localhost:8000/inscripcion || exit 1"]
       interval: 1m30s
@@ -48,11 +49,11 @@ services:
 
 secrets:
   db_root_password:
-    file: database/credenciales/root_password.txt
+    file: credenciales/database/root_password.txt
   db_password:
-    file: database/credenciales/user_password.txt
+    file: credenciales/database/user_password.txt
   admin_password:
-    file: database/credenciales/admin_password.txt
+    file: credenciales/database/admin_password.txt
 
 volumes:
   maria-db:

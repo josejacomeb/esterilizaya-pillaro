@@ -29,10 +29,12 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 - `cp .env.example .env`
 - Cree los archivos de las credenciales
 ```bash
-    mkdir database/credenciales
-    echo ejemplo_contraseña_root_secreto > database/credenciales/root_password.txt
-    echo ejemplo_contraseña_user_secreto > database/credenciales/user_password.txt
-    echo ejemplo_contraseña_admin > database/credenciales/admin_password.txt
+    mkdir credenciales & mkdir crendenciales/database
+    echo ejemplo_contraseña_root_secreto > credenciales/database/root_password.txt
+    echo ejemplo_contraseña_user_secreto > credenciales/database/user_password.txt
+    echo ejemplo_contraseña_admin > credenciales/database/admin_password.txt
+    mkdir credenciales/superuser
+    echo ejemplo_contraseña_superuser > credenciales/superuser/password.txt
 
 ```
 - `docker compose up -d --build`
