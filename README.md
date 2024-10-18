@@ -26,8 +26,8 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 - MariaDB
 
 ## Instrucciones
-- `cp .env.example .env`
-- Cree los archivos de las credenciales
+1. Por favor, copie las variables de entorno para iniciar el sistema `cp .env.example .env`, luego se pueden cambiar a discreción
+2. Cree los archivos con la información sensible en la carpeta `credenciales`, por ejemplo en Linux:
 ```bash
     mkdir credenciales & mkdir crendenciales/database
     echo ejemplo_contraseña_root_secreto > credenciales/database/root_password.txt
@@ -37,4 +37,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
     echo ejemplo_contraseña_superuser > credenciales/superuser/password.txt
 
 ```
-- `docker compose up -d --build`
+3. Descargue los contenedores con el siguiente commando: `docker compose build`.
+Por favor ejecute las migraciones de la base de datos a través del siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.migrate.yml up`.
+4. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
+5. Inicie el sistema con `docker compose up -d --build`.
