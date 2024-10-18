@@ -24,7 +24,7 @@ def crear(request):
 
             nueva_inscripcion.campana_id = campana_id
             nueva_inscripcion.save()
-            return redirect("inscripcion_index")
+            return redirect("inscripcion:index")
         else:
             forma.clean()
     else:

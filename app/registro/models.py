@@ -5,6 +5,8 @@ from inscripcion.models import Inscripcion
 
 
 class Registro(models.Model):
+    class Meta:
+        ordering = ["numero_turno"]
     inscripcion_id = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
     # Encabezado
     peso = models.FloatField(
@@ -32,3 +34,6 @@ class Registro(models.Model):
     razon_tenencia = models.CharField(choices=RAZON_TENENCIA, max_length=100, default="Compañia")
     parroquia_tutor = models.CharField(max_length=250)
     barrio_tutor = models.CharField(max_length=250)
+
+    def __str__(self) -> str:
+        return self.nombre

@@ -4,6 +4,9 @@ from esterilizaya.constantes import ESPECIE, HORARIOS, PARROQUIAS, SEXO
 
 
 class Inscripcion(models.Model):
+    class Meta:
+        ordering = ["nombres_tutor"]
+
     nombres_tutor = models.CharField(max_length=250)
     barrio_tutor = models.CharField(max_length=250)
     parroquia_tutor = models.CharField(choices=PARROQUIAS, max_length=100)
@@ -15,3 +18,6 @@ class Inscripcion(models.Model):
     registrado = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self) -> str:
+        return self.especie + self.nombres_tutor

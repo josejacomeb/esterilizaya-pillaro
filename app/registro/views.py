@@ -41,7 +41,7 @@ def registrar(request, inscripcion_id):
             logger.info(f"Forma guardada! con id {registro_id}")
             logger.info(registro_forma)
             logger.info(type(registro_forma))
-            return redirect("registro_ficha", registro_id=registro_id)
+            return redirect("registro:ficha", registro_id=registro_id)
         else:
             forma.clean()
     else:
