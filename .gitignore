@@ -161,3 +161,7 @@ cython_debug/
 
 # Secretos
 credenciales/*
+
+# Ignorar Django archivos de migración de Django
+*/*/migrations/*.py
+*/*/migrations/*.pyc
