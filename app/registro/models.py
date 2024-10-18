@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from esterilizaya.constantes import EDADES, ESPECIE, RAZON_TENENCIA, SEXO
@@ -7,6 +8,7 @@ from inscripcion.models import Inscripcion
 class Registro(models.Model):
     class Meta:
         ordering = ["numero_turno"]
+
     inscripcion_id = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
     # Encabezado
     peso = models.FloatField(
@@ -34,6 +36,7 @@ class Registro(models.Model):
     razon_tenencia = models.CharField(choices=RAZON_TENENCIA, max_length=100, default="Compañia")
     parroquia_tutor = models.CharField(max_length=250)
     barrio_tutor = models.CharField(max_length=250)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="registro")
 
     def __str__(self) -> str:
         return self.nombre

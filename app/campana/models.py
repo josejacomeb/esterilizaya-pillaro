@@ -1,10 +1,25 @@
+from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from esterilizaya.constantes import PARROQUIAS
 
 
+class ActivasManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(estado=Campana.Estado.ACTIVA)
+
+
+class PasadasManager(models.Manager):
+    def get_queryset(self):
+        return super().get_queryset().filter(estado=Campana.Estado.PASADA)
+
+
 class Campana(models.Model):
     """Modelo inicial sobre la campaña"""
+
+    class Estado(models.TextChoices):
+        ACTIVA = "AC", "Activa"
+        PASADA = "PA", "Pasada"
 
     class Meta:
         ordering = ["fecha"]
@@ -16,8 +31,13 @@ class Campana(models.Model):
     n_animales = models.PositiveSmallIntegerField(
         help_text="Valor del 1 al 50", validators=[MaxValueValidator(50), MinValueValidator(1)]
     )
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    creada = models.DateTimeField(auto_now_add=True)
+    actualizada = models.DateTimeField(auto_now=True)
+    estado = models.CharField(max_length=2, choices=Estado, default=Estado.ACTIVA)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="campana")
+    objects = models.Manager()
+    activas = ActivasManager()
+    pasadas = PasadasManager()
 
     def __str__(self) -> str:
         return self.nombre

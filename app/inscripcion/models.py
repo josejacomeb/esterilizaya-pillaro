@@ -1,4 +1,5 @@
 from campana.models import Campana
+from django.conf import settings
 from django.db import models
 from esterilizaya.constantes import ESPECIE, HORARIOS, PARROQUIAS, SEXO
 
@@ -18,6 +19,7 @@ class Inscripcion(models.Model):
     registrado = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="inscripcion")
 
     def __str__(self) -> str:
         return self.especie + self.nombres_tutor
