@@ -1,16 +1,16 @@
-ESPECIE = {"Canino": "Canino", "Felino": "Felino"}
-SEXO = {"Macho": "Macho", "Hembra": "Hembra"}
+ESPECIE = {"C": "Canino", "F": "Felino"}
+SEXO = {"M": "Macho", "H": "Hembra"}
 
 HORARIOS = {
-    "07:00": "07:00",
-    "11:00": "11:00",
+    "07": "07:00",
+    "11": "11:00",
 }
 
 EDADES = {
-    "Cachorro": "Cachorro",
-    "Adulto Jóven": "Adulto Jóven",
-    "Adulto": "Adulto",
-    "Adulto Mayor": "Adulto Mayor",
+    "CA": "Cachorro",
+    "AJ": "Adulto Jóven",
+    "AD": "Adulto",
+    "AM": "Adulto Mayor",
 }
 
 PARROQUIAS = {
@@ -27,11 +27,11 @@ PARROQUIAS = {
 }
 
 RAZON_TENENCIA = {
-    "Compañia": "Compañia",
-    "Guardián": "Guardián",
-    "Reproductiva": "Reproductiva",
-    "Deporte": "Deporte",
-    "Caza": "Caza",
-    "Servicio": "Servicio",
-    "Mixta": "Mixta",
+    "CO": "Compañia",
+    "GU": "Guardián",
+    "RR": "Reproductiva",
+    "DE": "Deporte",
+    "CA": "Caza",
+    "SE": "Servicio",
+    "MI": "Mixta",
 }

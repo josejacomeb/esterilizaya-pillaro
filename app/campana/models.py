@@ -31,7 +31,7 @@ class Campana(models.Model):
 
     nombre = models.CharField(max_length=250)
     barrio = models.CharField(max_length=100)
-    parroquia = models.CharField(choices=PARROQUIAS, max_length=100, unique_for_date="creada")
+    parroquia = models.CharField(choices=PARROQUIAS, max_length=3, unique_for_date="creada")
     fecha = models.DateField()
     n_animales = models.PositiveSmallIntegerField(
         help_text="Valor del 1 al 50", validators=[MaxValueValidator(50), MinValueValidator(1)]
