@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{{ title }}</h1>
+<p>{{ content }}</p>
+<h1>Datos Campaña</h1>
+<p>
+    <strong> Nombre Campaña: </strong> {{ campana.nombre }} </br>
+    <strong> Parroquia: </strong> {{ campana.parroquia }} </br>
+    <strong> Barrio: </strong> {{ campana.barrio }} </br>
+    <strong> Fecha: </strong> {{ campana.fecha }} </br>
+    <strong> Nº animales: </strong> {{ campana.n_animales }} </br>
+    <strong> Estado: </strong> {{ campana.estado }} </br>
+    Creado por: {{ campana.usuario }}
+
+</p>
+{% endblock %}

@@ -5,21 +5,18 @@
 <h1>{{ title }}</h1>
 <p>{{ content }}</p>
 <h1>Bienvenido {{ request.user }} al sistema de Gestiones de Esterilizaciones a Bajo costo</h1>
-<ul>
-    <li><a href="{% url 'campana:index' %}">Registrar una nueva campaña</a></li>
-    <li><a href="{% url 'inscripcion:index' %}">Inscribir una nueva mascota</a></li>
-    <li><a href="{% url 'registro:index' %}">Registrar una mascota para esterilizar</a></li>
-</ul>
 <h2>Campañas de esterilización activas</h2>
 <ul>
     {% for act in activas %}
-        <li><a href="{% url 'campana:show' act.id %}"> {{ act.nombre }} </a></li>
+        <li><a href="{{ act.get_absolute_url }}"> {{ act.nombre }} </a></li>
     {% endfor %}
 </ul>
 <h2>Campañas de esterilización pasadas</h2>
-    <ul>
-        {% for pas in pasadas %}
-            <li><a href="{% url 'campana:show' pas.id %}"> {{ pas.nombre }} </a></li>
-        {% endfor %}
-    </ul>
+<ul>
+    {% for pas in pasadas %}
+        <li><a href="{{ pas.get_absolute_url }}"> {{ pas.nombre }} - {{ pas.fecha }} </a></li>
+    {% endfor %}
+</ul>
+<h2>Nueva</h2>
+<a href="{% url 'campana:index' %}">Registrar una nueva campaña</a>
 {% endblock %}
