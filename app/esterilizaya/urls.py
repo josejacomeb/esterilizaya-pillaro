@@ -19,9 +19,9 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path("", include("inicio.urls")),
+    path("", include("inicio.urls", namespace="inicio")),
     path("admin/", admin.site.urls),
-    path("inscripcion", include("inscripcion.urls", namespace="inscripcion")),
-    path("campana", include("campana.urls", namespace="campana")),
-    path("registro", include("registro.urls", namespace="registro")),
+    path("inscripcion/", include("inscripcion.urls", namespace="inscripcion")),
+    path("campana/", include("campana.urls", namespace="campana")),
+    path("registro/", include("registro.urls", namespace="registro")),
 ]
