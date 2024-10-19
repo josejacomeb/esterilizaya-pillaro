@@ -2,8 +2,8 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Registro de inscripciones</h1>
-<a href="{% url 'inscripcion:create' %}">Crear una nueva inscripción</a>
+<h1>Registro de inscripciones para {{ campana.nombre }}</h1>
+<a href="{% url 'inscripcion:create' campana.id %}">Crear una nueva inscripción</a>
 <table border="2">
     <tr>
         <th>Nº</th>
