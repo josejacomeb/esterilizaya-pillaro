@@ -15,15 +15,15 @@ EDADES = {
 
 PARROQUIAS = {
     # Rurales
-    "Baquerizo Moreno": "Baquerizo Moreno",
-    "Emilio María Terán": "Emilio Maria Terán",
-    "Marcos Espinel": "Marcos Espinel",
-    "Presidente Urbina": "Presidente Urbina",
-    "San Andrés": "San Andrés",
-    "San Miguelito": "San Miguelito",
+    "BM": "Baquerizo Moreno",
+    "EMT": "Emilio Maria Terán",
+    "ME": "Marcos Espinel",
+    "PU": "Presidente Urbina",
+    "SA": "San Andrés",
+    "SM": "San Miguelito",
     # Urbanas
-    "La Matriz": "La Matriz",
-    "Ciudad Nueva": "Ciudad Nueva",
+    "LM": "La Matriz",
+    "CN": "Ciudad Nueva",
 }
 
 RAZON_TENENCIA = {
