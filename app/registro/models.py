@@ -1,7 +1,13 @@
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
-from esterilizaya.constantes import EDADES, ESPECIE, RAZON_TENENCIA, SEXO
+from esterilizaya.constantes import (
+    EDADES_ANOS,
+    EDADES_MESES,
+    ESPECIE,
+    RAZON_TENENCIA,
+    SEXO,
+)
 from inscripcion.models import Inscripcion
 
 
@@ -26,7 +32,8 @@ class Registro(models.Model):
     especie = models.CharField(choices=ESPECIE, max_length=1)
     sexo = models.CharField(choices=SEXO, max_length=2)
     # TODO: Añadir edad en meses y días
-    edad = models.CharField(choices=EDADES, max_length=2)
+    edad_anos = models.PositiveSmallIntegerField(choices=EDADES_ANOS, default=0)
+    edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6)
     raza_mascota = models.CharField(max_length=250)
     carnet = models.CharField(choices={"S": "Si", "N": "No"}, max_length=1, default="N")
     # Datos tutor

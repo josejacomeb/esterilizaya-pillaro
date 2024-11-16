@@ -13,6 +13,9 @@ EDADES = [
     ("AM", "Adulto Mayor"),
 ]
 
+EDADES_MESES = [(i, str(i)) for i in range(1, 12)]
+EDADES_ANOS = [(i, str(i)) for i in range(20)]
+
 PARROQUIAS = [
     # Rurales
     ("BM", "Baquerizo Moreno"),
