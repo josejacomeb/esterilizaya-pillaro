@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import CampanaForm
 from .models import Campana
+from inscripcion.models import Inscripcion
 
 logger = logging.getLogger(__name__)
 
@@ -30,5 +31,5 @@ def index(request):
 
 def mostrar(request, year, parroquia, barrio):
     campana = get_object_or_404(Campana, creada__year=year, parroquia=parroquia, barrio=barrio)
-    logger.info(campana)
-    return render(request, "campana/campana.html", {"campana": campana})
+    n_registrados = Inscripcion.objects.filter(campana_id=campana.id).count()
+    return render(request, "campana/campana.html", {"campana": campana, "n_registrados": n_registrados})

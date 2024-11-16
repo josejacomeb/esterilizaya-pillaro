@@ -3,7 +3,11 @@
 
 {% block content %}
 <h1>Registro de inscripciones para {{ campana.nombre }}</h1>
+{% with inscripciones.count as n_inscritos %}
+<strong> Total inscritos: </strong> {{ n_inscritos }} </br>
+{% endwith %}
 <a href="{% url 'inscripcion:create' campana.id %}">Crear una nueva inscripción</a>
+
 <table border="2">
     <tr>
         <th>Nº</th>
@@ -13,18 +17,33 @@
         <th>Barrio</th>
         <th>Parroquia</th>
         <th>Teléfono</th>
+        <th>Whatsapp</th>
         <th>Horario</th>
     </tr>
     {% for inscripcion in inscripciones %}
     <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ inscripcion.nombres_tutor }}</td>
-        <td>{{ inscripcion.especie }}</td>
-        <td>{{ inscripcion.sexo }}</td>
+        <td>{{ inscripcion.get_especie_display }}</td>
+        <td>{{ inscripcion.get_sexo_display }}</td>
         <td> {{ inscripcion.barrio_tutor }} </td>
-        <td> {{ inscripcion.parroquia_tutor }} </td>
+        <td> {{ inscripcion.get_parroquia_tutor_display }} </td>
         <td> {{ inscripcion.numero_telefono_tutor }} </td>
-        <td> {{ inscripcion.horario }} </td>
+        {% if inscripcion.numero_telefono_tutor %}
+            <td>
+                {% if inscripcion.numero_telefono_tutor|length == 10 and inscripcion.numero_telefono_tutor|slice:":2" == "09" %}
+                    <p>
+                        <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor|slice:"1:" }}" target="_blank">
+                            Mensajear a {{ inscripcion.numero_telefono_tutor }}
+                        </a>
+                    </p>
+                {% else %}
+                    <p>No tiene Whatsapp</p>
+                {% endif %}
+            </td>
+        {% endif %}
+
+        <td> {{ inscripcion.get_horario_display }} </td>
     </tr>
     {% endfor %}
 </table>
