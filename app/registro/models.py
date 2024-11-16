@@ -24,7 +24,7 @@ class Registro(models.Model):
     observaciones = models.CharField(max_length=200, blank=True)
     # Datos específicos
     especie = models.CharField(choices=ESPECIE, max_length=1)
-    sexo = models.CharField(choices=SEXO, max_length=1)
+    sexo = models.CharField(choices=SEXO, max_length=2)
     # TODO: Añadir edad en meses y días
     edad = models.CharField(choices=EDADES, max_length=2)
     raza_mascota = models.CharField(max_length=250)

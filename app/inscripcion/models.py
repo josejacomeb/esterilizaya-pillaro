@@ -13,7 +13,7 @@ class Inscripcion(models.Model):
     parroquia_tutor = models.CharField(choices=PARROQUIAS, max_length=100)
     numero_telefono_tutor = models.CharField(max_length=10)
     especie = models.CharField(choices=ESPECIE, max_length=1)
-    sexo = models.CharField(choices=SEXO, max_length=1)
+    sexo = models.CharField(choices=SEXO, max_length=2)
     horario = models.CharField(choices=HORARIOS, max_length=2)
     campana = models.ForeignKey(Campana, on_delete=models.CASCADE)
     registrado = models.BooleanField(default=False)

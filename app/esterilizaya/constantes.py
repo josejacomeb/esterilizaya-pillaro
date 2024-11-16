@@ -1,5 +1,5 @@
-ESPECIE = [("C", "Canino"), ("F", "Felino")]
-SEXO = [("M", "Macho"), ("H", "Hembra")]
+ESPECIE = [("🐕", "Canino"), ("🐈", "Felino")]
+SEXO = [("♂️", "Macho"), ("♀️", "Hembra")]
 
 HORARIOS = [
     ("07", "07:00"),

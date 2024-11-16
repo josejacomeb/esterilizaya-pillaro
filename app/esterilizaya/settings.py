@@ -94,6 +94,7 @@ DATABASES = {
         "PASSWORD": get_docker_secrets(os.getenv("DB_PASSWORD_FILE")),
         "HOST": os.getenv("DB_HOST", "db"),
         "PORT": os.getenv("DB_PORT", "3306"),
+        "OPTIONS": {"charset": "utf8mb4"},  # Permite guardar emojis
     }
 }
 
