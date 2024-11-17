@@ -25,7 +25,7 @@
     <td>{{ inscripcion.nombres_tutor }}</td>
     <td>{{ inscripcion.especie }}</td>
     <td>{{ inscripcion.sexo }}</td>
-    <td><a href="{% url 'registro:nuevo' inscripcion.id%}" class="button">Registro {{ inscripcion.especie }} / {{
+    <td><a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="button">Registro {{ inscripcion.especie }} / {{
         inscripcion.sexo }}</a></td>
   </tr>
   {%endfor %}

@@ -19,6 +19,7 @@
         <th>Teléfono</th>
         <th>Whatsapp</th>
         <th>Horario</th>
+        <th>Registrar</th>
     </tr>
     {% for inscripcion in inscripciones %}
     <tr>
@@ -34,7 +35,7 @@
                 {% if inscripcion.numero_telefono_tutor|length == 10 and inscripcion.numero_telefono_tutor|slice:":2" == "09" %}
                     <p>
                         <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor|slice:"1:" }}" target="_blank">
-                            Mensajear a {{ inscripcion.numero_telefono_tutor }}
+                            Mensajear al {{ inscripcion.numero_telefono_tutor }}
                         </a>
                     </p>
                 {% else %}
@@ -44,6 +45,9 @@
         {% endif %}
 
         <td> {{ inscripcion.get_horario_display }} </td>
+        <td> 
+            <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}">Registrar</a> 
+        </td>
     </tr>
     {% endfor %}
 </table>

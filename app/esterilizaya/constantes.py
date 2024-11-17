@@ -1,5 +1,6 @@
 ESPECIE = [("🐕", "Canino"), ("🐈", "Felino")]
 SEXO = [("♂️", "Macho"), ("♀️", "Hembra")]
+AFIRMATIVO_NEGATIVO = [("S", "Si"), ("N", "No")]
 
 HORARIOS = [
     ("07", "07:00"),

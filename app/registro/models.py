@@ -2,9 +2,11 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from esterilizaya.constantes import (
+    AFIRMATIVO_NEGATIVO,
     EDADES_ANOS,
     EDADES_MESES,
     ESPECIE,
+    PARROQUIAS,
     RAZON_TENENCIA,
     SEXO,
 )
@@ -31,17 +33,16 @@ class Registro(models.Model):
     # Datos específicos
     especie = models.CharField(choices=ESPECIE, max_length=1)
     sexo = models.CharField(choices=SEXO, max_length=2)
-    # TODO: Añadir edad en meses y días
     edad_anos = models.PositiveSmallIntegerField(choices=EDADES_ANOS, default=0)
     edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6)
     raza_mascota = models.CharField(max_length=250)
-    carnet = models.CharField(choices={"S": "Si", "N": "No"}, max_length=1, default="N")
+    carnet = models.CharField(choices=AFIRMATIVO_NEGATIVO, max_length=1, default="N")
     # Datos tutor
     nombres_tutor = models.CharField(max_length=250)
     numero_telefono_tutor = models.CharField(max_length=10)
     cedula_identidad = models.CharField(max_length=10)
     razon_tenencia = models.CharField(choices=RAZON_TENENCIA, max_length=2, default="CO")
-    parroquia_tutor = models.CharField(max_length=250)
+    parroquia_tutor = models.CharField(choices=PARROQUIAS, max_length=100)
     barrio_tutor = models.CharField(max_length=250)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="registro")
 
