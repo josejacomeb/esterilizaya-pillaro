@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 
+
 from .forms import CampanaForm
 from .models import Campana
 from inscripcion.models import Inscripcion

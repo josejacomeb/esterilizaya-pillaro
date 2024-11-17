@@ -2,6 +2,7 @@ import logging
 
 from campana.models import Campana
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 from inscripcion.models import Inscripcion
 from registro.models import Registro
@@ -28,6 +29,7 @@ def lista(request, campana_id):
     return render(request, "registro/lista.html", {"inscripciones": inscripciones, "campana_id": campana_id})
 
 
+@login_required(login_url="cuenta:login")
 def registrar(request, campana_id, inscripcion_id):
     inscripcion = get_object_or_404(Inscripcion, id=inscripcion_id, campana_id=campana_id)
     if request.method == "POST":

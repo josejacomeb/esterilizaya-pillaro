@@ -27,10 +27,10 @@ DEBUG = True
 
 ALLOWED_HOSTS = []
 
-
 # Application definition
 
 INSTALLED_APPS = [
+    "cuenta.apps.CuentaConfig",
     "campana.apps.CampanaConfig",
     "inscripcion.apps.InscripcionConfig",
     "inicio.apps.InicioConfig",
@@ -183,3 +183,8 @@ LOGGING = {
         },
     },
 }
+
+# Redirecciones
+LOGIN_REDIRECT_URL = "campana:index"
+LOGIN_URL = "campana:login"
+LOGOUT_URL = "campana:logout"

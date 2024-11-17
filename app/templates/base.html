@@ -1,27 +1,44 @@
+{% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link href="{% static "css/base.css" %}" rel="stylesheet">
+    <title>{% block title %}{% endblock %}</title>
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inscripción Esterilizaciones</title>
-</head>
-
-<body>
-    {% load static %}
-    <img src="{% static 'images/yacupamba.png' %}" alt="Barrio Yacupamba" height="100px">
-    <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" height="100px">
-    <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" height="100px">
+  <body>
+    <img src="{% static 'images/yacupamba.png' %}" alt="Barrio Yacupamba" height="100px" />
+    <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" height="100px" />
+    <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" height="100px" />
     {% if messages %}
-    <ul class="messages">
+      <ul class="messages">
         {% for message in messages %}
-        <li>{% if message.tags %} class="{{ message.tags }}" {% endif %}{{ message }}</li>
+          <li>
+            {% if message.tags %}
+              class="{{ message.tags }}"
+            {% endif %}{{ message }}
+          </li>
         {% endfor %}
-    </ul>
+      </ul>
     {% endif %}
+    </br>
+    <span class="user">
+      {% if request.user.is_authenticated %}
+        Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}" method="post">
+          <button type="submit">Salir</button>
+          {% csrf_token %}
+        </form>
+      {% else %}
+        <a href="{% url 'cuenta:login' %}">Acceder</a>
+      {% endif %}
+    </span>
     {% block content %}
-    {% endblock %}
-    <p><a href="{% url 'inicio:index' %}">Volver a la página principal</a></p>
-</body>
 
+    {% endblock %}
+    <p>
+      <a href="{% url 'inicio:index' %}">Volver a la página principal</a>
+    </p>
+  </body>
 </html>

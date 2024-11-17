@@ -24,4 +24,5 @@ urlpatterns = [
     path("inscripcion/", include("inscripcion.urls", namespace="inscripcion")),
     path("campana/", include("campana.urls", namespace="campana")),
     path("registro/", include("registro.urls", namespace="registro")),
+    path("cuenta/", include("cuenta.urls", namespace="cuenta")),
 ]

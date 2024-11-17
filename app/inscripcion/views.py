@@ -2,6 +2,7 @@ import logging
 
 from campana.models import Campana
 from django.contrib.auth.models import User
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import InscripcionForm
@@ -10,12 +11,14 @@ from .models import Inscripcion
 logger = logging.getLogger(__name__)
 
 
+@login_required(login_url="cuenta:login")
 def index(request, campana_id):
     inscripciones = Inscripcion.objects.filter(campana_id=campana_id)
     campana = inscripciones[0].campana
     return render(request, "inscripcion/todos.html", {"inscripciones": inscripciones, "campana": campana})
 
 
+@login_required(login_url="cuenta:login")
 def crear(request, campana_id):
     if request.method == "POST":
         forma = InscripcionForm(request.POST)

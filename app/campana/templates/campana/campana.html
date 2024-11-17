@@ -16,8 +16,10 @@
 
     
     Creado por: {{ campana.usuario }} </br>
-    {%if campana.estado == 'AC' %}
-        <a href="{% url "inscripcion:create" campana.id %}">Añadir una nueva inscripcion</a> </br>
+    {% if request.user.is_authenticated %}
+        {%if campana.estado == 'AC' %}
+            <a href="{% url "inscripcion:create" campana.id %}">Añadir una nueva inscripcion</a> </br>
+        {% endif %}
     {% endif %}
     <a href='{% url 'inscripcion:index' campana.id %}'>Ver todas las inscripciones</a>
 

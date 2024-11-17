@@ -2,21 +2,24 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-<p>{{ content }}</p>
-<h1>Bienvenido {{ request.user }} al sistema de Gestiones de Esterilizaciones a Bajo costo</h1>
-<h2>Campañas de esterilización activas</h2>
-<ul>
+  <h1>{{ title }}</h1>
+  <p>{{ content }}</p>
+  <h2>Campañas de esterilización activas</h2>
+  <ul>
     {% for act in activas %}
-        <li><a href="{{ act.get_absolute_url }}"> {{ act.nombre }} </a></li>
+      <li>
+        <a href="{{ act.get_absolute_url }}">{{ act.nombre }}</a>
+      </li>
     {% endfor %}
-</ul>
-<h2>Campañas de esterilización pasadas</h2>
-<ul>
+  </ul>
+  <h2>Campañas de esterilización pasadas</h2>
+  <ul>
     {% for pas in pasadas %}
-        <li><a href="{{ pas.get_absolute_url }}"> {{ pas.nombre }} - {{ pas.fecha }} </a></li>
+      <li>
+        <a href="{{ pas.get_absolute_url }}">{{ pas.nombre }} - {{ pas.fecha }}</a>
+      </li>
     {% endfor %}
-</ul>
-<h2>Nueva</h2>
-<a href="{% url 'campana:index' %}">Registrar una nueva campaña</a>
+  </ul>
+  <h2>Nueva</h2>
+  <a href="{% url 'campana:index' %}">Registrar una nueva campaña</a>
 {% endblock %}

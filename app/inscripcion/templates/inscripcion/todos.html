@@ -19,6 +19,7 @@
         <th>Teléfono</th>
         <th>Whatsapp</th>
         <th>Horario</th>
+        <th>Inscrito por </th>
         <th>Registrar</th>
     </tr>
     {% for inscripcion in inscripciones %}
@@ -45,6 +46,7 @@
         {% endif %}
 
         <td> {{ inscripcion.get_horario_display }} </td>
+        <td> {{ inscripcion.usuario.username }} </td>
         <td> 
             <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}">Registrar</a> 
         </td>
