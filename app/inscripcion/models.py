@@ -1,7 +1,7 @@
 from campana.models import Campana
 from django.conf import settings
 from django.db import models
-from esterilizaya.constantes import ESPECIE, HORARIOS, PARROQUIAS, SEXO
+from esterilizaya.constantes import ESPECIE, HORARIOS, PARROQUIAS, SEXO, MAX_CUPOS
 from django.core.validators import MaxValueValidator, MinValueValidator
 
 
@@ -19,6 +19,7 @@ class Inscripcion(models.Model):
     especie = models.CharField(choices=ESPECIE, max_length=1)
     sexo = models.CharField(choices=SEXO, max_length=2)
     horario = models.CharField(choices=HORARIOS, max_length=2)
+    cupos = models.SmallIntegerField(choices=MAX_CUPOS, default=1)
     campana = models.ForeignKey(Campana, on_delete=models.CASCADE)
     registrado = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
