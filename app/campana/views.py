@@ -11,7 +11,10 @@ from inscripcion.models import Inscripcion
 
 logger = logging.getLogger(__name__)
 
+from django.contrib.auth.decorators import login_required
 
+
+@login_required(login_url="cuenta:login")
 def index(request):
     if request.method == "POST":
         forma = CampanaForm(request.POST)
