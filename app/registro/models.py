@@ -9,6 +9,7 @@ from esterilizaya.constantes import (
     PARROQUIAS,
     RAZON_TENENCIA,
     SEXO,
+    N_MASCOTAS,
 )
 from inscripcion.models import Inscripcion
 
@@ -44,6 +45,14 @@ class Registro(models.Model):
     razon_tenencia = models.CharField(choices=RAZON_TENENCIA, max_length=2, default="CO")
     parroquia_tutor = models.CharField(choices=PARROQUIAS, max_length=100)
     barrio_tutor = models.CharField(max_length=250)
+    # Porcentaje esterilización
+    n_animales_hogar = models.SmallIntegerField(
+        choices=N_MASCOTAS, default="3", help_text="Total perros y gatos en el hogar"
+    )
+    n_animales_hogar_esterilizadas = models.SmallIntegerField(
+        choices=N_MASCOTAS, default="0", help_text="Total perros y gatos esterilizados en el hogar"
+    )
+
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="registro")
 
     def __str__(self) -> str:
