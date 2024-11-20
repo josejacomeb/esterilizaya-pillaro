@@ -14,4 +14,5 @@ class InscripcionForm(forms.ModelForm):
             "especie",
             "sexo",
             "horario",
+            "cupos",
         ]
