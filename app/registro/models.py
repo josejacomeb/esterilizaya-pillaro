@@ -21,13 +21,13 @@ class Registro(models.Model):
     inscripcion_id = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
     # Encabezado
     peso = models.FloatField(
-        help_text="Valor entre 0.1 y 100.0", validators=[MaxValueValidator(100.0), MinValueValidator(0.1)]
+        help_text="Valor entre 0.1 y 100.0", validators=[MaxValueValidator(100.0), MinValueValidator(0.1)], default=12
     )
     numero_turno = models.PositiveSmallIntegerField(
         help_text="Número turno", validators=[MaxValueValidator(50), MinValueValidator(1)]
     )
     # Datos generales
-    nombre = models.CharField(max_length=40)
+    nombre = models.CharField(max_length=40, help_text="Nombre mascota")
     color_principal = models.CharField(max_length=30, help_text="Color principal")
     color_secundario = models.CharField(max_length=30, help_text="Color secundario", blank=True)
     observaciones = models.CharField(max_length=200, blank=True)
@@ -40,8 +40,11 @@ class Registro(models.Model):
     carnet = models.CharField(choices=AFIRMATIVO_NEGATIVO, max_length=1, default="N")
     # Datos tutor
     nombres_tutor = models.CharField(max_length=250)
-    numero_telefono_tutor = models.CharField(max_length=10)
-    cedula_identidad = models.CharField(max_length=10)
+    numero_telefono_tutor = models.PositiveIntegerField(
+        # Entre 7 y 10 dígitos
+        validators=[MinValueValidator(1000000), MaxValueValidator(9999999999)]
+    )
+    cedula_identidad = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
     razon_tenencia = models.CharField(choices=RAZON_TENENCIA, max_length=2, default="CO")
     parroquia_tutor = models.CharField(choices=PARROQUIAS, max_length=100)
     barrio_tutor = models.CharField(max_length=250)
