@@ -123,9 +123,9 @@
           <tr>
             <td>{{ registro.especie }}</td>
             <td>{{ registro.sexo }}</td>
-            <td>{{ registro.edad }}</td>
+            <td>{{ registro.edad_anos }} años {{ registro.edad_meses }} meses</td>
             <td>{{ registro.raza_mascota }}</td>
-            <td>{{ registro.carnet }}</td>
+            <td>{{ registro.get_carnet_display }}</td>
           </tr>
         </tbody>
       </table>
@@ -135,12 +135,11 @@
         <strong>Datos del Tutor</strong>
       </p>
       <p>
-        <i>Nombre Tutor:</i>{{ registro.nombres_tutor }}, <i>Medio Contacto:</i>{{ registro.numero_telefono_tutor }},
-        <i>CI:</i> {{ registro.cedula_identidad }}
+        <i>Nombre Tutor:</i>{{ registro.nombres_tutor }}, <i>Medio Contacto:</i>{{ registro..numero_telefono_tutor | stringformat:"010d" }},
+        <i>CI:</i> {{ registro.cedula_identidad | stringformat:"010d" }}
       </p>
       <p>
-        <i>Domicilio:</i> {{ registro.parroquia_tutor }} / {{ registro.barrio_tutor }}, <i>Razón Tenencia:</i> {{
-        registro.razon_tenencia }}
+        <i>Domicilio:</i> {{ registro.get_parroquia_tutor_display }} / {{ registro.barrio_tutor }}, <i>Razón Tenencia:</i> {{ registro.get_razon_tenencia_display }}
       </p>
     </div>
     <div class="form-section">

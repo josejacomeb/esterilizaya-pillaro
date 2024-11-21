@@ -11,8 +11,6 @@ class InscripcionForm(forms.ModelForm):
             "barrio_tutor",
             "parroquia_tutor",
             "numero_telefono_tutor",
-            "especie",
-            "sexo",
             "horario",
-            "cupos",
+            "cupos_totales",
         ]

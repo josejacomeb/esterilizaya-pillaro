@@ -25,13 +25,12 @@
     <td>{{ inscripcion.nombres_tutor }}</td>
     <td>{{ inscripcion.especie }}</td>
     <td>{{ inscripcion.sexo }}</td>
-    <td><a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="button">Registro {{ inscripcion.especie }} / {{
-        inscripcion.sexo }}</a></td>
+    <td><a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="button">Registrar</a></td>
   </tr>
   {%endfor %}
 </table>
 {% else %}
 <h1> No hay mascotas registradas, por favor registre una en: </h1>
-<a href="'{% url 'inscripcion:create' %}">Registrar nueva mascota</a>
+<a href="{% url "inscripcion:create" campana_id %}">Registrar nueva mascota</a>
 {% endif %}
 {% endblock %}

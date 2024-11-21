@@ -10,10 +10,9 @@ class InscripcionAdmin(admin.ModelAdmin):
         "nombres_tutor",
         "barrio_tutor",
         "parroquia_tutor",
-        "registrado",
+        "cupos_totales",
+        "cupos_registrados",
         "numero_telefono_tutor",
-        "especie",
-        "sexo",
         "horario",
         "campana",
     ]

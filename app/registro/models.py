@@ -13,12 +13,11 @@ from esterilizaya.constantes import (
 )
 from inscripcion.models import Inscripcion
 
-
 class Registro(models.Model):
     class Meta:
         ordering = ["numero_turno"]
 
-    inscripcion_id = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
+    inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
     # Encabezado
     peso = models.FloatField(
         help_text="Valor entre 0.1 y 100.0", validators=[MaxValueValidator(100.0), MinValueValidator(0.1)], default=12

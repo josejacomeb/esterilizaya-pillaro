@@ -12,22 +12,19 @@
     <tr>
         <th>Nº</th>
         <th>Nombre Tutor</th>
-        <th>Especie</th>
-        <th>Sexo</th>
         <th>Barrio</th>
         <th>Parroquia</th>
         <th>Teléfono</th>
         <th>Whatsapp</th>
         <th>Horario</th>
         <th>Inscrito por </th>
+        <th>Cupos </th>
         <th>Registrar</th>
     </tr>
     {% for inscripcion in inscripciones %}
     <tr>
         <td>{{ forloop.counter }}</td>
         <td>{{ inscripcion.nombres_tutor }}</td>
-        <td>{{ inscripcion.especie }}</td>
-        <td>{{ inscripcion.sexo }}</td>
         <td> {{ inscripcion.barrio_tutor }} </td>
         <td> {{ inscripcion.get_parroquia_tutor_display }} </td>
         <td> {{ inscripcion.numero_telefono_tutor | stringformat:"010d" }} </td>
@@ -47,6 +44,7 @@
 
         <td> {{ inscripcion.get_horario_display }} </td>
         <td> {{ inscripcion.usuario.username }} </td>
+        <td> {{ inscripcion.cupos_registrados }} / {{ inscripcion.cupos_totales }} </td>
         <td> 
             <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}">Registrar</a> 
         </td>

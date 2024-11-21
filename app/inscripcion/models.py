@@ -16,15 +16,13 @@ class Inscripcion(models.Model):
         # Entre 7 y 10 dígitos
         validators=[MinValueValidator(1000000), MaxValueValidator(9999999999)]
     )
-    especie = models.CharField(choices=ESPECIE, max_length=1)
-    sexo = models.CharField(choices=SEXO, max_length=2)
     horario = models.CharField(choices=HORARIOS, max_length=2)
-    cupos = models.SmallIntegerField(choices=MAX_CUPOS, default="1")
+    cupos_totales = models.SmallIntegerField(choices=MAX_CUPOS, default="1")
     campana = models.ForeignKey(Campana, on_delete=models.CASCADE)
-    registrado = models.BooleanField(default=False)
+    cupos_registrados = models.SmallIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="inscripcion")
 
     def __str__(self) -> str:
-        return self.especie + self.nombres_tutor
+        return self.nombres_tutor + self.horario

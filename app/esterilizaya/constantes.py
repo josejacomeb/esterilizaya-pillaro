@@ -14,7 +14,7 @@ EDADES = [
     ("AM", "Adulto Mayor"),
 ]
 
-EDADES_MESES = [(i, str(i)) for i in range(1, 12)]
+EDADES_MESES = [(i, str(i)) for i in range(12)]
 EDADES_ANOS = [(i, str(i)) for i in range(20)]
 N_MASCOTAS = [(i, str(i)) for i in range(25)]
 MAX_CUPOS = [(i, str(i)) for i in range(1, 4)]

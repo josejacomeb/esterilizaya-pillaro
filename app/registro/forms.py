@@ -12,7 +12,7 @@ class RegistroForm(forms.ModelForm):
 
     class Meta:
         model = Registro
-        exclude = ["inscripcion_id", "usuario"]
+        exclude = ["inscripcion", "usuario"]
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
