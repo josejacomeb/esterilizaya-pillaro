@@ -15,7 +15,11 @@ logger = logging.getLogger(__name__)
 def index(request, campana_id):
     inscripciones = Inscripcion.objects.filter(campana_id=campana_id)
     campana = inscripciones[0].campana
-    return render(request, "inscripcion/todos.html", {"inscripciones": inscripciones, "campana": campana})
+    max_cupos = [list(range(1, inscripcion.cupos_totales + 1)) for inscripcion in inscripciones]
+    inscripciones_cupos = zip(inscripciones, max_cupos)
+    return render(
+        request, "inscripcion/todos.html", {"inscripciones_cupos": inscripciones_cupos, "campana": campana}
+    )
 
 
 @login_required(login_url="cuenta:login")
