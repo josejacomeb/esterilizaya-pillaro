@@ -14,6 +14,7 @@
 <table>
   <tr>
     <th>Nº</th>
+    <th>Número Turno</th>
     <th>Nombre Tutor</th>
     <th>Especie</th>
     <th>Género</th>
@@ -23,6 +24,7 @@
   {% for registro in registros %}
   <tr>
     <td>{{ registro.id }}</td>
+    <td>{{ registro.numero_turno }}</td>
     <td>{{ registro.nombres_tutor }}</td>
     <td>{{ registro.especie }}</td>
     <td>{{ registro.sexo }}</td>

@@ -22,7 +22,9 @@
             <a href="{% url "inscripcion:create" campana.id %}">Añadir una nueva inscripcion</a> </br>
         {% endif %}
     {% endif %}
-    <a href='{% url 'inscripcion:index' campana.id %}'>Ver todas las inscripciones</a>
+    <a href='{% url 'inscripcion:index' campana.id %}'>Ver todas las inscripciones</a> </br>
+    <a href='{% url 'registro:lista' campana.id %}'>Ver todas los registros</a>
+
 
 </p>
 {% endblock %}

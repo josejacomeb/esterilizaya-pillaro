@@ -61,6 +61,11 @@ def registrar(request, campana_id, inscripcion_id):
     return render(request, "registro/nuevo.html", {"form": forma})
 
 
-def ficha(request, campana_id, registro_id):
+def ver_ficha(request, campana_id, registro_id):
     registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
     return render(request, "registro/ficha.html", {"registro": registro})
+
+def imprimir_ficha(request, campana_id, registro_id):
+    registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
+    
+    pass
