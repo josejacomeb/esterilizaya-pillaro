@@ -1,12 +1,13 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block title %} Registrar una nueva campaña {% endblock%}
 {% block content %}
 <h1>{{ title }}</h1>
 <p>{{ content }}</p>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Registrar Campaña</button>
+    {% bootstrap_form form %}
+    {% bootstrap_button button_type="submit" content="Registrar Campaña" %}
 </form>
 {% endblock %}

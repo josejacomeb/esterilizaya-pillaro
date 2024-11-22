@@ -1,12 +1,13 @@
-<!DOCTYPE html>
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
+
 {% block title %} Nueva inscripción {% endblock%}
 
 {% block content %}
 <h1>Registrar nueva inscripción</h1>
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% bootstrap_form form %}
     <select name="campana-id" id="campana-id">
         {% for campana in campanas %}
         <option value="{{ campana.id }}"> {{ campana.nombre }} </option>

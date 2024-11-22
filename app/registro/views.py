@@ -7,8 +7,12 @@ from django.shortcuts import get_object_or_404, redirect, render
 from inscripcion.models import Inscripcion
 from registro.models import Registro
 from django.contrib import messages
-
+from io import BytesIO
+from weasyprint import HTML
+from django.conf.urls.static import static
+from django.conf import settings
 from .forms import RegistroForm
+from django.http import HttpResponse
 
 logger = logging.getLogger(__name__)
 
@@ -66,3 +70,13 @@ def ver_ficha(request, campana_id, registro_id):
 def imprimir_ficha(request, campana_id, registro_id):
     registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
     return render(request, "registro/ficha.html", {"registro": registro})
+
+
+def ver_certificados(request, campana_id):
+    registros = Registro.objects.filter(inscripcion__campana=campana_id)
+    pdf_file = HTML(string=render("lista.html")).write_pdf()
+
+    # Return the PDF as an HTTP response
+    response = HttpResponse(pdf_file, content_type="application/pdf")
+    response["Content-Disposition"] = 'attachment; filename="certificates.pdf"'
+    return response

@@ -1,43 +1,45 @@
 {% load static %}
+{# Load the tag library #}
+{% load django_bootstrap5 %}
+
+{# Load CSS and JavaScript #}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
 <!DOCTYPE html>
 <html lang="es">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="{% static "css/base.css" %}" rel="stylesheet">
-    <title>{% block title %}{% endblock %}</title>
-  </head>
 
-  <body>
-    <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" height="100px" />
-    <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" height="100px" />
-    {% if messages %}
-      <ul class="messages">
-        {% for message in messages %}
-          <li class="{{ message.tags }}">
-            {{ message|safe }}
-            <a href="#" class="close">x</a>
-          </li>
-        {% endfor %}
-      </ul>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="{% static " css/base.css" %}" rel="stylesheet">
+  <title>{% block title %}{% endblock %}</title>
+</head>
+
+<body>
+  <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" height="100px" />
+  <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" height="100px" />
+  {# Display django.contrib.messages as Bootstrap alerts #}
+  {% bootstrap_messages %}
+  </br>
+  <span class="user">
+    {% if request.user.is_authenticated %}
+    Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}"
+      method="post">
+      <button type="submit">Salir</button>
+      {% csrf_token %}
+    </form>
+    {% else %}
+    <a href="{% url 'cuenta:login' %}">Acceder</a>
     {% endif %}
-    </br>
-    <span class="user">
-      {% if request.user.is_authenticated %}
-        Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}" method="post">
-          <button type="submit">Salir</button>
-          {% csrf_token %}
-        </form>
-      {% else %}
-        <a href="{% url 'cuenta:login' %}">Acceder</a>
-      {% endif %}
-    </span>
-    <div id="content">
-      {% block content %}
-      {% endblock %}
-    </div>
-    <p>
-      <a href="{% url 'inicio:index' %}">Volver a la página principal</a>
-    </p>
-  </body>
+  </span>
+  <div id="content">
+    {% block content %}
+    {% endblock %}
+  </div>
+  <p>
+    <a href="{% url 'inicio:index' %}">Volver a la página principal</a>
+  </p>
+</body>
+
 </html>

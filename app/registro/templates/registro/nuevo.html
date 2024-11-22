@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block title %} Ingresar un nuevo registro {% endblock%}
 
 {% block content %}
@@ -12,7 +13,7 @@
 {% endif %}
 <form method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    {% bootstrap_form form %}
     <button type="submit">Ingresar registro</button>
 </form>
 <a href="{{request.META.HTTP_REFERER}}">Volver</a>
