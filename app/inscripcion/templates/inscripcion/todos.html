@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% load custom_filters %}
+{% block title %} Ver todos los inscritos {% endblock%}
 {% block content %}
 <h1>Registro de inscripciones para {{ campana.nombre }}</h1>
 {% with inscripciones.count as n_inscritos %}
