@@ -9,16 +9,14 @@
   </head>
 
   <body>
-    <img src="{% static 'images/yacupamba.png' %}" alt="Barrio Yacupamba" height="100px" />
     <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" height="100px" />
     <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" height="100px" />
     {% if messages %}
       <ul class="messages">
         {% for message in messages %}
-          <li>
-            {% if message.tags %}
-              class="{{ message.tags }}"
-            {% endif %}{{ message }}
+          <li class="{{ message.tags }}">
+            {{ message|safe }}
+            <a href="#" class="close">x</a>
           </li>
         {% endfor %}
       </ul>
@@ -34,9 +32,10 @@
         <a href="{% url 'cuenta:login' %}">Acceder</a>
       {% endif %}
     </span>
-    {% block content %}
-
-    {% endblock %}
+    <div id="content">
+      {% block content %}
+      {% endblock %}
+    </div>
     <p>
       <a href="{% url 'inicio:index' %}">Volver a la página principal</a>
     </p>
