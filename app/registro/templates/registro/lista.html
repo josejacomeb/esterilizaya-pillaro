@@ -8,7 +8,7 @@
   <input type="text" name="query" placeholder="Buscar por tutor" />
   <button type="submit">Search</button>
 </form>
-{% if inscripciones %}
+{% if registros %}
 <h1>Mascotas inscritas </h1>
 <table>
   <tr>
@@ -16,16 +16,18 @@
     <th>Nombre Tutor</th>
     <th>Especie</th>
     <th>Género</th>
-    <th>Registrar</th>
-
+    <th>Ver Ficha</th>
+    <th>Imprimir ficha</th>
   </tr>
-  {% for inscripcion in inscripciones %}
+  {% for registro in registros %}
   <tr>
-    <td>{{ inscripcion.id }}</td>
-    <td>{{ inscripcion.nombres_tutor }}</td>
-    <td>{{ inscripcion.especie }}</td>
-    <td>{{ inscripcion.sexo }}</td>
-    <td><a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="button">Registrar</a></td>
+    <td>{{ registro.id }}</td>
+    <td>{{ registro.nombres_tutor }}</td>
+    <td>{{ registro.especie }}</td>
+    <td>{{ registro.sexo }}</td>
+    <td><a href="{% url 'registro:ver_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Ver Ficha</a></td>
+    <td><a href="{% url 'registro:imprimir_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Imprimir Ficha</a></td>
+
   </tr>
   {%endfor %}
 </table>

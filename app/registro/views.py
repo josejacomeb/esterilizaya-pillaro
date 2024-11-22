@@ -20,14 +20,15 @@ def index(request):
 
 
 def lista(request, campana_id):
-    inscripciones = Inscripcion.objects.filter(campana_id=campana_id).filter(registrado=False)
+    registros = Registro.objects.filter(inscripcion__campana=campana_id)
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]
     if query:
-        inscripciones = inscripciones.filter(nombres_tutor__iregex=query)
+        registros = registros.filter(nombres_tutor__iregex=query)
+    logger.info(registros)
 
-    return render(request, "registro/lista.html", {"inscripciones": inscripciones, "campana_id": campana_id})
+    return render(request, "registro/lista.html", {"registros": registros, "campana_id": campana_id})
 
 
 @login_required(login_url="cuenta:login")
