@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% load custom_filters %}
 {% block title %} Ver todos los inscritos {% endblock%}
 {% block content %}
@@ -8,20 +9,21 @@
 <strong> Total inscritos: </strong> {{ n_inscritos }} </br>
 {% endwith %}
 <a href="{% url 'inscripcion:create' campana.id %}">Crear una nueva inscripción</a>
+<div class="table-responsive-sm">
 
-<table border="2">
-    <tr>
-        <th>Nº</th>
-        <th>Nombre Tutor</th>
-        <th>Barrio</th>
-        <th>Parroquia</th>
-        <th>Teléfono</th>
-        <th>Whatsapp</th>
-        <th>Horario</th>
-        <th>Inscrito por </th>
-        <th>Registrar</th>
-    </tr>
-    {% for inscripcion, cupos in inscripciones_cupos %}
+    <table border="2" class="table  table-striped">
+        <tr>
+            <th>Nº</th>
+            <th>Nombre Tutor</th>
+            <th>Barrio</th>
+            <th>Parroquia</th>
+            <th>Teléfono</th>
+            <th>Whatsapp</th>
+            <th>Horario</th>
+            <th>Inscrito por </th>
+            <th>Registrar</th>
+        </tr>
+        {% for inscripcion, cupos in inscripciones_cupos %}
         <tr>
             <td>{{ forloop.counter }}</td>
             <td>{{ inscripcion.nombres_tutor }}</td>
@@ -29,38 +31,40 @@
             <td> {{ inscripcion.get_parroquia_tutor_display }} </td>
             <td> {{ inscripcion.numero_telefono_tutor | stringformat:"010d" }} </td>
             {% if inscripcion.numero_telefono_tutor %}
-                <td>
-                    {% if inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
-                        <p>
-                            <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank">
-                                Mensajear al {{ inscripcion.numero_telefono_tutor }}
-                            </a>
-                        </p>
-                    {% else %}
-                        <p>No tiene Whatsapp</p>
-                    {% endif %}
-                </td>
+            <td>
+                {% if inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
+                <p>
+                    <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank">
+                        Mensajear al {{ inscripcion.numero_telefono_tutor }}
+                    </a>
+                </p>
+                {% else %}
+                <p>No tiene Whatsapp</p>
+                {% endif %}
+            </td>
             {% endif %}
 
             <td> {{ inscripcion.get_horario_display }} </td>
             <td> {{ inscripcion.usuario.username }} </td>
-            <td> {{ inscripcion.cupos_registrados }} / {{ inscripcion.cupos_totales }} </td>
 
-            <td> 
-            <ol>
-            {% for n_cupo in cupos %}
-                <li>
-                    {% if n_cupo > inscripcion.cupos_registrados %}
-                        <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}">Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}</a> 
-                    {% else %}
-                        Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}     
-                    {% endif %}
-                </li>
-                {% endfor %}
-            </ol>
+            <td>
+                <ol>
+                    {% for n_cupo in cupos %}
+                    <li>
+                        {% if n_cupo > inscripcion.cupos_registrados %}
+                        <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}">
+                            Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}
+                        </a>
+                        {% else %}
+                            Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ol>
             </td>
         </tr>
 
-    {% endfor %}
-</table>
+        {% endfor %}
+    </table>
+</div>
 {% endblock %}

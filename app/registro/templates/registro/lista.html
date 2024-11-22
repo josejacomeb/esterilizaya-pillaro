@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block title %} Ver todos los registrados {% endblock%}
 
 {% block content %}
@@ -11,31 +12,35 @@
 </form>
 {% if registros %}
 <h1>Mascotas inscritas </h1>
-<table>
-  <tr>
-    <th>Nº</th>
-    <th>Número Turno</th>
-    <th>Nombre Tutor</th>
-    <th>Especie</th>
-    <th>Género</th>
-    <th>Ver Ficha</th>
-    <th>Imprimir ficha</th>
-  </tr>
-  {% for registro in registros %}
-  <tr>
-    <td>{{ registro.id }}</td>
-    <td>{{ registro.numero_turno }}</td>
-    <td>{{ registro.nombres_tutor }}</td>
-    <td>{{ registro.especie }}</td>
-    <td>{{ registro.sexo }}</td>
-    <td><a href="{% url 'registro:ver_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Ver Ficha</a></td>
-    <td><a href="{% url 'registro:imprimir_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Imprimir Ficha</a></td>
+<div class="table-responsive-sm">
+  <table class="table">
+    <tr>
+      <th>Nº</th>
+      <th>Número Turno</th>
+      <th>Nombre Tutor</th>
+      <th>Especie</th>
+      <th>Género</th>
+      <th>Ver Ficha</th>
+      <th>Imprimir ficha</th>
+    </tr>
+    {% for registro in registros %}
+    <tr>
+      <td>{{ registro.id }}</td>
+      <td>{{ registro.numero_turno }}</td>
+      <td>{{ registro.nombres_tutor }}</td>
+      <td>{{ registro.especie }}</td>
+      <td>{{ registro.sexo }}</td>
+      <td><a href="{% url 'registro:ver_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Ver
+          Ficha</a></td>
+      <td><a href="{% url 'registro:imprimir_ficha' registro.inscripcion.campana.id registro.id %}"
+          class="button">Imprimir Ficha</a></td>
 
-  </tr>
-  {%endfor %}
-</table>
+    </tr>
+    {%endfor %}
+  </table>
+</div>
 {% else %}
 <h1> No hay mascotas registradas, por favor registre una en: </h1>
-<a href="{% url "inscripcion:create" campana_id %}">Registrar nueva mascota</a>
+<a href="{% url " inscripcion:create" campana_id %}">Registrar nueva mascota</a>
 {% endif %}
 {% endblock %}
