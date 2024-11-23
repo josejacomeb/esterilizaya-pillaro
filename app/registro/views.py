@@ -53,7 +53,7 @@ def registrar(request, campana_id, inscripcion_id):
             inscripcion.save()
             registro_forma.save()
             registro_id = registro_forma.id
-            return redirect("registro:ficha", campana_id=campana_id, registro_id=registro_id)
+            return redirect("registro:ver_ficha", campana_id=campana_id, registro_id=registro_id)
         else:
             forma.clean()
     else:
@@ -74,9 +74,4 @@ def imprimir_ficha(request, campana_id, registro_id):
 
 def ver_certificados(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
-    pdf_file = HTML(string=render("lista.html")).write_pdf()
-
-    # Return the PDF as an HTTP response
-    response = HttpResponse(pdf_file, content_type="application/pdf")
-    response["Content-Disposition"] = 'attachment; filename="certificates.pdf"'
-    return response
+    return render(request, "registro/hoja_certificados.html", {"registros": registros})

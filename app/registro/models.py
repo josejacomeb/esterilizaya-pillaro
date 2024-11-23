@@ -13,6 +13,7 @@ from esterilizaya.constantes import (
 )
 from inscripcion.models import Inscripcion
 
+
 class Registro(models.Model):
     class Meta:
         ordering = ["numero_turno"]
@@ -56,6 +57,7 @@ class Registro(models.Model):
     )
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="registro")
+    fecha_registro = models.DateTimeField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.nombre

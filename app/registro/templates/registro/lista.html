@@ -1,46 +1,50 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{% block title %} Ver todos los registrados {% endblock%}
+{% block title %}
+  Ver todos los registrados
+{% endblock %}
 
 {% block content %}
-<h1>Nuevo Registro</h1>
-<h1>Buscar participantes</h1>
-<form method="get" action="{% url 'registro:lista' campana_id %}">
-  <input type="text" name="query" placeholder="Buscar por tutor" />
-  <button type="submit">Search</button>
-</form>
-{% if registros %}
-<h1>Mascotas inscritas </h1>
-<div class="table-responsive-sm">
-  <table class="table">
-    <tr>
-      <th>Nº</th>
-      <th>Número Turno</th>
-      <th>Nombre Tutor</th>
-      <th>Especie</th>
-      <th>Género</th>
-      <th>Ver Ficha</th>
-      <th>Imprimir ficha</th>
-    </tr>
-    {% for registro in registros %}
-    <tr>
-      <td>{{ registro.id }}</td>
-      <td>{{ registro.numero_turno }}</td>
-      <td>{{ registro.nombres_tutor }}</td>
-      <td>{{ registro.especie }}</td>
-      <td>{{ registro.sexo }}</td>
-      <td><a href="{% url 'registro:ver_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Ver
-          Ficha</a></td>
-      <td><a href="{% url 'registro:imprimir_ficha' registro.inscripcion.campana.id registro.id %}"
-          class="button">Imprimir Ficha</a></td>
-
-    </tr>
-    {%endfor %}
-  </table>
-</div>
-{% else %}
-<h1> No hay mascotas registradas, por favor registre una en: </h1>
-<a href="{% url " inscripcion:create" campana_id %}">Registrar nueva mascota</a>
-{% endif %}
+  <h1>Nuevo Registro</h1>
+  <h1>Buscar participantes</h1>
+  <form method="get" action="{% url 'registro:lista' campana_id %}">
+    <input type="text" name="query" placeholder="Buscar por tutor" />
+    <button type="submit">Search</button>
+  </form>
+  {% if registros %}
+    <h1>Mascotas inscritas</h1>
+    <div class="table-responsive-sm">
+      <table class="table">
+        <tr>
+          <th>Nº</th>
+          <th>Número Turno</th>
+          <th>Nombre Tutor</th>
+          <th>Especie</th>
+          <th>Género</th>
+          <th>Ver Ficha</th>
+          <th>Imprimir ficha</th>
+        </tr>
+        {% for registro in registros %}
+          <tr>
+            <td>{{ registro.id }}</td>
+            <td>{{ registro.numero_turno }}</td>
+            <td>{{ registro.nombres_tutor }}</td>
+            <td>{{ registro.especie }}</td>
+            <td>{{ registro.sexo }}</td>
+            <td>
+              <a href="{% url 'registro:ver_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Ver Ficha</a>
+            </td>
+            <td>
+              <a href="{% url 'registro:imprimir_ficha' registro.inscripcion.campana.id registro.id %}" class="button">Imprimir Ficha</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  {% else %}
+    <h1>No hay mascotas registradas, por favor registre una en:</h1>
+    <a href="{% url 'inscripcion:create' campana_id %}">Registrar nueva mascota</a>
+  {% endif %}
+  <a href="{% url 'registro:ver_certificados' campana_id %}" class="button">Imprimir Certificados</a>
 {% endblock %}
