@@ -17,3 +17,11 @@ class RegistroForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["raza_mascota"].initial = "Mestizo"
+
+    def clean_numero_turno(self):
+        numero_turno = self.cleaned_data.get("numero_turno")
+        if Registro.objects.filter(numero_turno=numero_turno).exists():
+            raise forms.ValidationError(
+                f"El turno {numero_turno} ya ha sido asignado a otro tutor, agregue el turno correcto."
+            )
+        return numero_turno
