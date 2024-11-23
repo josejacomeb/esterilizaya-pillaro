@@ -46,5 +46,10 @@
     <h1>No hay mascotas registradas, por favor registre una en:</h1>
     <a href="{% url 'inscripcion:create' campana_id %}">Registrar nueva mascota</a>
   {% endif %}
-  <a href="{% url 'registro:ver_certificados' campana_id %}" class="button">Imprimir Certificados</a>
+  <p>
+    <a href="{% url 'registro:ver_certificados' campana_id %}" class="button">Imprimir Certificados</a>
+  </p>
+  <p>
+    <a href="{% url 'registro:ver_recetas' campana_id %}" class="button">Imprimir Recetas</a>
+  </p>
 {% endblock %}
