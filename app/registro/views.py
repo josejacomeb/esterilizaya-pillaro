@@ -57,7 +57,14 @@ def registrar(request, campana_id, inscripcion_id):
         else:
             forma.clean()
     else:
-        forma = RegistroForm(instance=inscripcion)
+        try:
+            registro_previo = Registro.objects.get(inscripcion=inscripcion)
+            registro = Registro(cedula_identidad=registro_previo.cedula_identidad, inscripcion=inscripcion)
+            logger.info(f"Encontrada cédula identidad anterior de la inscripción {inscripcion_id}")
+            forma = RegistroForm(instance=registro)
+        except Registro.DoesNotExist:
+            logger.info(f"No hay registro para una inscripción  {inscripcion_id} anterior")
+            forma = RegistroForm(instance=inscripcion)
 
     return render(request, "registro/nuevo.html", {"form": forma})
 
@@ -75,6 +82,7 @@ def imprimir_ficha(request, campana_id, registro_id):
 def ver_certificados(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
     return render(request, "registro/hoja_certificados.html", {"registros": registros})
+
 
 def ver_recetas(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
