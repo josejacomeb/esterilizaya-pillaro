@@ -71,7 +71,7 @@
             console.log(data)
             const tableBody = document.getElementById('pets-table-body')
             tableBody.innerHTML = '' // Clear existing rows
-            data.registros.forEach((pet, index) => {
+            data.registros.forEach((pet) => {
               const row = document.createElement('tr')
               row.className = pet.sexo === '♀️' ? 'female-row' : 'male-row'
               const date = new Date(pet.fecha_registro)
@@ -83,7 +83,7 @@
               ].join('/')
       
               row.innerHTML = `
-                                    <td>${index + 1}</td>
+                                    <td>${pet.numero_turno}</td>
                                     <td>${formattedDate}</td>
                                     <td>C</td>
                                     <td>${pet.especie}</td>
