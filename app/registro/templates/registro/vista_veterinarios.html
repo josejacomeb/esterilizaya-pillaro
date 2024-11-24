@@ -86,10 +86,11 @@
                                     <td>${pet.numero_turno}</td>
                                     <td>${formattedDate}</td>
                                     <td>C</td>
-                                    <td>${pet.especie}</td>
+                                    <td>${pet.nombres_tutor}</td>
+                                    <td>${pet.especie === '🐈' ? 'Felino' : 'Canino'}</td>
                                     <td>${pet.peso}</td>
-                                    <td>${pet.sexo}</td>
                                     <td>${pet.nombre}</td>
+                                    <td>${pet.sexo === '♀️' ? 'Hembra' : 'Macho'}</td>
                                     <td>${pet.edad_anos}a ${pet.edad_meses}m</td>
                                     <td>              </td>
                                     <td>              </td>
@@ -109,7 +110,7 @@
   </head>
   <body>
     <div class="container mt-5">
-      <h1 class="text-center mb-4">Pets List</h1>
+      <h2 class="text-center mb-4">Lista de Mascotas Registradas</h2>
       <div class="table-responsive">
         <table class="table table-bordered table-hover">
           <thead class="table-dark">
@@ -117,6 +118,7 @@
               <th>No.</th>
               <th>Fecha</th>
               <th>Origen</th>
+              <th>Nombre Tutor</th>
               <th>Especie</th>
               <th>Peso(Kg)</th>
               <th>ID</th>

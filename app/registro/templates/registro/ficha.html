@@ -14,14 +14,16 @@
         height: 297mm;
       }
       
-      .page {
-        width: 190mm;
-        margin: 10mm auto;
-        padding: 20px;
-        border: 1px solid #000;
-        box-sizing: border-box;
+      @page {
+        size: A4;
+        margin: 10mm;
       }
       
+      @media print {
+        .no-print {
+          display: none;
+        }
+      }
       .header {
         text-align: center;
       }
@@ -64,6 +66,12 @@
 
   <body>
     <div class="header">
+      <div class="no-print mb-3">
+        <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}"> Registrar otro Tutor </a>
+        <button onclick="window.print()" class="btn btn-primary">Imprimir Ficha</button>
+        <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}"> Ver todos los registros </a>
+
+      </div>
       <table class="box" style="border: 2px inset black; border-collapse: collapse;">
         <tr>
           <td>
