@@ -7,12 +7,13 @@ from django.shortcuts import get_object_or_404, redirect, render
 from inscripcion.models import Inscripcion
 from registro.models import Registro
 from django.contrib import messages
-from io import BytesIO
 from weasyprint import HTML
 from django.conf.urls.static import static
 from django.conf import settings
 from .forms import RegistroForm
 from django.http import HttpResponse
+from django.views.generic import ListView
+from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
 
@@ -72,6 +73,7 @@ def imprimir_ficha(request, campana_id, registro_id):
     return render(request, "registro/ficha.html", {"registro": registro})
 
 
+# TODO: Simplificar todos los registros
 def ver_certificados(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
     return render(request, "registro/hoja_certificados.html", {"registros": registros})
@@ -80,3 +82,30 @@ def ver_certificados(request, campana_id):
 def ver_recetas(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
     return render(request, "registro/hoja_recetas.html", {"registros": registros})
+
+
+class RegistradoListView(ListView):
+    model = Registro
+    template_name = "registro/vista_veterinarios.html"
+    context_object_name = "registros"
+
+    def get_queryset(self):
+        """
+        Filters pets by the given campaign_id.
+        """
+        campana_id = self.kwargs.get("campana_id")  # Retrieve campaign_id from URL kwargs
+        return Registro.objects.filter(inscripcion__campana=campana_id)  # Filter pets for the given campaign
+
+    def get(self, request, *args, **kwargs):
+        """
+        Handles AJAX requests to dynamically update the table.
+        """
+        campana_id = self.kwargs.get("campana_id")
+        if request.headers.get("x-requested-with") == "XMLHttpRequest":  # Check for Ajax requests
+            registros = list(
+                Registro.objects.filter(inscripcion__campana=campana_id).values(
+                    "especie", "peso", "nombre", "sexo", "edad_anos", "edad_meses", "fecha_registro", "observaciones"
+                )
+            )
+            return JsonResponse({"registros": registros})
+        return super().get(request, *args, **kwargs)

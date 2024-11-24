@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Lista de Mascotas Campañas de Esterilización a bajo costo San Miguelito</title>
+    {% load django_bootstrap5 %}
+    <style>
+      /* Style for gender-specific rows */
+      .female-row {
+        background-color: pink !important;
+      }
+      .male-row {
+        background-color: lightblue !important;
+      }
+      
+      /* Ensure table fits in A4 landscape */
+      @media print {
+        @page {
+          size: A4 landscape;
+          margin: 10mm;
+        }
+      
+        body {
+          margin: 0;
+          font-size: 12px;
+        }
+      
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          font-size: 10pt;
+        }
+      
+        th,
+        td {
+          border: 1px solid black;
+          padding: 5px;
+          text-align: center;
+        }
+      
+        .table-responsive {
+          overflow: visible;
+        }
+      
+        /* Ensure row colors are visible during printing */
+        .female-row {
+          background-color: pink !important;
+          -webkit-print-color-adjust: exact;
+        }
+      
+        .male-row {
+          background-color: lightblue !important;
+          -webkit-print-color-adjust: exact;
+        }
+      
+        thead {
+          background-color: black !important;
+          color: white !important;
+          -webkit-print-color-adjust: exact;
+        }
+      }
+    </style>
+    <script>
+      function fetchPets() {
+        fetch(window.location.href, {
+          headers: { 'x-requested-with': 'XMLHttpRequest' }
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data)
+            const tableBody = document.getElementById('pets-table-body')
+            tableBody.innerHTML = '' // Clear existing rows
+            data.registros.forEach((pet, index) => {
+              const row = document.createElement('tr')
+              row.className = pet.sexo === '♀️' ? 'female-row' : 'male-row'
+              const date = new Date(pet.fecha_registro)
+      
+              const formattedDate = [
+                String(date.getDate()).padStart(2, '0'), // Day with leading zero
+                String(date.getMonth() + 1).padStart(2, '0'), // Month with leading zero
+                date.getFullYear() // Full year
+              ].join('/')
+      
+              row.innerHTML = `
+                                    <td>${index + 1}</td>
+                                    <td>${formattedDate}</td>
+                                    <td>C</td>
+                                    <td>${pet.especie}</td>
+                                    <td>${pet.peso}</td>
+                                    <td>${pet.sexo}</td>
+                                    <td>${pet.nombre}</td>
+                                    <td>${pet.edad_anos}a ${pet.edad_meses}m</td>
+                                    <td>              </td>
+                                    <td>              </td>
+                                    <td>              </td>
+                                    <td>              </td>
+                                    <td>${pet.observaciones}</td>
+                                `
+              tableBody.appendChild(row)
+            })
+          })
+      }
+      
+      // Fetch pets every 5 seconds to update the table
+      setInterval(fetchPets, 5000)
+      window.onload = fetchPets // Fetch pets on page load
+    </script>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h1 class="text-center mb-4">Pets List</h1>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover">
+          <thead class="table-dark">
+            <tr>
+              <th>No.</th>
+              <th>Fecha</th>
+              <th>Origen</th>
+              <th>Especie</th>
+              <th>Peso(Kg)</th>
+              <th>ID</th>
+              <th>Sexo</th>
+              <th>Edad</th>
+              <th>Estado fisiológico</th>
+              <th>Premed</th>
+              <th>Anes</th>
+              <th>Entregado</th>
+              <th>Observaciones</th>
+            </tr>
+          </thead>
+          <tbody id="pets-table-body">
+            <!-- Rows will be dynamically updated -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </body>
+</html>

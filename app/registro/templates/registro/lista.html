@@ -47,6 +47,9 @@
     <a href="{% url 'inscripcion:create' campana_id %}">Registrar nueva mascota</a>
   {% endif %}
   <p>
+    <a href="{% url 'registro:vista_veterinarios' campana_id %}" class="button">👩🏻‍⚕️Vista Veterinarios🐕‍🦺</a>
+  </p>
+  <p>
     <a href="{% url 'registro:ver_certificados' campana_id %}" class="button">Imprimir Certificados</a>
   </p>
   <p>
