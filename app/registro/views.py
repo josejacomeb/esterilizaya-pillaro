@@ -57,14 +57,7 @@ def registrar(request, campana_id, inscripcion_id):
         else:
             forma.clean()
     else:
-        try:
-            registro_previo = Registro.objects.get(inscripcion=inscripcion)
-            registro = Registro(cedula_identidad=registro_previo.cedula_identidad, inscripcion=inscripcion)
-            logger.info(f"Encontrada cédula identidad anterior de la inscripción {inscripcion_id}")
-            forma = RegistroForm(instance=registro)
-        except Registro.DoesNotExist:
-            logger.info(f"No hay registro para una inscripción  {inscripcion_id} anterior")
-            forma = RegistroForm(instance=inscripcion)
+        forma = RegistroForm(instance=inscripcion)
 
     return render(request, "registro/nuevo.html", {"form": forma})
 
