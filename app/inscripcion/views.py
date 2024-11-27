@@ -1,8 +1,8 @@
 import logging
 
 from campana.models import Campana
-from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import InscripcionForm
@@ -17,9 +17,7 @@ def index(request, campana_id):
     campana = inscripciones[0].campana
     max_cupos = [list(range(1, inscripcion.cupos_totales + 1)) for inscripcion in inscripciones]
     inscripciones_cupos = zip(inscripciones, max_cupos)
-    return render(
-        request, "inscripcion/todos.html", {"inscripciones_cupos": inscripciones_cupos, "campana": campana}
-    )
+    return render(request, "inscripcion/todos.html", {"inscripciones_cupos": inscripciones_cupos, "campana": campana})
 
 
 @login_required(login_url="cuenta:login")

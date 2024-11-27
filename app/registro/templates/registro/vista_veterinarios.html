@@ -61,52 +61,6 @@
         }
       }
     </style>
-    <script>
-      function fetchPets() {
-        fetch(window.location.href, {
-          headers: { 'x-requested-with': 'XMLHttpRequest' }
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            console.log(data)
-            const tableBody = document.getElementById('pets-table-body')
-            tableBody.innerHTML = '' // Clear existing rows
-            data.registros.forEach((pet) => {
-              const row = document.createElement('tr')
-              row.className = pet.sexo === '♀️' ? 'female-row' : 'male-row'
-              const date = new Date(pet.fecha_registro)
-      
-              const formattedDate = [
-                String(date.getDate()).padStart(2, '0'), // Day with leading zero
-                String(date.getMonth() + 1).padStart(2, '0'), // Month with leading zero
-                date.getFullYear() // Full year
-              ].join('/')
-      
-              row.innerHTML = `
-                                    <td>${pet.numero_turno}</td>
-                                    <td>${formattedDate}</td>
-                                    <td>C</td>
-                                    <td>${pet.nombres_tutor}</td>
-                                    <td>${pet.especie === '🐈' ? 'Felino' : 'Canino'}</td>
-                                    <td>${pet.peso}</td>
-                                    <td>${pet.nombre}</td>
-                                    <td>${pet.sexo === '♀️' ? 'Hembra' : 'Macho'}</td>
-                                    <td>${pet.edad_anos}a ${pet.edad_meses}m</td>
-                                    <td>              </td>
-                                    <td>              </td>
-                                    <td>              </td>
-                                    <td>              </td>
-                                    <td>${pet.observaciones}</td>
-                                `
-              tableBody.appendChild(row)
-            })
-          })
-      }
-      
-      // Fetch pets every 5 seconds to update the table
-      setInterval(fetchPets, 5000)
-      window.onload = fetchPets // Fetch pets on page load
-    </script>
   </head>
   <body>
     <div class="container mt-5">
@@ -137,5 +91,51 @@
         </table>
       </div>
     </div>
+    <script>
+      function fetchPets() {
+        fetch(window.location.href, {
+          headers: { 'x-requested-with': 'XMLHttpRequest' }
+        })
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(data)
+            const tableBody = document.getElementById('pets-table-body')
+            tableBody.innerHTML = '' // Clear existing rows
+            data.registros.forEach((pet) => {
+              const row = document.createElement('tr')
+              row.className = pet.sexo === '♀️' ? 'female-row' : 'male-row'
+              const date = new Date(pet.fecha_registro)
+      
+              const formattedDate = [
+                String(date.getDate()).padStart(2, '0'), // Day with leading zero
+                String(date.getMonth() + 1).padStart(2, '0'), // Month with leading zero
+                date.getFullYear() // Full year
+              ].join('/')
+      
+              row.innerHTML = `
+                                          <td>${pet.numero_turno}</td>
+                                          <td>${formattedDate}</td>
+                                          <td>C</td>
+                                          <td>${pet.nombres_tutor}</td>
+                                          <td>${pet.especie === '🐈' ? 'Felino' : 'Canino'}</td>
+                                          <td>${pet.peso}</td>
+                                          <td>${pet.nombre}</td>
+                                          <td>${pet.sexo === '♀️' ? 'Hembra' : 'Macho'}</td>
+                                          <td>${pet.edad_anos}a ${pet.edad_meses}m</td>
+                                          <td>              </td>
+                                          <td>              </td>
+                                          <td>              </td>
+                                          <td>              </td>
+                                          <td>${pet.observaciones}</td>
+                                      `
+              tableBody.appendChild(row)
+            })
+          })
+      }
+      
+      // Fetch pets every 5 seconds to update the table
+      setInterval(fetchPets, 5000)
+      window.onload = fetchPets // Fetch pets on page load
+    </script>
   </body>
 </html>

@@ -1,19 +1,16 @@
 import logging
 
 from campana.models import Campana
-from django.contrib.auth.models import User
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.views.generic import ListView
 from inscripcion.models import Inscripcion
 from registro.models import Registro
-from django.contrib import messages
-from weasyprint import HTML
-from django.conf.urls.static import static
-from django.conf import settings
+
 from .forms import RegistroForm
-from django.http import HttpResponse
-from django.views.generic import ListView
-from django.http import JsonResponse
 
 logger = logging.getLogger(__name__)
 
@@ -104,7 +101,16 @@ class RegistradoListView(ListView):
         if request.headers.get("x-requested-with") == "XMLHttpRequest":  # Check for Ajax requests
             registros = list(
                 Registro.objects.filter(inscripcion__campana=campana_id).values(
-                    "especie", "peso", "nombre", "sexo", "edad_anos", "edad_meses", "fecha_registro", "observaciones", "numero_turno", "nombres_tutor"
+                    "especie",
+                    "peso",
+                    "nombre",
+                    "sexo",
+                    "edad_anos",
+                    "edad_meses",
+                    "fecha_registro",
+                    "observaciones",
+                    "numero_turno",
+                    "nombres_tutor",
                 )
             )
             return JsonResponse({"registros": registros})

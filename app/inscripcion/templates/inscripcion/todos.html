@@ -2,69 +2,67 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
 {% load custom_filters %}
-{% block title %} Ver todos los inscritos {% endblock%}
+{% block title %}
+  Ver todos los inscritos
+{% endblock %}
 {% block content %}
-<h1>Registro de inscripciones para {{ campana.nombre }}</h1>
-{% with inscripciones.count as n_inscritos %}
-<strong> Total inscritos: </strong> {{ n_inscritos }} </br>
-{% endwith %}
-<a href="{% url 'inscripcion:create' campana.id %}">Crear una nueva inscripción</a>
-<div class="table-responsive-sm">
-
-    <table border="2" class="table  table-striped">
+  <h1>Registro de inscripciones para {{ campana.nombre }}</h1>
+  {% with n_inscritos=inscripciones.count %}
+    <p>
+      <strong>Total inscritos:</strong> {{ n_inscritos }}
+    </p>
+  {% endwith %}
+  <a href="{% url 'inscripcion:create' campana.id %}">Crear una nueva inscripción</a>
+  <div class="table-responsive-sm">
+    <table border="2" class="table table-striped">
+      <tr>
+        <th>Nº</th>
+        <th>Nombre Tutor</th>
+        <th>Barrio</th>
+        <th>Parroquia</th>
+        <th>Teléfono</th>
+        <th>Whatsapp</th>
+        <th>Horario</th>
+        <th>Inscrito por</th>
+        <th>Registrar</th>
+      </tr>
+      {% for inscripcion, cupos in inscripciones_cupos %}
         <tr>
-            <th>Nº</th>
-            <th>Nombre Tutor</th>
-            <th>Barrio</th>
-            <th>Parroquia</th>
-            <th>Teléfono</th>
-            <th>Whatsapp</th>
-            <th>Horario</th>
-            <th>Inscrito por </th>
-            <th>Registrar</th>
-        </tr>
-        {% for inscripcion, cupos in inscripciones_cupos %}
-        <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ inscripcion.nombres_tutor }}</td>
-            <td> {{ inscripcion.barrio_tutor }} </td>
-            <td> {{ inscripcion.get_parroquia_tutor_display }} </td>
-            <td> {{ inscripcion.numero_telefono_tutor | stringformat:"010d" }} </td>
-            {% if inscripcion.numero_telefono_tutor %}
+          <td>{{ forloop.counter }}</td>
+          <td>{{ inscripcion.nombres_tutor }}</td>
+          <td>{{ inscripcion.barrio_tutor }}</td>
+          <td>{{ inscripcion.get_parroquia_tutor_display }}</td>
+          <td>{{ inscripcion.numero_telefono_tutor|stringformat:'010d' }}</td>
+          {% if inscripcion.numero_telefono_tutor %}
             <td>
-                {% if inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
+              {% if inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
                 <p>
-                    <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank">
-                        Mensajear al {{ inscripcion.numero_telefono_tutor }}
-                    </a>
+                  <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank">Mensajear al {{ inscripcion.numero_telefono_tutor }}</a>
                 </p>
-                {% else %}
+              {% else %}
                 <p>No tiene Whatsapp</p>
-                {% endif %}
+              {% endif %}
             </td>
-            {% endif %}
+          {% endif %}
 
-            <td> {{ inscripcion.get_horario_display }} </td>
-            <td> {{ inscripcion.usuario.username }} </td>
+          <td>{{ inscripcion.get_horario_display }}</td>
+          <td>{{ inscripcion.usuario.username }}</td>
 
-            <td>
-                <ol>
-                    {% for n_cupo in cupos %}
-                    <li>
-                        {% if n_cupo > inscripcion.cupos_registrados %}
-                        <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}">
-                            Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}
-                        </a>
-                        {% else %}
-                            Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}
-                        {% endif %}
-                    </li>
-                    {% endfor %}
-                </ol>
-            </td>
+          <td>
+            <ol>
+              {% for n_cupo in cupos %}
+                <li>
+                  {% if n_cupo > inscripcion.cupos_registrados %}
+                    <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}">Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}</a>
+                  {% else %}
+                    Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ol>
+          </td>
         </tr>
-
-        {% endfor %}
+      {% endfor %}
     </table>
-</div>
+  </div>
 {% endblock %}

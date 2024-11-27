@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% load static %}
 {# Load the tag library #}
 {% load django_bootstrap5 %}
@@ -6,13 +7,12 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
-<!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="{% static " css/base.css" %}" rel="stylesheet">
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
   <title>{% block title %}{% endblock %}</title>
 </head>
 
@@ -21,7 +21,6 @@
   <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" height="100px" />
   {# Display django.contrib.messages as Bootstrap alerts #}
   {% bootstrap_messages %}
-  </br>
   <span class="user">
     {% if request.user.is_authenticated %}
     Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}"

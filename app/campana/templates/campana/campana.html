@@ -1,30 +1,49 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
-{% block title %} Todas las campañas {% endblock%}
+{% block title %}
+  Todas las campañas
+{% endblock %}
 
 {% block content %}
-<h1>{{ title }}</h1>
-<p>{{ content }}</p>
-<h1>Datos Campaña</h1>
-<p>
-    <strong> Nombre Campaña: </strong> {{ campana.nombre }} </br>
-    <strong> Parroquia: </strong> {{ campana.get_parroquia_display }} </br>
-    <strong> Barrio: </strong> {{ campana.barrio }} </br>
-    <strong> Fecha: </strong> {{ campana.fecha }} </br>
-    <strong> Nº animales: </strong> {{ campana.n_animales }} </br>
-    <strong> Estado: </strong> {{ campana.get_estado_display }} </br>
-    <strong> Número Registrados: </strong> {{ n_registrados }} </br>
+  <h1>{{ title }}</h1>
+  <p>{{ content }}</p>
+  <h1>Datos Campaña</h1>
+  <ul>
+    <li>
+      <strong>Nombre Campaña:</strong> {{ campana.nombre }}
+    </li>
+    <li>
+      <strong>Parroquia:</strong> {{ campana.get_parroquia_display }}
+    </li>
+    <li>
+      <strong>Barrio:</strong> {{ campana.barrio }}
+    </li>
+    <li>
+      <strong>Fecha:</strong> {{ campana.fecha }}
+    </li>
+    <li>
+      <strong>Nº animales:</strong> {{ campana.n_animales }}
+    </li>
+    <li>
+      <strong>Estado:</strong> {{ campana.get_estado_display }}
+    </li>
+    <li>
+      <strong>Número Registrados:</strong> {{ n_registrados }}
+    </li>
 
-    
-    Creado por: {{ campana.usuario }} </br>
+    <li>Creado por: {{ campana.usuario }}</li>
     {% if request.user.is_authenticated %}
-        {%if campana.estado == 'AC' %}
-            <a href="{% url "inscripcion:create" campana.id %}">Añadir una nueva inscripcion</a> </br>
-        {% endif %}
+      {% if campana.estado == 'AC' %}
+        <li>
+          <a href="{% url 'inscripcion:create' campana.id %}">Añadir una nueva inscripcion</a>
+        </li>
+      {% endif %}
     {% endif %}
-    <a href='{% url 'inscripcion:index' campana.id %}'>Ver todas las inscripciones</a> </br>
-    <a href='{% url 'registro:lista' campana.id %}'>Ver todas los registros</a>
-
-
-</p>
+    <li>
+      <a href="{% url 'inscripcion:index' campana.id %}">Ver todas las inscripciones</a>
+    </li>
+    <li>
+      <a href="{% url 'registro:lista' campana.id %}">Ver todas los registros</a>
+    </li>
+  </ul>
 {% endblock %}

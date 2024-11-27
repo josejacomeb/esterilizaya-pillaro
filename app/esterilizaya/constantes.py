@@ -20,7 +20,6 @@ N_MASCOTAS = [(i, str(i)) for i in range(25)]
 MAX_CUPOS = [(i, str(i)) for i in range(1, 4)]
 
 
-
 PARROQUIAS = [
     # Rurales
     ("BM", "Baquerizo Moreno"),
