@@ -1,4 +1,4 @@
-@import url(fonts.googleapis.com/css?family=Muli);
+@import url('//fonts.googleapis.com/css?family=Muli');
 
 body {
   margin: 0;
@@ -204,17 +204,14 @@ ul.messages li.error {
   color: #e9828e;
 }
 
-
 ul.messages li.info {
   background: #faffae;
   color: #696b4e;
 }
 
-
 ul.messages li.warning {
   background: #de9404;
 }
-
 
 ul.messages li a.close {
   margin: 0;

@@ -39,22 +39,12 @@
           </div>
         </div>
 
-        <div class="signature-area text-center">
-          <div class="row">
-            <div class="col-6">
-              <div class="signature-line"></div>Firma
-            </div>
-            <div class="col-6">
-              <div class="signature-line"></div>Sello
-            </div>
-          </div>
-        </div>
+        {% include 'registro/receta/firma.html' %}
       </div>
 
       <!-- Right side -->
       <div class="col-6 recipe-side">
         <img src="{% static 'images/animalzoo.png' %}" alt="Background Logo" class="background-logo" />
-
 
         <div class="content-wrapper">
           <div class="patient-info">
@@ -62,7 +52,6 @@
               <strong>Nombre:</strong> {{ registro.nombre }}
               <strong>#:</strong> {{ registro.numero_turno }}
               <strong>Peso:</strong> {{ registro.peso }} Kg
-
             </p>
             <p class="mb-1">
               <strong>Especie:</strong> {{ registro.get_especie_display }}
@@ -92,16 +81,7 @@
           </div>
         </div>
 
-        <div class="signature-area text-center">
-          <div class="row">
-            <div class="col-6">
-              <div class="signature-line"></div>Firma
-            </div>
-            <div class="col-6">
-              <div class="signature-line"></div>Sello
-            </div>
-          </div>
-        </div>
+        {% include 'registro/receta/firma.html' %}
       </div>
     </div>
   </div>

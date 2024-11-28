@@ -39,3 +39,5 @@ jobs:
           PYTHON_ISORT_CONFIG_FILE: pyproject.toml
           PYTHON_PYLINT_CONFIG_FILE: .pylintrc
           VALIDATE_HTML: false
+          VALIDATE_HTML_PRETTIER: false
+          VALIDATE_HTML_PRETTIER: false
