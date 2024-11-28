@@ -6,10 +6,10 @@ from esterilizaya.constantes import (
     EDADES_ANOS,
     EDADES_MESES,
     ESPECIE,
+    N_MASCOTAS,
     PARROQUIAS,
     RAZON_TENENCIA,
     SEXO,
-    N_MASCOTAS,
 )
 from inscripcion.models import Inscripcion
 

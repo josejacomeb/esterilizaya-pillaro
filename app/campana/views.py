@@ -1,17 +1,15 @@
 import logging
 
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.shortcuts import get_object_or_404, redirect, render
-
+from inscripcion.models import Inscripcion
 
 from .forms import CampanaForm
 from .models import Campana
-from inscripcion.models import Inscripcion
 
 logger = logging.getLogger(__name__)
-
-from django.contrib.auth.decorators import login_required
 
 
 @login_required(login_url="cuenta:login")

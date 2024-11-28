@@ -1,15 +1,16 @@
 ---
-services: 
-  web: 
-    build: app 
+services:
+  web:
+    build: app
     command: python manage.py runserver 0.0.0.0:8000
-    ports: 
-      - '8000:8000'
+    ports:
+      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
     healthcheck:
-      test: ["CMD-SHELL", "curl --fail http://localhost:8000/inscripcion || exit 1"]
+      test:
+        ["CMD-SHELL", "curl --fail http://localhost:8000/inscripcion || exit 1"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -27,9 +28,16 @@ services:
   db:
     image: mariadb:11
     restart: always
-    command: '--default-authentication-plugin=ed25519'
+    command: "--default-authentication-plugin=ed25519"
     healthcheck:
-      test: [ "CMD", "healthcheck.sh", "--su-mysql", "--connect", "--innodb_initialized"]
+      test:
+        [
+          "CMD",
+          "healthcheck.sh",
+          "--su-mysql",
+          "--connect",
+          "--innodb_initialized",
+        ]
       interval: 5s
       timeout: 3s
       retries: 2
@@ -43,9 +51,9 @@ services:
       - db_root_password
       - db_password
     ports:
-      - '${DB_PORT}:3306'
+      - "${DB_PORT}:3306"
     volumes:
-      - 'maria-db:/var/lib/mysql'
+      - "maria-db:/var/lib/mysql"
 
 secrets:
   db_root_password:

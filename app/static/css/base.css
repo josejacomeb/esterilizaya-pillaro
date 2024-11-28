@@ -1,4 +1,4 @@
-@import "url(//fonts.googleapis.com/css?family=Muli)";
+@import url(fonts.googleapis.com/css?family=Muli);
 
 body {
   margin: 0;
@@ -25,7 +25,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Muli", sans-serif;
+  font-family: Muli, sans-serif;
   font-weight: normal;
 }
 
@@ -53,7 +53,7 @@ ol {
 }
 
 #header .logo {
-  font-family: "Muli", sans-serif;
+  font-family: Muli, sans-serif;
   float: left;
   color: #f3f7cc;
   font-size: 20px;
@@ -70,6 +70,22 @@ ol {
 #header ul.menu li {
   float: left;
   padding: 4px 10px;
+}
+
+ul.messages li.success a {
+  color: #0ac33e;
+}
+
+ul.messages li.error a {
+  color: #e9828e;
+}
+
+ul.messages li.info a {
+  color: #1586de;
+}
+
+ul.messages li.warning a {
+  color: #f49000;
 }
 
 #header a {
@@ -148,14 +164,14 @@ a.button {
 }
 
 .errorlist {
-  color: #cc0033;
+  color: #c03;
   float: left;
   clear: both;
   padding-left: 10px;
 }
 
 .helptext {
-  margin: 0 0 20px 0;
+  margin: "0 0 20px 0";
   color: #aaa;
   clear: both;
   float: left;
@@ -183,35 +199,22 @@ ul.messages li.success {
   background: #81ce81;
 }
 
-ul.messages li.success a {
-  color: #0ac33e;
-}
-
 ul.messages li.error {
   background: #a30029;
   color: #e9828e;
 }
 
-ul.messages li.error a {
-  color: #e9828e;
-}
 
 ul.messages li.info {
   background: #faffae;
   color: #696b4e;
 }
 
-ul.messages li.info a {
-  color: #1586de;
-}
 
 ul.messages li.warning {
   background: #de9404;
 }
 
-ul.messages li.warning a {
-  color: #f49000;
-}
 
 ul.messages li a.close {
   margin: 0;
@@ -224,28 +227,6 @@ ul.messages li a.close {
 
 .login-form {
   float: left;
-}
-
-/* social-auth */
-.social {
-  float: right;
-}
-
-.social li {
-  list-style: none;
-  padding: 10px 20px;
-  margin: 0 0 10px 0;
-}
-
-.social li a {
-  width: 100%;
-  height: 100%;
-  display: block;
-  color: #fff;
-}
-
-.social li.google {
-  background: #de1710;
 }
 
 /* images */
@@ -288,65 +269,9 @@ a.follow {
   float: left;
   width: 220px;
   height: 300px;
-  margin: 0 10px 10px 10px;
+  margin: "0 10px 10px 10px";
   border-top: 8px solid #12c064;
   background: #eee;
-}
-
-#image-list img {
-  width: 220px;
-  height: 220px;
-}
-
-#image-list .info {
-  padding: 10px;
-}
-
-#image-list .info a {
-  color: #333;
-}
-
-.image-likes div {
-  float: left;
-  width: auto;
-  padding: 10px;
-  text-align: center;
-}
-
-.image-likes img {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-}
-
-/* users */
-#people-list img {
-  width: 180px;
-  height: 180px;
-  border-radius: 50%;
-  margin-bottom: 20px;
-}
-
-#people-list .user {
-  width: 180px;
-  float: left;
-  overflow: auto;
-  padding: 10px;
-}
-
-#people-list .info {
-  text-align: center;
-}
-
-img.user-detail {
-  border-radius: 50%;
-  float: left;
-}
-
-.profile-info {
-  float: left;
-  overflow: auto;
-  margin-right: 20px;
 }
 
 .image-container {

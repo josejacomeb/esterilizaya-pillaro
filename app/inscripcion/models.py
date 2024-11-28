@@ -1,8 +1,8 @@
 from campana.models import Campana
 from django.conf import settings
-from django.db import models
-from esterilizaya.constantes import ESPECIE, HORARIOS, PARROQUIAS, SEXO, MAX_CUPOS
 from django.core.validators import MaxValueValidator, MinValueValidator
+from django.db import models
+from esterilizaya.constantes import HORARIOS, MAX_CUPOS, PARROQUIAS
 
 
 class Inscripcion(models.Model):

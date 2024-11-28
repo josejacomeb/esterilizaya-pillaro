@@ -22,4 +22,4 @@ COPY ./ ./
 RUN chown -R esterilizaya:docker /home/esterilizaya/code
 HEALTHCHECK --interval=5m --timeout=3s \
 CMD curl -f http://localhost:8000/ || exit 1
-# USER esterilizaya TODO: Correr con un usario normal
+USER esterilizaya

@@ -78,7 +78,7 @@ def ver_certificados(request, campana_id):
 
 def ver_recetas(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
-    return render(request, "registro/hoja_recetas.html", {"registros": registros})
+    return render(request, "registro/recetas/hoja_recetas.html", {"registros": registros})
 
 
 class RegistradoListView(ListView):
