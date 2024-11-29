@@ -7,17 +7,29 @@ HORARIOS = [
     ("11", "11:00"),
 ]
 
-EDADES = [
-    ("CA", "Cachorro"),
-    ("AJ", "Adulto Jóven"),
-    ("AD", "Adulto"),
-    ("AM", "Adulto Mayor"),
-]
-
 EDADES_MESES = [(i, str(i)) for i in range(12)]
 EDADES_ANOS = [(i, str(i)) for i in range(20)]
 N_MASCOTAS = [(i, str(i)) for i in range(25)]
 MAX_CUPOS = [(i, str(i)) for i in range(1, 4)]
+
+# Según https://simple.wikipedia.org/wiki/Dog_coat
+# y https://www.catster.com/lifestyle/different-cat-colors/
+COLORES = [
+    ("AL", "Albaricoque"),
+    ("AM", "Amarillo"),
+    ("AZ", "Azul"),
+    ("BE", "Beige"),
+    ("BL", "Blanco"),
+    ("CF", "Café"),
+    ("CN", "Canela"),
+    ("CR", "Crema"),
+    ("DO", "Dorado"),
+    ("GR", "Gris"),
+    ("NA", "Naranja"),
+    ("NE", "Negro"),
+    ("RO", "Rojo"),
+    ("TR", "Tricolor"),
+]
 
 
 PARROQUIAS = [

@@ -10,6 +10,7 @@ from esterilizaya.constantes import (
     PARROQUIAS,
     RAZON_TENENCIA,
     SEXO,
+    COLORES,
 )
 from inscripcion.models import Inscripcion
 
@@ -28,8 +29,8 @@ class Registro(models.Model):
     )
     # Datos generales
     nombre = models.CharField(max_length=40, help_text="Nombre mascota")
-    color_principal = models.CharField(max_length=30, help_text="Color principal")
-    color_secundario = models.CharField(max_length=30, help_text="Color secundario", blank=True)
+    color_principal = models.CharField(max_length=30, help_text="Color principal", choices=COLORES)
+    color_secundario = models.CharField(max_length=30, help_text="Color secundario", blank=True, choices=COLORES)
     observaciones = models.CharField(max_length=200, blank=True)
     # Datos específicos
     especie = models.CharField(choices=ESPECIE, max_length=1)
