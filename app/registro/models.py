@@ -3,6 +3,7 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from esterilizaya.constantes import (
     AFIRMATIVO_NEGATIVO,
+    COLORES,
     EDADES_ANOS,
     EDADES_MESES,
     ESPECIE,
@@ -10,7 +11,6 @@ from esterilizaya.constantes import (
     PARROQUIAS,
     RAZON_TENENCIA,
     SEXO,
-    COLORES,
 )
 from inscripcion.models import Inscripcion
 
