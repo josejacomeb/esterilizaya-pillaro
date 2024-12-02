@@ -2,3 +2,4 @@ Django==5.*
 mysqlclient==2.*
 weasyprint==63.*
 django-bootstrap5==24.*
+Pillow==10.*

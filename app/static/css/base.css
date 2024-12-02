@@ -290,3 +290,8 @@ a.follow {
   font-style: italic;
   color: #ccc;
 }
+
+.imagen_mascotas {
+  max-height: 128px;
+  width: auto;
+}

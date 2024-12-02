@@ -183,3 +183,7 @@ LOGGING = {
 LOGIN_REDIRECT_URL = "campana:index"
 LOGIN_URL = "campana:login"
 LOGOUT_URL = "campana:logout"
+
+# Media
+MEDIA_URL = "media/"
+MEDIA_ROOT = BASE_DIR / "media"

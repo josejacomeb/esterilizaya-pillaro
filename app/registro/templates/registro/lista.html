@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
+{% load static %}
 {% load django_bootstrap5 %}
 {% block title %}
   Ver todos los registrados
 {% endblock %}
+
 
 {% block content %}
   <h1>Nuevo Registro</h1>
@@ -19,8 +21,9 @@
         <tr>
           <th>Nº</th>
           <th>Número Turno</th>
-          <th>Nombre Tutor</th>
+          <th>Foto</th>
           <th>Nombre Mascota</th>
+          <th>Nombre Tutor</th>
           <th>Especie</th>
           <th>Género</th>
           <th>Ver Ficha</th>
@@ -30,8 +33,20 @@
           <tr>
             <td>{{ registro.id }}</td>
             <td>{{ registro.numero_turno }}</td>
-            <td>{{ registro.nombres_tutor }}</td>
+            <td>
+              {% if registro.foto %}
+                <img src="{{ registro.foto.url }}" alt="Foto {{ registro.nombre }}" class="imagen_mascotas" />
+              {% else %}
+                {% if registro.especie == "🐈" %}
+                  <img src="{% static 'images/mascotas/gato.png' %}" alt="Foto {{ registro.nombre }}" class="imagen_mascotas" />
+                {% else %}
+                  <img src="{% static 'images/mascotas/perro.png' %}" alt="Foto {{ registro.nombre }}" class="imagen_mascotas" />
+                {% endif %}
+              {% endif %}
+            </td>
+
             <td>{{ registro.nombre }}</td>
+            <td>{{ registro.nombres_tutor }}</td>
             <td>{{ registro.especie }}</td>
             <td>{{ registro.sexo }}</td>
             <td>
