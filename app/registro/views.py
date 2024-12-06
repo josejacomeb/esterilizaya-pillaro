@@ -101,6 +101,7 @@ class RegistradoListView(ListView):
         if request.headers.get("x-requested-with") == "XMLHttpRequest":  # Check for Ajax requests
             registros = list(
                 Registro.objects.filter(inscripcion__campana=campana_id).values(
+                    "foto",
                     "especie",
                     "peso",
                     "nombre",
@@ -113,5 +114,6 @@ class RegistradoListView(ListView):
                     "nombres_tutor",
                 )
             )
+
             return JsonResponse({"registros": registros})
         return super().get(request, *args, **kwargs)

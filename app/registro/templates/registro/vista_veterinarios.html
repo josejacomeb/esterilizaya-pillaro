@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -13,7 +13,10 @@
       .male-row {
         background-color: lightblue !important;
       }
-      
+      .imagen_mascotas {
+        max-height: 128px;
+        width: auto;
+      }
       /* Ensure table fits in A4 landscape */
       @media print {
         @page {
@@ -72,6 +75,7 @@
               <th>No.</th>
               <th>Fecha</th>
               <th>Origen</th>
+              <th>Foto</th>
               <th>Nombre Tutor</th>
               <th>Especie</th>
               <th>Peso(Kg)</th>
@@ -92,43 +96,56 @@
       </div>
     </div>
     <script>
+      function getDefaultPhoto(especie) {
+        // Map sex to appropriate default photo
+        const defaultPhotos = {
+          '🐈': '/static/images/mascotas/gato.png',
+          '🐕': '/static/images/mascotas/perro.png'
+        }
+        // Use sex-specific photo, or fallback to default
+        return defaultPhotos[especie.toLowerCase()]
+      }
       function fetchPets() {
         fetch(window.location.href, {
           headers: { 'x-requested-with': 'XMLHttpRequest' }
         })
           .then((response) => response.json())
           .then((data) => {
-            console.log(data)
             const tableBody = document.getElementById('pets-table-body')
             tableBody.innerHTML = '' // Clear existing rows
             data.registros.forEach((pet) => {
-              const row = document.createElement('tr')
+              const row = tableBody.insertRow()
               row.className = pet.sexo === '♀️' ? 'female-row' : 'male-row'
               const date = new Date(pet.fecha_registro)
-      
               const formattedDate = [
                 String(date.getDate()).padStart(2, '0'), // Day with leading zero
                 String(date.getMonth() + 1).padStart(2, '0'), // Month with leading zero
                 date.getFullYear() // Full year
               ].join('/')
-      
-              row.innerHTML = `
-                                          <td>${pet.numero_turno}</td>
-                                          <td>${formattedDate}</td>
-                                          <td>C</td>
-                                          <td>${pet.nombres_tutor}</td>
-                                          <td>${pet.especie === '🐈' ? 'Felino' : 'Canino'}</td>
-                                          <td>${pet.peso}</td>
-                                          <td>${pet.nombre}</td>
-                                          <td>${pet.sexo === '♀️' ? 'Hembra' : 'Macho'}</td>
-                                          <td>${pet.edad_anos}a ${pet.edad_meses}m</td>
-                                          <td>              </td>
-                                          <td>              </td>
-                                          <td>              </td>
-                                          <td>              </td>
-                                          <td>${pet.observaciones}</td>
-                                      `
-              tableBody.appendChild(row)
+              row.insertCell(0).textContent = pet.numero_turno
+              row.insertCell(1).textContent = formattedDate
+              row.insertCell(2).textContent = 'C'
+              const celdaFoto = row.insertCell(3)
+              const img = document.createElement('img')
+              if (pet.foto === '') {
+                img.src = getDefaultPhoto(pet.especie)
+              } else {
+                img.src = `/../../media/${pet.foto}`
+              }
+              img.alt = `Foto de ${pet.nombre}`
+              img.className = 'imagen_mascotas'
+              celdaFoto.appendChild(img)
+              row.insertCell(4).textContent = pet.nombres_tutor
+              row.insertCell(5).textContent = `${pet.especie === '🐈' ? 'Felino' : 'Canino'}`
+              row.insertCell(6).textContent = pet.peso
+              row.insertCell(7).textContent = pet.nombre
+              row.insertCell(8).textContent = pet.sexo
+              row.insertCell(9).textContent = `${pet.edad_anos}a ${pet.edad_meses}m`
+              row.insertCell(10).textContent = ''
+              row.insertCell(11).textContent = ''
+              row.insertCell(12).textContent = ''
+              row.insertCell(13).textContent = ''
+              row.insertCell(14).textContent = pet.observaciones
             })
           })
       }
