@@ -24,6 +24,8 @@ services:
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_HOST=${DB_HOST}
+    volumes:
+      - "media-volume:/home/esterilizaya/code/media"
 
   db:
     image: mariadb:11
@@ -66,3 +68,4 @@ secrets:
 volumes:
   maria-db:
     driver: local
+  media-volume:

@@ -18,8 +18,10 @@ EOF
 
 COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
 COPY ./ ./
+# Crear los directorios iniciales
+RUN mkdir -p /home/esterilizaya/code/media
 # Cambiar los permisos de los archivos copiados
 RUN chown -R esterilizaya:docker /home/esterilizaya/code
 HEALTHCHECK --interval=5m --timeout=3s \
 CMD curl -f http://localhost:8000/ || exit 1
-USER esterilizaya
+#USER esterilizaya TODO: Arreglar los permisos
