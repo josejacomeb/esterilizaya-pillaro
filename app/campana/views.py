@@ -31,7 +31,7 @@ def index(request):
     return render(request, "campana/registro.html", {"form": forma})
 
 
-def mostrar(request, year, parroquia, barrio):
-    campana = get_object_or_404(Campana, creada__year=year, parroquia=parroquia, barrio=barrio)
+def mostrar(request, anio, parroquia, mes, dia):
+    campana = get_object_or_404(Campana, creada__year=anio, parroquia=parroquia, creada__month=mes, creada__day=dia)
     n_registrados = Inscripcion.objects.filter(campana_id=campana.id).count()
     return render(request, "campana/campana.html", {"campana": campana, "n_registrados": n_registrados})

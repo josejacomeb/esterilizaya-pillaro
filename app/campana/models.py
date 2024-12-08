@@ -48,4 +48,4 @@ class Campana(models.Model):
         return self.nombre
 
     def get_absolute_url(self):
-        return reverse("campana:mostrar", args=[self.creada.year, self.parroquia, self.barrio])
+        return reverse("campana:mostrar", args=[self.creada.year, self.parroquia, self.creada.month, self.creada.day])

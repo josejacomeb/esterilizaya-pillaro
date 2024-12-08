@@ -35,10 +35,7 @@ class Registro(models.Model):
     # Datos específicos
     especie = models.CharField(choices=ESPECIE, max_length=1)
     sexo = models.CharField(choices=SEXO, max_length=2)
-    foto = models.ImageField(
-        upload_to="mascotas/%y/%m/%d",
-        blank=True
-    )
+    foto = models.ImageField(upload_to="mascotas/%y/%m/%d", blank=True)
     edad_anos = models.PositiveSmallIntegerField(choices=EDADES_ANOS, default=0)
     edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6)
     raza_mascota = models.CharField(max_length=250)
