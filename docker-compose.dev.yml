@@ -5,10 +5,3 @@ services:
       - ./app:/home/esterilizaya/code
     environment:
       - DEBUG=True
-  adminer:
-    image: adminer
-    restart: always
-    ports:
-      - 8081:8080
-    depends_on:
-      - db
