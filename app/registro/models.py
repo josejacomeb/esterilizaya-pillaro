@@ -18,6 +18,9 @@ from inscripcion.models import Inscripcion
 class Registro(models.Model):
     class Meta:
         ordering = ["numero_turno"]
+        indexes = [
+            models.Index(fields=['-fecha_registro']),
+        ]
 
     inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
     # Encabezado

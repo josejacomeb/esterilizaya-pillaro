@@ -110,9 +110,9 @@
           <strong>Datos del Animal de Compañía</strong>
         </p>
         <p>
-          <i>Nombre:</i> {{ registro.nombre }}, <i>Color Primario:</i> {{ registro.color_principal }}
+          <i>Nombre:</i> {{ registro.nombre }}, <i>Color Primario:</i> {{ registro.get_color_principal_display }}
           {% if registro.color_secundario %}
-            | <i>Secundario:</i> {{ registro.color_secundario }}
+            | <i>Secundario:</i> {{ registro.get_color_secundario_display }}
           {% endif %}
         </p>
         <p>
