@@ -1,20 +1,26 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{% block title %} Ingresar un nuevo registro {% endblock%}
+{% block title %}
+  Ingresar un nuevo registro
+{% endblock %}
 
 {% block content %}
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li>{% if message.tags %} class="{{ message.tags }}"{% endif %}{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
-<form method="post">
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li>
+          {% if message.tags %}
+            class="{{ message.tags }}"
+          {% endif %}{{ message }}
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+  <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {% bootstrap_form form %}
     <button type="submit">Ingresar registro</button>
-</form>
-<a href="{{request.META.HTTP_REFERER}}">Volver</a>
+  </form>
+  <a href="{{ request.META.HTTP_REFERER }}">Volver</a>
 {% endblock %}
