@@ -67,10 +67,9 @@
   <body>
     <div class="header">
       <div class="no-print mb-3">
-        <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}"> Registrar otro Tutor </a>
+        <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}">Registrar otro Tutor</a>
         <button onclick="window.print()" class="btn btn-primary">Imprimir Ficha</button>
-        <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}"> Ver todos los registros </a>
-
+        <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}">Ver todos los registros</a>
       </div>
       <table class="box" style="border: 2px inset black; border-collapse: collapse;">
         <tr>
@@ -146,7 +145,7 @@
           <strong>Datos del Tutor</strong>
         </p>
         <p>
-          <i>Nombre Tutor:</i>{{ registro.nombres_tutor }}, <i>Medio Contacto:</i>{{ registro.numero_telefono_tutor|stringformat:'010d' }},
+          <i>Nombre Tutor:</i> {{ registro.nombres_tutor }}, <i>Medio Contacto:</i> {{ registro.numero_telefono_tutor|stringformat:'010d' }},
           <i>CI:</i> {{ registro.cedula_identidad|stringformat:'010d' }}
         </p>
         <p>
