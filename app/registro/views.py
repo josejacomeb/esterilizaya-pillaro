@@ -9,6 +9,7 @@ from django.shortcuts import get_object_or_404, redirect, render
 from django.views.generic import ListView
 from inscripcion.models import Inscripcion
 from registro.models import Registro
+from django.utils import timezone
 
 from .forms import RegistroForm
 
@@ -81,6 +82,27 @@ def ver_recetas(request, campana_id):
     return render(request, "registro/recetas/hoja_recetas.html", {"registros": registros})
 
 
+def establecer_hora_fecha_premedicacion(request, registro_id):
+    registro = Registro.objects.get(id=registro_id)
+    registro.fecha_sedacion = timezone.now()
+    registro.save()
+    return redirect("vista_veterinarios")
+
+
+def establecer_hora_fecha_sedacion(request, registro_id):
+    registro = Registro.objects.get(id=registro_id)
+    registro.fecha_sedacion = timezone.now()
+    registro.save()
+    return redirect("vista_veterinarios")
+
+
+def establecer_hora_fecha_sedacion(request, registro_id):
+    registro = Registro.objects.get(id=registro_id)
+    registro.fecha_sedacion = timezone.now()
+    registro.save()
+    return redirect("vista_veterinarios")
+
+
 class RegistradoListView(ListView):
     model = Registro
     template_name = "registro/vista_veterinarios.html"
@@ -101,6 +123,7 @@ class RegistradoListView(ListView):
         if request.headers.get("x-requested-with") == "XMLHttpRequest":  # Check for Ajax requests
             registros = list(
                 Registro.objects.filter(inscripcion__campana=campana_id).values(
+                    "id",
                     "foto",
                     "especie",
                     "peso",
@@ -108,7 +131,10 @@ class RegistradoListView(ListView):
                     "sexo",
                     "edad_anos",
                     "edad_meses",
-                    "fecha_registro",
+                    "fecha_hora_registro",
+                    "fecha_hora_premed",
+                    "fecha_hora_sedacion",
+                    "fecha_hora_entrega",
                     "observaciones",
                     "numero_turno",
                     "nombres_tutor",

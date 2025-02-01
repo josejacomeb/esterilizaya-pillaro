@@ -83,6 +83,7 @@
               <th>Sexo</th>
               <th>Edad</th>
               <th>Estado fisiológico</th>
+              <th>Registro</th>
               <th>Premed</th>
               <th>Anes</th>
               <th>Entregado</th>
@@ -105,6 +106,13 @@
         // Use sex-specific photo, or fallback to default
         return defaultPhotos[especie.toLowerCase()]
       }
+      function obtener_fecha_hora(fecha_hora){
+        const date = new Date(fecha_hora)
+        return [
+          String(date.getHours()).padStart(2, '0'), // Day with leading zero
+          String(date.getMinutes() + 1).padStart(2, '0') // Month with leading zero
+        ].join(':')
+      }
       function fetchPets() {
         fetch(window.location.href, {
           headers: { 'x-requested-with': 'XMLHttpRequest' }
@@ -116,12 +124,16 @@
             data.registros.forEach((pet) => {
               const row = tableBody.insertRow()
               row.className = pet.sexo === '♀️' ? 'female-row' : 'male-row'
-              const date = new Date(pet.fecha_registro)
+              const date = new Date(pet.fecha_hora_registro)
               const formattedDate = [
                 String(date.getDate()).padStart(2, '0'), // Day with leading zero
                 String(date.getMonth() + 1).padStart(2, '0'), // Month with leading zero
                 date.getFullYear() // Full year
               ].join('/')
+              const hora_registro = [
+                String(date.getHours()).padStart(2, '0'), // Day with leading zero
+                String(date.getMinutes() + 1).padStart(2, '0') // Month with leading zero
+              ].join(':')
               row.insertCell(0).textContent = pet.numero_turno
               row.insertCell(1).textContent = formattedDate
               row.insertCell(2).textContent = 'C'
@@ -142,10 +154,18 @@
               row.insertCell(8).textContent = pet.sexo
               row.insertCell(9).textContent = `${pet.edad_anos}a ${pet.edad_meses}m`
               row.insertCell(10).textContent = ''
-              row.insertCell(11).textContent = ''
-              row.insertCell(12).textContent = ''
+              row.insertCell(11).textContent = obtener_fecha_hora(pet.fecha_hora_registro);
+              const celda_premed = row.insertCell(12)
+              if(pet.fecha_hora_premed === null){
+                celda_premed.textContent = "";
+              }
+              else{
+                console.log(pet);
+                celda_premed.textContent = obtener_fecha_hora(pet.fecha_hora_premed)
+              }
               row.insertCell(13).textContent = ''
-              row.insertCell(14).textContent = pet.observaciones
+              row.insertCell(14).textContent = ''
+              row.insertCell(15).textContent = pet.observaciones
             })
           })
       }

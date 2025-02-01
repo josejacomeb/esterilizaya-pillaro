@@ -62,7 +62,11 @@ class Registro(models.Model):
     )
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="registro")
-    fecha_registro = models.DateTimeField(auto_now_add=True)
-
+    # Fechas importantes
+    fecha_hora_registro = models.DateTimeField(auto_now_add=True)
+    fecha_hora_premed = models.DateTimeField(null=True)
+    fecha_hora_sedacion = models.DateTimeField(null=True)
+    fecha_hora_entrega = models.DateTimeField(null=True)
+    
     def __str__(self) -> str:
         return f"{self.nombre} de {self.nombres_tutor}"
