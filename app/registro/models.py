@@ -19,7 +19,7 @@ class Registro(models.Model):
     class Meta:
         ordering = ["numero_turno"]
         indexes = [
-            models.Index(fields=['-fecha_registro']),
+            models.Index(fields=["-fecha_registro"]),
         ]
 
     inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
@@ -43,6 +43,7 @@ class Registro(models.Model):
     edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6)
     raza_mascota = models.CharField(max_length=250)
     carnet = models.CharField(choices=AFIRMATIVO_NEGATIVO, max_length=1, default="N")
+    vulnerable = models.BooleanField(default=False)
     # Datos tutor
     nombres_tutor = models.CharField(max_length=250)
     numero_telefono_tutor = models.PositiveIntegerField(
