@@ -39,6 +39,7 @@ PARROQUIAS = [
     ("ME", "Marcos Espinel"),
     ("PU", "Presidente Urbina"),
     ("SA", "San Andrés"),
+    ("SJP", "San José de Poaló"),
     ("SM", "San Miguelito"),
     # Urbanas
     ("LM", "La Matriz"),
