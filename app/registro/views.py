@@ -42,7 +42,7 @@ def registrar(request, campana_id, inscripcion_id):
         messages.error(request, f"Lo siento, ya no hay más cupos disponibles para {inscripcion.nombres_tutor}")
         return redirect("inscripcion:index", campana_id=inscripcion.campana.id)
     if request.method == "POST":
-        forma = RegistroForm(request.POST)
+        forma = RegistroForm(request.POST, request.FILES, inscripcion_campana_id=campana_id)
         if forma.is_valid():
             registro_forma = forma.save(commit=False)
             usuario = User.objects.get(username=request.user)
@@ -56,7 +56,7 @@ def registrar(request, campana_id, inscripcion_id):
         else:
             forma.clean()
     else:
-        forma = RegistroForm(instance=inscripcion)
+        forma = RegistroForm(instance=inscripcion, inscripcion_campana_id=campana_id)
 
     return render(request, "registro/nuevo.html", {"form": forma})
 

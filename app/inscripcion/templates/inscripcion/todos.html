@@ -7,11 +7,9 @@
 {% endblock %}
 {% block content %}
   <h1>Registro de inscripciones para {{ campana.nombre }}</h1>
-  {% with n_inscritos=inscripciones.count %}
-    <p>
-      <strong>Total inscritos:</strong> {{ n_inscritos }}
-    </p>
-  {% endwith %}
+  <p>
+    <strong>Total inscritos:</strong> {{ total_inscritos }}
+  </p>
   <a href="{% url 'inscripcion:create' campana.id %}">Crear una nueva inscripción</a>
   <div class="table-responsive-sm">
     <table border="2" class="table table-striped">

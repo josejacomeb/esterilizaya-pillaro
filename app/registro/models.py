@@ -1,3 +1,7 @@
+import uuid
+from datetime import datetime
+from pathlib import Path
+
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
@@ -15,9 +19,24 @@ from esterilizaya.constantes import (
 from inscripcion.models import Inscripcion
 
 
+def obtener_url_unico(instance, filename):
+    current_date = datetime.now()
+    year_folder = current_date.strftime("%y")
+    month_folder = current_date.strftime("%m")
+    day_folder = current_date.strftime("%d")
+
+    # Crear la ruta en 'mascotas/%y/%m/%d/'
+    extension = filename.split(".")[-1]
+    unique_filename = f"{uuid.uuid4()}.{extension}"
+    return Path("mascotas") / year_folder / month_folder / day_folder / unique_filename
+
+
 class Registro(models.Model):
     class Meta:
         ordering = ["numero_turno"]
+        indexes = [
+            models.Index(fields=["-fecha_registro"]),
+        ]
 
     inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
     # Encabezado
@@ -35,14 +54,12 @@ class Registro(models.Model):
     # Datos específicos
     especie = models.CharField(choices=ESPECIE, max_length=1)
     sexo = models.CharField(choices=SEXO, max_length=2)
-    foto = models.ImageField(
-        upload_to="mascotas/%y/%m/%d",
-        blank=True
-    )
+    foto = models.ImageField(upload_to=obtener_url_unico, blank=True)
     edad_anos = models.PositiveSmallIntegerField(choices=EDADES_ANOS, default=0)
     edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6)
     raza_mascota = models.CharField(max_length=250)
     carnet = models.CharField(choices=AFIRMATIVO_NEGATIVO, max_length=1, default="N")
+    vulnerable = models.BooleanField(default=False)
     # Datos tutor
     nombres_tutor = models.CharField(max_length=250)
     numero_telefono_tutor = models.PositiveIntegerField(

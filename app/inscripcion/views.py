@@ -16,16 +16,23 @@ def index(request, campana_id):
     inscripciones = Inscripcion.objects.filter(campana_id=campana_id)
     campana = inscripciones[0].campana
     max_cupos = [list(range(1, inscripcion.cupos_totales + 1)) for inscripcion in inscripciones]
+    total_inscritos = 0
+    for inscripcion in inscripciones:
+        total_inscritos += inscripcion.cupos_totales
     inscripciones_cupos = zip(inscripciones, max_cupos)
-    return render(request, "inscripcion/todos.html", {"inscripciones_cupos": inscripciones_cupos, "campana": campana})
+    return render(
+        request,
+        "inscripcion/todos.html",
+        {"inscripciones_cupos": inscripciones_cupos, "campana": campana, "total_inscritos": total_inscritos},
+    )
 
 
 @login_required(login_url="cuenta:login")
 def crear(request, campana_id):
+    campana = get_object_or_404(Campana, id=campana_id, estado=Campana.Estado.ACTIVA)
     if request.method == "POST":
         forma = InscripcionForm(request.POST)
         if forma.is_valid():
-            campana = get_object_or_404(Campana, id=campana_id, estado=Campana.Estado.ACTIVA)
             usuario = User.objects.get(username=request.user)
             nueva_inscripcion = forma.save(commit=False)
 
