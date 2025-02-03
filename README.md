@@ -54,3 +54,36 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 ### Guardar datos
 
 Para exportar los datos de las esterilizaciones, por favor use: `python manage.py  dumpdata --exclude auth.permission > Xda_campana.json`
+
+### Realizar respaldo de los contenedores
+
+Se puede hacer el respaldo de los contenedores a través de estos comandos:
+
+### Respaldo
+
+1. Reemplaza el campo `<rootpassword>` con tu contraseña de usuario `root`
+    `docker exec -i esterilizaya-pillaro-db-1 mariadb-dump -u root -p<rootpassword> --all-databases > backup.sql`
+2. Respalda el volumen que contiene la base de datos con el siguiente comando
+    `docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar czf /backup/mariadb_volume_backup.tar.gz -C /data .`
+3. Resplda el voluem que contiene las imágenes a través del comando.
+    `docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar czf /backup/django_media_backup.tar.gz -C /data .`
+
+#### Restaurar
+
+1. Para los contenedores y montalos nuevamente, si es necesario iniciar de cero, bórralos.
+
+    ```bash
+    docker compose down
+    docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar xzf /backup/mariadb_volume_backup.tar.gz -C /data
+    docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar xzf /backup/django_media_backup.tar.gz -C /data
+    ```
+
+2. Crea de nuevo el contenedor  de la base de datos e inicializa nuevamente la base de datos.
+
+    ```bash
+    docker compose up -d db
+    cat backup.sql | docker exec -i esterilizaya-pillaro-db-1 mariadb -u root -p<rootpassword>
+    ```
+
+3. Inicializa normalmente los contenedores.
+`docker-compose up -d`
