@@ -14,8 +14,9 @@
       }
       
       @media print {
+        html,
         body {
-          margin: 0;
+          margin: 10mm;
           padding: 0;
           width: 210mm;
           height: 297mm;
@@ -26,9 +27,8 @@
         }
       
         .container {
-          width: auto;
-          max-width: 100%;
-          padding: 0;
+          padding: 0 !important;
+          margin: 0 !important;
         }
       
         .form-table th,
@@ -41,9 +41,8 @@
         font-family: Arial, sans-serif;
         width: 210mm;
         min-height: 297mm;
-        margin: auto;
-        padding: 5mm;
-        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
       }
       
       .form-table th,
@@ -161,7 +160,7 @@
       <p>
         <strong>Por todo lo antes señalado, acepto mi responsabilidad firmando este documento</strong>
       </p>
-      <div class="d-flex justify-content-between signature-box mt-3 px-4">
+      <div class="d-flex justify-content-between signature-box px-4">
         <div>
           <p>________________________</p>
           <p>Nombre: {{ registro.nombres_tutor }}</p>
