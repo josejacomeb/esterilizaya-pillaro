@@ -1,44 +1,46 @@
 <!DOCTYPE html>
 {% load static %}
-{# Load the tag library #}
 {% load django_bootstrap5 %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
 <html lang="es">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link href="{% static 'css/base.css' %}" rel="stylesheet">
   <title>{% block title %}{% endblock %}</title>
+  {% bootstrap_css %}
+  {% bootstrap_javascript %}
+  <link href="{% static 'css/base.css' %}" rel="stylesheet">
 </head>
 
-<body>
-  <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" height="100px" />
-  <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" height="100px" />
-  {# Display django.contrib.messages as Bootstrap alerts #}
+<body class="container mt-4">
+  <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+    <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" class="img-fluid" style="height: 80px;" />
+    <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" class="img-fluid" style="height: 80px;" />
+  </div>
+
   {% bootstrap_messages %}
-  <span class="user">
-    {% if request.user.is_authenticated %}
-    Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}"
-      method="post">
-      <button type="submit">Salir</button>
-      {% csrf_token %}
-    </form>
-    {% else %}
-    <a href="{% url 'cuenta:login' %}">Acceder</a>
-    {% endif %}
-  </span>
+
+  <div class="mb-3">
+    <span class="user">
+      {% if request.user.is_authenticated %}
+        Hola {{ request.user.first_name|default:request.user.username }},
+        <form action="{% url 'cuenta:logout' %}" method="post" class="d-inline">
+          {% csrf_token %}
+          <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
+        </form>
+      {% else %}
+        <a href="{% url 'cuenta:login' %}" class="btn btn-sm btn-outline-primary">Acceder</a>
+      {% endif %}
+    </span>
+  </div>
+
   <div id="content">
     {% block content %}
     {% endblock %}
   </div>
-  <p>
-    <a href="{% url 'inicio:index' %}">Volver a la página principal</a>
+
+  <p class="mt-4">
+    <a href="{% url 'inicio:index' %}" class="btn btn-secondary btn-sm">Volver a la página principal</a>
   </p>
 </body>
-
 </html>

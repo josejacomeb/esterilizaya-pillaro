@@ -6,10 +6,15 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Registrar nueva inscripción</h1>
-  <form method="post">
-    {% csrf_token %}
-    {% bootstrap_form form %}
-    <button type="submit">Subir</button>
-  </form>
+  <div class="container mt-4">
+    <h1 class="h4 mb-4">Registrar nueva inscripción</h1>
+
+    <form method="post" class="needs-validation" novalidate>
+      {% csrf_token %}
+      <div class="mb-3">
+        {% bootstrap_form form layout="vertical" %}
+      </div>
+      <button type="submit" class="btn btn-primary">Subir</button>
+    </form>
+  </div>
 {% endblock %}
