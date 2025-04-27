@@ -46,7 +46,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
     ```
 
-3. Descargue los contenedores con el siguiente commando: `docker compose build`.
+3. Descargue los contenedores con el siguiente comando: `docker compose build`.
    Por favor ejecute las migraciones de la base de datos a través del siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.migrate.yml up`.
 4. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
 5. Inicie el sistema con `docker compose up -d --build`.
@@ -55,22 +55,24 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
 Para exportar los datos de las esterilizaciones, por favor use: `python manage.py  dumpdata --exclude auth.permission > Xda_campana.json`
 
-### Realizar respaldo de los contenedores
+### Respaldo de datos y contenedores
 
 Se puede hacer el respaldo de los contenedores a través de estos comandos:
 
-### Respaldo
+#### Respaldo
 
 1. Reemplaza el campo `<rootpassword>` con tu contraseña de usuario `root`
     `docker exec -i esterilizaya-pillaro-db-1 mariadb-dump -u root -p<rootpassword> --all-databases > backup.sql`
 2. Respalda el volumen que contiene la base de datos con el siguiente comando
     `docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar czf /backup/mariadb_volume_backup.tar.gz -C /data .`
-3. Resplda el voluem que contiene las imágenes a través del comando.
+3. Respalda el volumen que contiene las imágenes a través del comando.
     `docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar czf /backup/django_media_backup.tar.gz -C /data .`
 
-#### Restaurar
+##### Restaurar
 
-1. Para los contenedores y montalos nuevamente, si es necesario iniciar de cero, bórralos.
+1. Copia los contenedores generados anteriormente a la ruta donde está el archivo `docker-compose.yml`
+
+2. Para los contenedores y móntalos nuevamente, si es necesario iniciar de cero, bórralos.
 
     ```bash
     docker compose down
@@ -78,12 +80,14 @@ Se puede hacer el respaldo de los contenedores a través de estos comandos:
     docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar xzf /backup/django_media_backup.tar.gz -C /data
     ```
 
-2. Crea de nuevo el contenedor  de la base de datos e inicializa nuevamente la base de datos.
+3. Crea de nuevo el contenedor de la base de datos e inicializa nuevamente el mismo con:
 
     ```bash
     docker compose up -d db
     cat backup.sql | docker exec -i esterilizaya-pillaro-db-1 mariadb -u root -p<rootpassword>
     ```
 
-3. Inicializa normalmente los contenedores.
+4. Inicializa normalmente los contenedores.
 `docker-compose up -d`
+
+_Nota_: Puede salir un mensaje de alerta que el volumen no ha sido creador por docker-compose, al final seguirá funcionando el programa.

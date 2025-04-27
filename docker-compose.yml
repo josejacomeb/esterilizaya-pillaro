@@ -68,6 +68,5 @@ secrets:
 volumes:
   maria-db:
     driver: local
-    external: true
   media-volume:
-    external: true
+    driver: local
