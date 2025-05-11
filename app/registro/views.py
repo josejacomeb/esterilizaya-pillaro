@@ -105,6 +105,7 @@ class RegistradoListView(ListView):
                     "especie",
                     "peso",
                     "nombre",
+                    "vulnerable",
                     "sexo",
                     "edad_anos",
                     "edad_meses",

@@ -80,6 +80,7 @@
               <th>Especie</th>
               <th>Peso(Kg)</th>
               <th>ID</th>
+              <th>Vulnerable</th>
               <th>Sexo</th>
               <th>Edad</th>
               <th>Estado fisiológico</th>
@@ -139,13 +140,14 @@
               row.insertCell(5).textContent = `${pet.especie === '🐈' ? 'Felino' : 'Canino'}`
               row.insertCell(6).textContent = pet.peso
               row.insertCell(7).textContent = pet.nombre
-              row.insertCell(8).textContent = pet.sexo
-              row.insertCell(9).textContent = `${pet.edad_anos}a ${pet.edad_meses}m`
-              row.insertCell(10).textContent = ''
+              row.insertCell(8).textContent = `${pet.vulnerable === true ? '✅' : ''}`
+              row.insertCell(9).textContent = pet.sexo
+              row.insertCell(10).textContent = `${pet.edad_anos}a ${pet.edad_meses}m`
               row.insertCell(11).textContent = ''
               row.insertCell(12).textContent = ''
               row.insertCell(13).textContent = ''
-              row.insertCell(14).textContent = pet.observaciones
+              row.insertCell(14).textContent = ''
+              row.insertCell(15).textContent = pet.observaciones
             })
           })
       }
