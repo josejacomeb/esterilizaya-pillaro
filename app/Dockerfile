@@ -10,7 +10,7 @@ RUN apk add --no-cache --virtual build-deps gcc=~14 musl-dev=~1 libffi-dev=~3 pk
 
 FROM --platform=$BUILDPLATFORM python:3.12-alpine AS prod
 WORKDIR /home/esterilizaya/code
-RUN apk add --no-cache curl=~8 mariadb-connector-c-dev=~3 weasyprint=~63
+RUN apk add --no-cache curl=~8 mariadb-connector-c-dev=~3 weasyprint=~64
 RUN <<EOF
 addgroup -S docker
 adduser -S --shell /bin/bash -S esterilizaya --ingroup docker vscode
