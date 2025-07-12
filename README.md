@@ -51,6 +51,11 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 4. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
 5. Inicie el sistema con `docker compose up -d --build`.
 
+### Configuración servidor Local en Linux
+
+Para poder alcanzar en una página descriptible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
+`127.0.0.1 happypawspillaro.com www.happypawspillaro.com`
+
 ### Guardar datos
 
 Para exportar los datos de las esterilizaciones, por favor use: `python manage.py  dumpdata --exclude auth.permission > Xda_campana.json`

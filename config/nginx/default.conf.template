@@ -4,7 +4,7 @@ upstream uwsgi_app {
 }
 server {
     listen      80;
-    server_name www.esterilizaya.com esterilizaya.com;
+    server_name www.happypawspillaro.com happypawspillaro.com;
     error_log   stderr warn;
     access_log /dev/stdout main;
     location / {
