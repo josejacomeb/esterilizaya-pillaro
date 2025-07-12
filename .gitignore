@@ -164,3 +164,6 @@ credenciales/*
 
 # Ignorar archivos de migración de Django
 */*/migrations/*.*
+
+# Archivos estáticos
+app/static/admin/*

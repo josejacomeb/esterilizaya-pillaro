@@ -53,8 +53,17 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
 ### Configuración servidor Local en Linux
 
-Para poder alcanzar en una página descriptible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
-`127.0.0.1 happypawspillaro.com www.happypawspillaro.com`
+1. Para poder alcanzar en una página descriptible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
+
+    ```text
+    127.0.0.1 happypawspillaro.com www.happypawspillaro.com
+    ```
+
+2. Colecciona los archivos estáticos de tu directorio con el siguiente comando
+
+    ```bash
+    docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
+    ```
 
 ### Guardar datos
 
