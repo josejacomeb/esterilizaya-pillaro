@@ -4,7 +4,9 @@ services:
     build:
       context: .
       dockerfile: app/Dockerfile
-    command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
     depends_on:
       db:
         condition: service_healthy
@@ -23,11 +25,10 @@ services:
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_HOST=${DB_HOST}
-      - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
+      - DJANGO_SETTINGS_MODULE=esterilizaya.settings.local
     volumes:
       - "media-volume:/home/esterilizaya/code/media"
       - ./app:/home/esterilizaya/code
-
   db:
     image: mariadb:11
     restart: always
@@ -57,17 +58,6 @@ services:
       - "${DB_PORT}:3306"
     volumes:
       - "maria-db:/var/lib/mysql"
-
-  nginx:
-    image: nginx:alpine
-    restart: always
-    volumes:
-      - ./config/nginx:/etc/nginx/templates
-      - ./app/:/home/esterilizaya/code
-      - media-volume:/home/esterilizaya/code/media
-    ports:
-      - "80:80"
-      - "443:443"
 secrets:
   db_root_password:
     file: credenciales/database/root_password.txt

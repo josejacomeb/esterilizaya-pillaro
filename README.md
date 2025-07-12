@@ -49,11 +49,11 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 3. Descargue los contenedores con el siguiente comando: `docker compose build`.
    Por favor ejecute las migraciones de la base de datos a través del siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.migrate.yml up`.
 4. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
-5. Inicie el sistema con `docker compose up -d --build`.
+5. Inicie el sistema con `docker compose up -d --build`, con el cual por defecto se podrá iniciar el desarrollo.
 
-### Configuración servidor Local en Linux
+### Configuración servidor local de producción en Linux
 
-1. Para poder alcanzar en una página descriptible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
+1. Para poder usar un dominio reconocible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
 
    ```text
    127.0.0.1 happypawspillaro.org www.happypawspillaro.org
@@ -73,6 +73,12 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
        -subj '/CN=*.happypawspillaro.org' \
        -addext 'subjectAltName=DNS:*.happypawspillaro.org'
    ```
+
+4. Inicie el servidor de producción con el siguiente comando
+
+```bash
+    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
 
 ### Guardar datos
 
