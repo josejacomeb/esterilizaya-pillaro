@@ -15,10 +15,6 @@
       .male-row {
         background-color: lightblue !important;
       }
-      .imagen_mascotas {
-        max-height: 128px;
-        width: auto;
-      }
       /* Ensure table fits in A4 landscape */
       @media print {
         @page {
@@ -136,7 +132,7 @@
                 img.src = `/../../media/${pet.foto}`
               }
               img.alt = `Foto de ${pet.nombre}`
-              img.className = 'imagen_mascotas'
+              img.className = 'imagen-mascotas'
               celdaFoto.appendChild(img)
               row.insertCell(4).textContent = pet.nombres_tutor
               row.insertCell(5).textContent = `${pet.especie === '🐈' ? 'Felino' : 'Canino'}`

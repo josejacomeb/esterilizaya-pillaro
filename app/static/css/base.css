@@ -27,14 +27,14 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Muli", sans-serif;
+  font-family: Muli, sans-serif;
   font-weight: normal;
 }
 
 h1 {
   border-bottom: 1px solid #bbb;
   padding-bottom: 10px;
-  margin: 10px 0 20px 0;
+  margin: 10px 0 20px;
 }
 
 h2 {
@@ -55,7 +55,7 @@ ol {
 }
 
 #header .logo {
-  font-family: "Muli", sans-serif;
+  font-family: Muli, sans-serif;
   float: left;
   color: #f3f7cc;
   font-size: 20px;
@@ -275,7 +275,7 @@ a.follow {
   float: left;
   width: 220px;
   height: 300px;
-  margin: 0 10px 10px 10px;
+  margin: 0 10px 10px;
   border-top: 8px solid #12c064;
   background: #eee;
 }
@@ -300,11 +300,11 @@ a.follow {
   color: #ccc;
 }
 
-.imagen_mascotas {
+.imagen-mascotas {
   max-height: 128px;
   width: auto;
   display: block;
   margin: 0 auto;
   border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgb(0 0 0 / 0.08);
 }
