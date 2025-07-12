@@ -1,9 +1,10 @@
+/* Import Google Fonts */
 @import url("//fonts.googleapis.com/css?family=Muli");
 
 body {
   margin: 0;
   padding: 0;
-  font-family: helvetica, sans-serif;
+  font-family: Helvetica, Arial, sans-serif;
 }
 
 p {
@@ -13,6 +14,7 @@ p {
 a {
   color: #12c064;
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 a:hover {
@@ -31,8 +33,8 @@ h6 {
 
 h1 {
   border-bottom: 1px solid #bbb;
-  padding: "0 0 10px 0";
-  margin: "10px 0 20px 0";
+  padding-bottom: 10px;
+  margin: 10px 0 20px;
 }
 
 h2 {
@@ -107,7 +109,7 @@ ul.messages li.warning a {
   padding-top: 4px;
 }
 
-/* forms */
+/* Forms */
 form {
   overflow: auto;
 }
@@ -161,6 +163,14 @@ a.button {
   padding: 10px 20px;
   font-size: 14px;
   text-transform: uppercase;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+input[type="submit"]:hover,
+a.button:hover {
+  background: #0fa055;
 }
 
 .errorlist {
@@ -171,14 +181,14 @@ a.button {
 }
 
 .helptext {
-  margin: "0 0 20px 0";
+  margin-bottom: 20px;
   color: #aaa;
   clear: both;
   float: left;
   font-size: 13px;
 }
 
-/* messages */
+/* Messages */
 ul.messages {
   margin: 10px 100px;
   padding: 0;
@@ -226,8 +236,7 @@ ul.messages li a.close {
   float: left;
 }
 
-/* images */
-
+/* Images */
 .image-preview,
 .image-detail {
   max-width: 300px;
@@ -266,7 +275,7 @@ a.follow {
   float: left;
   width: 220px;
   height: 300px;
-  margin: "0 10px 10px 10px";
+  margin: 0 10px 10px;
   border-top: 8px solid #12c064;
   background: #eee;
 }
@@ -275,7 +284,7 @@ a.follow {
   margin-top: 40px;
 }
 
-/* actions */
+/* Actions */
 .action {
   clear: both;
   overflow: auto;
@@ -291,7 +300,11 @@ a.follow {
   color: #ccc;
 }
 
-.imagen_mascotas {
+.imagen-mascotas {
   max-height: 128px;
   width: auto;
+  display: block;
+  margin: 0 auto;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
 }

@@ -1,0 +1,17 @@
+---
+services:
+  web:
+    command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
+    environment:
+      - DEBUG=True
+      - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
+  nginx:
+    image: nginx:alpine
+    restart: always
+    volumes:
+      - ./config/nginx:/etc/nginx/templates
+      - ./app/:/home/esterilizaya/code
+      - media-volume:/home/esterilizaya/code/media
+    ports:
+      - "80:80"
+      - "443:443"
