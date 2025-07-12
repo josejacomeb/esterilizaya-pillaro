@@ -10,7 +10,7 @@ services:
         condition: service_healthy
     healthcheck:
       test:
-        ["CMD-SHELL", "curl --fail http://localhost:8000/inscripcion || exit 1"]
+        ["CMD-SHELL", "curl --fail http://localhost:8000/ || exit 1"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -24,7 +24,7 @@ services:
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_HOST=${DB_HOST}
-      # - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod TODO: Habilitar de nuevo
+      - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
     volumes:
       - "media-volume:/home/esterilizaya/code/media"
       - ./app:/home/esterilizaya/code
@@ -68,6 +68,7 @@ services:
       - media-volume:/home/esterilizaya/code/media
     ports:
     - "80:80"
+    - "443:443"
 secrets:
   db_root_password:
     file: credenciales/database/root_password.txt

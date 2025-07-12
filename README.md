@@ -56,7 +56,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 1. Para poder alcanzar en una página descriptible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
 
     ```text
-    127.0.0.1 happypawspillaro.com www.happypawspillaro.com
+    127.0.0.1 happypawspillaro.org www.happypawspillaro.org
     ```
 
 2. Colecciona los archivos estáticos de tu directorio con el siguiente comando
@@ -64,6 +64,15 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
     ```bash
     docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
     ```
+
+3. Crea una nueva carpeta en `mkdir app/ssl` y genera el certificado SSL
+
+    ```bash
+    openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes \
+        -keyout app/ssl/happypaws.key -out app/ssl/happypaws.crt \
+        -subj '/CN=*.happypawspillaro.org' \
+        -addext 'subjectAltName=DNS:*.happypawspillaro.org'
+    ````
 
 ### Guardar datos
 

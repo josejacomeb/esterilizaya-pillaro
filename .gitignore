@@ -167,3 +167,6 @@ credenciales/*
 
 # Archivos estáticos
 app/static/admin/*
+
+# SSL 
+app/ssl/*

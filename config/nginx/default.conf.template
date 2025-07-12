@@ -3,8 +3,15 @@ upstream uwsgi_app {
     server unix:/home/esterilizaya/code/uwsgi_app.sock;
 }
 server {
-    listen      80;
-    server_name www.happypawspillaro.com happypawspillaro.com;
+    listen              80;
+    server_name         www.happypawspillaro.org happypawspillaro.org;
+    return 301 https://$host$request_uri;
+}
+server{
+    listen              443 ssl;
+    ssl_certificate     /home/esterilizaya/code/ssl/happypaws.crt;
+    ssl_certificate_key /home/esterilizaya/code/ssl/happypaws.key;
+    server_name         www.happypawspillaro.org happypawspillaro.org;
     error_log   stderr warn;
     access_log /dev/stdout main;
     location / {
