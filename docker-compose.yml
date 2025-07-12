@@ -1,7 +1,7 @@
 ---
 services:
   web:
-    build: 
+    build:
       context: .
       dockerfile: app/Dockerfile
     command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
@@ -9,8 +9,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test:
-        ["CMD-SHELL", "curl --fail http://localhost:8000/ || exit 1"]
+      test: ["CMD-SHELL", "curl --fail http://localhost:8000/ || exit 1"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -67,8 +66,8 @@ services:
       - ./app/:/home/esterilizaya/code
       - media-volume:/home/esterilizaya/code/media
     ports:
-    - "80:80"
-    - "443:443"
+      - "80:80"
+      - "443:443"
 secrets:
   db_root_password:
     file: credenciales/database/root_password.txt

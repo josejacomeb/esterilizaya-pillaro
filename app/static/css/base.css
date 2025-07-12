@@ -27,7 +27,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
   font-weight: normal;
 }
 
@@ -55,7 +55,7 @@ ol {
 }
 
 #header .logo {
-  font-family: 'Muli', sans-serif;
+  font-family: "Muli", sans-serif;
   float: left;
   color: #f3f7cc;
   font-size: 20px;

@@ -170,3 +170,6 @@ app/static/admin/*
 
 # SSL 
 app/ssl/*
+
+# Misc
+*.tar.gz
