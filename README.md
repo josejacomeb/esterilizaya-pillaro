@@ -68,6 +68,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 3. Crea una nueva carpeta en `mkdir app/ssl` y genera el certificado SSL
 
    ```bash
+   mkdir app/ssl/
    openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes \
        -keyout app/ssl/happypaws.key -out app/ssl/happypaws.crt \
        -subj '/CN=*.happypawspillaro.org' \

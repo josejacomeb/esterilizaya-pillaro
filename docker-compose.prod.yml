@@ -3,7 +3,7 @@ services:
   web:
     command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
     environment:
-      - DEBUG=True
+      - DEBUG=False
       - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
   nginx:
     image: nginx:alpine
