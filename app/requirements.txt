@@ -1,5 +1,6 @@
-Django==5.*
-mysqlclient==2.*
-weasyprint==63.*
 django-bootstrap5==24.*
-Pillow==10.*
+django==5.*
+mysqlclient==2.*
+pillow==10.*
+uwsgi==2.*
+weasyprint==63.*
