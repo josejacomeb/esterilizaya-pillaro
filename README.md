@@ -59,13 +59,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
    127.0.0.1 happypawspillaro.org www.happypawspillaro.org
    ```
 
-2. Colecciona los archivos estáticos de tu directorio con el siguiente comando
-
-   ```bash
-   docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
-   ```
-
-3. Crea una nueva carpeta en `mkdir app/ssl` y genera el certificado SSL
+2. Crea una nueva carpeta en `mkdir app/ssl` y genera el certificado SSL
 
    ```bash
    mkdir app/ssl/
@@ -75,11 +69,17 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
        -addext 'subjectAltName=DNS:*.happypawspillaro.org'
    ```
 
-4. Inicie el servidor de producción con el siguiente comando
+3. Inicie el servidor de producción con el siguiente comando
 
-```bash
-    docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-```
+   ```bash
+      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d 
+   ```
+
+4. Colecciona los archivos estáticos de tu directorio con el siguiente comando
+
+   ```bash
+   docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
+   ```
 
 ### Guardar datos
 

@@ -8,6 +8,8 @@ services:
   nginx:
     image: nginx:alpine
     restart: always
+    depends_on:
+      - web
     volumes:
       - ./config/nginx:/etc/nginx/templates
       - ./app/:/home/esterilizaya/code
