@@ -69,13 +69,19 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
        -addext 'subjectAltName=DNS:*.happypawspillaro.org'
    ```
 
-3. Inicie el servidor de producción con el siguiente comando
+3. Por favor cambia los permisos de tu carpeta de código, en Alpine Linux, el usuario y grupo `www-data` es diferente al de Debian/Ubuntu, en tal caso, usa la siguiente línea para modificar los permisos:
+
+   ```bash
+   sudo chown -R 82:82 app/
+   ```
+
+4. Inicie el servidor de producción con el siguiente comando
 
    ```bash
       docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d 
    ```
 
-4. Colecciona los archivos estáticos de tu directorio con el siguiente comando
+5. Colecciona los archivos estáticos de tu directorio con el siguiente comando
 
    ```bash
    docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
