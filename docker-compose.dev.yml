@@ -1,7 +1,0 @@
----
-services:
-  web:
-    volumes:
-      - ./app:/home/esterilizaya/code
-    environment:
-      - DEBUG=True

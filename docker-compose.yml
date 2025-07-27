@@ -1,7 +1,9 @@
 ---
 services:
   web:
-    build: app
+    build:
+      context: .
+      dockerfile: app/Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     ports:
       - "8000:8000"
@@ -9,8 +11,7 @@ services:
       db:
         condition: service_healthy
     healthcheck:
-      test:
-        ["CMD-SHELL", "curl --fail http://localhost:8000/inscripcion || exit 1"]
+      test: ["CMD-SHELL", "curl --fail http://localhost:8000/ || exit 1"]
       interval: 1m30s
       timeout: 30s
       retries: 5
@@ -24,9 +25,10 @@ services:
       - DB_PORT=${DB_PORT}
       - DB_USER=${DB_USER}
       - DB_HOST=${DB_HOST}
+      - DJANGO_SETTINGS_MODULE=esterilizaya.settings.local
     volumes:
       - "media-volume:/home/esterilizaya/code/media"
-
+      - ./app:/home/esterilizaya/code
   db:
     image: mariadb:11
     restart: always
@@ -56,7 +58,6 @@ services:
       - "${DB_PORT}:3306"
     volumes:
       - "maria-db:/var/lib/mysql"
-
 secrets:
   db_root_password:
     file: credenciales/database/root_password.txt
