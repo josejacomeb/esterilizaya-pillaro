@@ -176,3 +176,9 @@ LOGOUT_URL = "campana:logout"
 # Media
 MEDIA_URL = "media/"
 MEDIA_ROOT = BASE_DIR / "media"
+
+# Default Boostrap settings
+BOOTSTRAP5 = {
+    "css_url": "/static/css/bootstrap.min.css",
+    "javascript_url": "/static/js/bootstrap.bundle.min.js",
+}

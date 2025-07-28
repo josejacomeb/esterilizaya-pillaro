@@ -173,3 +173,7 @@ app/ssl/*
 
 # Misc
 *.tar.gz
+
+# Archivos de Boostrap descargados
+app/static/css/bootstrap*
+app/static/js/bootstrap*

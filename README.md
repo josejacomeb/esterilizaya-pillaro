@@ -46,10 +46,22 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
    ```
 
-3. Descargue los contenedores con el siguiente comando: `docker compose build`.
+3. Debido a que a veces el sistema no tendrá internet, es necesario descargar Boostrap >= 5 localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
+
+   ```bash
+      wget -P app/static https://github.com/twbs/bootstrap/releases/download/v5.3.7/bootstrap-5.3.7-dist.zip
+      mkdir -p app/static/temp_bootstrap
+      unzip app/static/bootstrap-5.3.7-dist.zip -d app/static/temp_bootstrap
+      mv app/static/temp_bootstrap/bootstrap-5.3.7-dist/js/* app/static/js
+      mv app/static/temp_bootstrap/bootstrap-5.3.7-dist/css/* app/static/css
+      rm -rf app/static/temp_bootstrap
+      rm app/static/bootstrap-5.3.7-dist.zip
+   ```
+
+4. Descargue los contenedores con el siguiente comando: `docker compose build`.
    Por favor ejecute las migraciones de la base de datos a través del siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.migrate.yml up`.
-4. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
-5. Inicie el sistema con `docker compose up -d --build`, con el cual por defecto se podrá iniciar el desarrollo.
+5. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
+6. Inicie el sistema con `docker compose up -d --build`, con el cual por defecto se podrá iniciar el desarrollo.
 
 ### Configuración servidor local de producción en Linux
 
