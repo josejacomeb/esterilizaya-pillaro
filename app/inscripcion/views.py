@@ -15,16 +15,26 @@ logger = logging.getLogger(__name__)
 def index(request, campana_id):
     inscripciones = Inscripcion.objects.filter(campana_id=campana_id)
     campana = inscripciones[0].campana
-    max_cupos = [list(range(1, inscripcion.cupos_totales + 1)) for inscripcion in inscripciones]
-    total_inscritos = 0
+    max_cupos = []
+    n_cupos = []
     for inscripcion in inscripciones:
-        total_inscritos += inscripcion.cupos_totales
-    inscripciones_cupos = zip(inscripciones, max_cupos)
-    return render(
-        request,
-        "inscripcion/todos.html",
-        {"inscripciones_cupos": inscripciones_cupos, "campana": campana, "total_inscritos": total_inscritos},
-    )
+        if inscripcion.cupos_totales > 0:
+            n_cupos.append(inscripcion.cupos_totales)
+        else:
+            n_cupos.append(0)
+        max_cupos.append(list(range(1, inscripcion.cupos_totales + 1)))
+    inscripciones_cupos = zip(n_cupos, inscripciones, max_cupos)
+
+    pendientes = []
+    registrados = []
+
+    for n_cupos, inscripcion, cupos in inscripciones_cupos:
+        if n_cupos > inscripcion.cupos_registrados:
+            pendientes.append((n_cupos, inscripcion, cupos))
+        else:
+            registrados.append((n_cupos, inscripcion, cupos))
+
+    return render(request, "inscripcion/todos.html", {"pendientes": pendientes, "registrados": registrados, "campana": campana})
 
 
 @login_required(login_url="cuenta:login")
