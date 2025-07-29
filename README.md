@@ -99,6 +99,20 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
    docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
    ```
 
+### Correr el servidor en una red local
+En caso no tengas acceso a internet, debes hacer una configuración adicional para acceder al servidor, por ejemplo puedes consultar tu dirección de Red en Linux con `ip addr show _remplazar_dispositivo_red_`, luego:
+1. Añade la IP donde corre el servidor local al `app/esterilizaya/settings/prod.py`
+   ```bash
+   ALLOWED_HOSTS = ["happypawspillaro.org", "www.happypawspillaro.org", "192.168.1.101"]
+   ```
+2. Añade la IP para que NGINX `config/nginx/defeault.conf.template`
+   ```apacheconf
+   server {
+      listen              80;
+      server_name         www.happypawspillaro.org happypawspillaro.org 192.168.1.101;
+   ```
+
+
 ### Guardar datos
 
 Para exportar los datos de las esterilizaciones, por favor use: `python manage.py  dumpdata --exclude auth.permission > Xda_campana.json`
