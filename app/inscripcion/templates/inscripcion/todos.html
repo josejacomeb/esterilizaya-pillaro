@@ -18,7 +18,7 @@
 
   <!-- Tabla de inscripciones pendientes -->
   <h2 class="h5 mt-4">Inscripciones pendientes de registrar</h2>
-  <div class="table-responsive-sm mb-5">
+  <div class="table-responsive mb-5">
     <table class="table table-bordered table-striped table-hover align-middle text-nowrap">
       <thead class="table-light">
         <tr>
@@ -75,7 +75,7 @@
 
   <!-- Tabla de inscripciones ya registradas -->
   <h2 class="h5 mt-4">Inscripciones registradas</h2>
-  <div class="table-responsive-sm">
+  <div class="table-responsive">
     <table class="table table-bordered table-striped table-hover align-middle text-nowrap">
       <thead class="table-light">
         <tr>
@@ -125,4 +125,29 @@
       </tbody>
     </table>
   </div>
+
+  <style>
+    /* Mobile-friendly table: horizontal scroll and smaller font on small screens */
+    @media (max-width: 767.98px) {
+      .table-responsive {
+        font-size: 0.95em;
+      }
+      .table th, .table td {
+        white-space: nowrap;
+        padding: 0.4rem 0.3rem;
+      }
+      h1.h4, h2.h5 {
+        font-size: 1.1rem;
+      }
+      .btn, .btn-sm {
+        font-size: 0.95em;
+        padding: 0.3em 0.7em;
+      }
+    }
+    /* Extra: make table scrollable on small screens */
+    .table-responsive {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  </style>
 {% endblock %}
