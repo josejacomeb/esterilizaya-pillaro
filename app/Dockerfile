@@ -23,6 +23,6 @@ COPY ./config/uwsgi/uwsgi.ini /home/esterilizaya/config/uwsgi/uwsgi.ini
 RUN mkdir -p /home/esterilizaya/code/media
 # Cambiar los permisos de los archivos copiados
 RUN chown -R www-data:www-data /home/esterilizaya/code /home/esterilizaya/code/media
-USER www-data
 HEALTHCHECK --interval=5m --timeout=3s \
   CMD curl -f http://localhost:8000/ || exit 1
+#USER www-data
