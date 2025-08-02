@@ -30,7 +30,7 @@ def build_parser():
     parser.add_argument(
         "--directorio", "-d", type=pathlib.Path, help="Directorio para buscar por PDFs para imprimir", required=True
     )
-    parser.add_argument("--procesados", "-p", type=str, help="Nombre directorio donde ", default="procesados")
+    parser.add_argument("--procesados", "-p", type=pathlib.Path, help="Nombre directorio donde ", default="procesados")
     parser.add_argument("--impresora", "-i", type=str, help="Nombre de la impresora a usar")
     return parser
 
@@ -39,7 +39,7 @@ def main():
     parser = build_parser()
     args = parser.parse_args()
     ruta_directorio = args.directorio
-    ruta_procesados = ruta_directorio / args.procesados
+    ruta_procesados = args.procesados
 
     impresoras = obtener_impresoras()
     if not impresoras:
