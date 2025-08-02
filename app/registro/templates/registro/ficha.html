@@ -10,33 +10,33 @@
     <style>
       @page {
         size: A4;
-        margin: 10mm;
+        margin: 0mm;
       }
-      
+
       @media print {
         html,
         body {
-          margin: 10mm;
+          margin: 0mm;
           padding: 0;
           width: 210mm;
           height: 297mm;
         }
-      
+
         .no-print {
           display: none !important;
         }
-      
+
         .container {
           padding: 0 !important;
           margin: 0 !important;
         }
-      
+
         .form-table th,
         .form-table td {
           border: 1px solid #000 !important;
         }
       }
-      
+
       body {
         font-family: Arial, sans-serif;
         width: 210mm;
@@ -44,133 +44,151 @@
         margin: 0;
         padding: 0;
       }
-      
+
       .form-table th,
       .form-table td {
         border: 1px solid #000 !important;
       }
-      
+
       .signature-box p {
         margin: 0;
       }
     </style>
   </head>
-  <body class="container">
-    <div class="text-center mb-3 no-print d-flex justify-content-center gap-3">
-      <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm">Registrar otro Tutor</a>
-      <button onclick="window.print()" class="btn btn-primary btn-sm">Imprimir Ficha</button>
-      <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm">Ver todos los registros</a>
-    </div>
-
-    <div class="text-center form-header d-flex justify-content-between align-items-center border border-dark p-2 mb-2">
-      <div class="text-center">
-        <h4 class="mb-1"><strong>Nº Ficha</strong></h4>
-        <h3>{{ registro.numero_turno }}</h3>
+  <body>
+    <div class="container">
+      {% if not pdf_mode %}
+      <div class="text-center mb-3 no-print d-flex justify-content-center gap-3">
+        <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm">Registrar otro Tutor</a>
+        <button id="printFichaBtn" class="btn btn-primary btn-sm">Imprimir Ficha</button>
+        <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm">Ver todos los registros</a>
       </div>
-      <div>
-        <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 75px;" />
-        <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" style="height: 70px;" />
-      </div>
-      <div class="text-center">
-        <h4 class="mb-1"><strong>Peso (Kg)</strong></h4>
-        <h3>{{ registro.peso }}</h3>
-      </div>
-    </div>
-
-    <div class="tight">
-      <h5 class="text-center fw-bold">Jornadas de Esterilización a Bajo Costo</h5>
-      <h6 class="text-center fw-bold">Formulario de Consentimiento para Procedimientos Quirúrgicos</h6>
-
-      <p>
-        <strong>Lugar:</strong> {{ registro.inscripcion.campana.barrio }}, {{ registro.inscripcion.campana.get_parroquia_display }} de Pillaro, Ecuador
-      </p>
-      <p>
-        <strong>Fecha:</strong> {{ registro.inscripcion.campana.fecha|date:'l, d F Y' }}
-      </p>
-      <p>
-        <strong>Datos del Animal de Compañía</strong>
-      </p>
-      <p>
-        <i>Nombre:</i> {{ registro.nombre }},
-        <i>Color Primario:</i> {{ registro.get_color_principal_display }}
-        {% if registro.color_secundario %}
-          | <i>Secundario:</i> {{ registro.get_color_secundario_display }}
-        {% endif %}
-      </p>
-      {% if registro.observaciones %}
-        <p>
-          <i>Observaciones:</i> {{ registro.observaciones }}
-        </p>
+      <script>
+        document.getElementById('printFichaBtn').onclick = function(e) {
+          // Detectar si es móvil
+          var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+          if (isMobile) {
+            // Redirigir a la vista que genera el PDF
+            window.location.href = "{% url 'registro:generar_pdf' registro.id %}";
+          } else {
+            // Mostrar ventana de impresión
+            window.print();
+          }
+        };
+      </script>
       {% endif %}
-    </div>
 
-    <div class="form-section my-2">
-      <table class="table table-bordered text-center form-table mb-1">
-        <thead class="table-light">
-          <tr>
-            <th>Especie</th>
-            <th>Género</th>
-            <th>Edad</th>
-            <th>Raza</th>
-            <th>Carnet Vacunación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ registro.get_especie_display }}</td>
-            <td>{{ registro.get_sexo_display }}</td>
-            <td>{{ registro.edad_anos }} años {{ registro.edad_meses }} meses</td>
-            <td>{{ registro.raza_mascota }}</td>
-            <td>{{ registro.get_carnet_display }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="form-section tight">
-      <p>
-        <strong>Datos del Tutor</strong>
-      </p>
-      <p>
-        <i>Nombre Tutor:</i> {{ registro.nombres_tutor }},
-        <i>Medio Contacto:</i> {{ registro.numero_telefono_tutor|stringformat:'010d' }},
-        <i>CI:</i> {{ registro.cedula_identidad|stringformat:'010d' }}
-      </p>
-      <p>
-        <i>Domicilio:</i> {{ registro.get_parroquia_tutor_display }} / {{ registro.barrio_tutor }},
-        <i>Razón Tenencia:</i> {{ registro.get_razon_tenencia_display }}
-      </p>
-    </div>
-
-    <div class="form-section tight mt-2">
-      <p>
-        <strong>Admito que:</strong>
-      </p>
-      <ol>
-        <li>Mi mascota está en perfectas condiciones de salud ya que he sido responsable en asistir con ella a un médico veterinario para sus controles rutinarios</li>
-        <li>Comprendo perfectamente en que consiste el procedimiento de esterilización que se le realizará a mi mascota</li>
-        <li>Tengo conocimiento sobre los riesgos que puedan existir al momento de la inducción al anestésico o en el proceso de cirugía. Este riesgo puede conllevar a la muerte.</li>
-        <li>Doy mi consentimiento informado para que se realice la cirugía descrita anteriormente, y los procedimientos complementarios que sean necesarios y convenientes durante la intervención a juicio de los profesionales que lo llevan a cabo.</li>
-        <li>Se tomen fotografías o filmaciones de la cirugía para estudio médico.</li>
-        <li>Acepto tener responsabilidad en la recuperación de mi mascota, suministrándole la medicina descrita por el médico tratante y ayudándole con los cuidados postoperatorios indicados.</li>
-      </ol>
-    </div>
-
-    <div class="form-footer text-center mt-2">
-      <p>
-        <strong>Por todo lo antes señalado, acepto mi responsabilidad firmando este documento</strong>
-      </p>
-      <div class="d-flex justify-content-between signature-box px-4">
-        <div>
-          <p>________________________</p>
-          <p>Nombre: {{ registro.nombres_tutor }}</p>
-          <p>CI: {{ registro.cedula_identidad|stringformat:'010d' }}</p>
+      <div class="row mb-2 align-items-center border border-dark p-2 form-header">
+        <div class="col-2 text-center">
+          <h4 class="mb-1"><strong>Nº Ficha</strong></h4>
+          <h3>{{ registro.numero_turno }}</h3>
         </div>
-        <div>
-          <p>________________________</p>
+        <div class="col-8 text-center">
+          <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 70px;" class="mx-2" />
+          <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" style="height: 70px;" class="mx-2" />
+        </div>
+        <div class="col-2 text-center">
+          <h4 class="mb-1"><strong>Peso (Kg)</strong></h4>
+          <h3>{{ registro.peso }}</h3>
+        </div>
+      </div>
+
+      <div class="mb-2">
+        <h5 class="text-center fw-bold">Jornadas de Esterilización a Bajo Costo</h5>
+        <h6 class="text-center fw-bold">Formulario de Consentimiento para Procedimientos Quirúrgicos</h6>
+
+        <p>
+          <strong>Lugar:</strong> {{ registro.inscripcion.campana.barrio }}, {{ registro.inscripcion.campana.get_parroquia_display }} de Pillaro, Ecuador
+        </p>
+        <p>
+          <strong>Fecha:</strong> {{ registro.inscripcion.campana.fecha|date:'l, d F Y' }}
+        </p>
+        <p>
+          <strong>Datos del Animal de Compañía</strong>
+        </p>
+        <p>
+          <i>Nombre:</i> {{ registro.nombre }},
+          <i>Color Primario:</i> {{ registro.get_color_principal_display }}
+          {% if registro.color_secundario %}
+            | <i>Secundario:</i> {{ registro.get_color_secundario_display }}
+          {% endif %}
+        </p>
+        {% if registro.observaciones %}
           <p>
-            Centro Médico Veterinario <strong>AnimalZoo</strong>
+            <i>Observaciones:</i> {{ registro.observaciones }}
           </p>
+        {% endif %}
+      </div>
+
+      <div class="form-section my-2">
+        <table class="table table-bordered text-center form-table mb-1">
+          <thead class="table-light">
+            <tr>
+              <th>Especie</th>
+              <th>Género</th>
+              <th>Edad</th>
+              <th>Raza</th>
+              <th>Carnet Vacunación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ registro.get_especie_display }}</td>
+              <td>{{ registro.get_sexo_display }}</td>
+              <td>{{ registro.edad_anos }} años {{ registro.edad_meses }} meses</td>
+              <td>{{ registro.raza_mascota }}</td>
+              <td>{{ registro.get_carnet_display }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="form-section mb-2">
+        <p>
+          <strong>Datos del Tutor</strong>
+        </p>
+        <p>
+          <i>Nombre Tutor:</i> {{ registro.nombres_tutor }},
+          <i>Medio Contacto:</i> {{ registro.numero_telefono_tutor|stringformat:'010d' }},
+          <i>CI:</i> {{ registro.cedula_identidad|stringformat:'010d' }}
+        </p>
+        <p>
+          <i>Domicilio:</i> {{ registro.get_parroquia_tutor_display }} / {{ registro.barrio_tutor }},
+          <i>Razón Tenencia:</i> {{ registro.get_razon_tenencia_display }}
+        </p>
+      </div>
+
+      <div class="form-section mb-2">
+        <p>
+          <strong>Admito que:</strong>
+        </p>
+        <ol>
+          <li>Mi mascota está en perfectas condiciones de salud ya que he sido responsable en asistir con ella a un médico veterinario para sus controles rutinarios</li>
+          <li>Comprendo perfectamente en que consiste el procedimiento de esterilización que se le realizará a mi mascota</li>
+          <li>Tengo conocimiento sobre los riesgos que puedan existir al momento de la inducción al anestésico o en el proceso de cirugía. Este riesgo puede conllevar a la muerte.</li>
+          <li>Doy mi consentimiento informado para que se realice la cirugía descrita anteriormente, y los procedimientos complementarios que sean necesarios y convenientes durante la intervención a juicio de los profesionales que lo llevan a cabo.</li>
+          <li>Se tomen fotografías o filmaciones de la cirugía para estudio médico.</li>
+          <li>Proveer mis datos personales y de mi mascota con fines únicamente estadísticos y de identificación</li>
+          <li>Acepto tener responsabilidad en la recuperación de mi mascota, suministrándole la medicina descrita por el médico tratante y ayudándole con los cuidados postoperatorios indicados.</li>
+        </ol>
+      </div>
+
+      <div class="form-footer text-center mt-2">
+        <p>
+          <strong>Por todo lo antes señalado, acepto mi responsabilidad firmando este documento</strong>
+        </p>
+        <div class="row signature-box px-4">
+          <div class="col-6">
+            <p>________________________</p>
+            <p>Nombre: {{ registro.nombres_tutor }}</p>
+            <p>CI: {{ registro.cedula_identidad|stringformat:'010d' }}</p>
+          </div>
+          <div class="col-6">
+            <p>________________________</p>
+            <p>
+              Centro Médico Veterinario <strong>AnimalZoo</strong>
+            </p>
+          </div>
         </div>
       </div>
     </div>
