@@ -133,7 +133,7 @@ def generar_pdf(request, registro_id):
     html_string = render_to_string("registro/ficha.html", {"registro": registro, "pdf_mode": True})
     if not RUTA_PDFS.exists():
         RUTA_PDFS.mkdir(parents=True, exist_ok=True)
-    ruta_ficha_pdf = RUTA_PDFS / f"ficha_{registro_id}_{registro.nombre}.pdf"
+    ruta_ficha_pdf = RUTA_PDFS / f"ficha_{registro.numero_turno}_{registro.nombre}_{registro_id}.pdf"
     try:
         HTML(
             string=html_string,

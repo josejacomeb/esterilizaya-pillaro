@@ -54,7 +54,7 @@
             <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm w-100 w-md-auto">Registrar otro Tutor</a>
           </div>
           <div class="col-12 col-md-auto mb-1 mb-md-0">
-            <button id="printFichaBtn" class="btn btn-primary btn-sm w-100 w-md-auto">Imprimir Ficha</button>
+            <a href="{% url 'registro:generar_pdf' registro.id %}" class="btn btn-primary btn-sm w-100 w-md-auto">Imprimir Ficha</a>
           </div>
           <div class="col-12 col-md-auto">
             <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm w-100 w-md-auto">Ver todos los registros</a>
@@ -144,6 +144,7 @@
           <i>Nombre Tutor:</i> {{ registro.nombres_tutor }},
           <i>Medio Contacto:</i> {{ registro.numero_telefono_tutor|stringformat:'010d' }},
           <i>CI:</i> {{ registro.cedula_identidad|stringformat:'010d' }}
+          <br/>
           <i>Domicilio:</i> {{ registro.get_parroquia_tutor_display }} / {{ registro.barrio_tutor }},
           <i>Razón Tenencia:</i> {{ registro.get_razon_tenencia_display }}
           <br />

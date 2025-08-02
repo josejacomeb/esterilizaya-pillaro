@@ -105,7 +105,7 @@ En caso no tengas acceso a internet, debes hacer una configuración adicional pa
    ```bash
    ALLOWED_HOSTS = ["happypawspillaro.org", "www.happypawspillaro.org", "192.168.1.101"]
    ```
-2. Añade la IP para que NGINX `config/nginx/defeault.conf.template`
+2. Añade la IP para que NGINX `config/nginx/default.conf.template`
    ```apacheconf
    server {
       listen              80;
