@@ -1,3 +1,5 @@
+import pathlib
+
 ESPECIE = [("🐕", "Canino"), ("🐈", "Felino")]
 SEXO = [("♂️", "Macho"), ("♀️", "Hembra")]
 AFIRMATIVO_NEGATIVO = [("S", "Si"), ("N", "No")]
@@ -10,7 +12,7 @@ HORARIOS = [
 EDADES_MESES = [(i, str(i)) for i in range(12)]
 EDADES_ANOS = [(i, str(i)) for i in range(20)]
 N_MASCOTAS = [(i, str(i)) for i in range(25)]
-MAX_CUPOS = [(i, str(i)) for i in range(1, 4)]
+MAX_CUPOS = [(i, str(i)) for i in range(1, 5)]
 
 # Según https://simple.wikipedia.org/wiki/Dog_coat
 # y https://www.catster.com/lifestyle/different-cat-colors/
@@ -55,3 +57,5 @@ RAZON_TENENCIA = [
     ("SE", "Servicio"),
     ("MI", "Mixta"),
 ]
+
+RUTA_PDFS = pathlib.Path("/tmp/pdfs")
