@@ -1,14 +1,19 @@
 import logging
 
 from campana.models import Campana
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from django.template.loader import render_to_string
 from django.views.generic import ListView
+from esterilizaya.constantes import RUTA_PDFS
 from inscripcion.models import Inscripcion
 from registro.models import Registro
+from weasyprint import HTML
+from django.urls import reverse
 
 from .forms import RegistroForm
 
@@ -118,3 +123,27 @@ class RegistradoListView(ListView):
 
             return JsonResponse({"registros": registros})
         return super().get(request, *args, **kwargs)
+
+
+def generar_pdf(request, registro_id):
+    # TODO: Eliminar esto cuando el SSL sea global
+    import ssl
+    ssl._create_default_https_context = ssl._create_unverified_context
+    registro = get_object_or_404(Registro, id=registro_id)
+    html_string = render_to_string("registro/ficha.html", {"registro": registro, "pdf_mode": True})
+    if not RUTA_PDFS.exists():
+        RUTA_PDFS.mkdir(parents=True, exist_ok=True)
+    ruta_ficha_pdf = RUTA_PDFS / f"ficha_{registro_id}_{registro.nombre}.pdf"
+    try:
+        HTML(
+            string=html_string,
+            base_url=request.build_absolute_uri(),
+            
+        ).write_pdf(ruta_ficha_pdf)
+        logging.info(f"PDF guardado en: {ruta_ficha_pdf}")
+        messages.success(request, "PDF generado y guardado exitosamente.")
+    except Exception as e:
+        logging.error(f"Error al guardar el PDF: {e}")
+        messages.error(request, "Error al generar el PDF. Por favor, inténtelo de nuevo más tarde.")
+        return redirect("registro:ver_ficha", campana_id=registro.inscripcion.campana.id, registro_id=registro_id)
+    return redirect("registro:lista", campana_id=registro.inscripcion.campana.id)

@@ -1,3 +1,5 @@
+import pathlib
+
 ESPECIE = [("🐕", "Canino"), ("🐈", "Felino")]
 SEXO = [("♂️", "Macho"), ("♀️", "Hembra")]
 AFIRMATIVO_NEGATIVO = [("S", "Si"), ("N", "No")]
@@ -55,3 +57,5 @@ RAZON_TENENCIA = [
     ("SE", "Servicio"),
     ("MI", "Mixta"),
 ]
+
+RUTA_PDFS = pathlib.Path("/tmp/pdfs")

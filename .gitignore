@@ -177,3 +177,7 @@ app/ssl/*
 # Archivos de Boostrap descargados
 app/static/css/bootstrap*
 app/static/js/bootstrap*
+
+# Archivos de impresión
+pdfs/*
+procesados/*

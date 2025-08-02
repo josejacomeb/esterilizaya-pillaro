@@ -12,4 +12,5 @@ urlpatterns = [
     path("ver_certificados/<int:campana_id>", views.ver_certificados, name="ver_certificados"),
     path("ver_recetas/<int:campana_id>", views.ver_recetas, name="ver_recetas"),
     path("vista_veterinarios/<int:campana_id>", views.RegistradoListView.as_view(), name="vista_veterinarios"),
+    path('registro/<int:registro_id>/generar_pdf/', views.generar_pdf, name='generar_pdf'),
 ]
