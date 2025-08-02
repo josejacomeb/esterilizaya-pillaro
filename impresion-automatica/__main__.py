@@ -84,7 +84,7 @@ def main():
                 except Exception as e:
                     logging.error(f"Error al imprimir {pdf_path}: {e}")
                 # Mover el archivo a la carpeta de procesados
-                shutil.move(str(pdf_path), str(ruta_procesados / pdf_path.name))
+                #shutil.move(str(pdf_path), str(ruta_procesados / pdf_path.name))
                 logging.info(f"PDF movido a procesados: {ruta_procesados / pdf_path.name}")
             else:
                 logging.info(f"Otro tipo de cambio detectado: {change_type} en {filepath}")
