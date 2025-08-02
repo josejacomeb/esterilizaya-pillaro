@@ -10,7 +10,7 @@
 
 ## Uso
 
-Monitoriza el directorio donde `esterilizaya` guarda las fichas registradas, con el siguiente comando: `python3 impresion-automatica/__main__.py -d=datos/`
+Monitoriza el directorio donde `esterilizaya` guarda las fichas registradas, con el siguiente comando: `python3 impresion-automatica/__main__.py -d=pdfs/`
 Mayor información sobre los comandos:
 
 ```bash
