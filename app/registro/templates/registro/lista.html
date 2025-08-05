@@ -6,7 +6,6 @@
   Ver todos los registrados
 {% endblock %}
 
-
 {% block content %}
   <h1>Nuevo Registro</h1>
   <h1>Buscar participantes</h1>
@@ -37,7 +36,11 @@
               {% if registro.foto %}
                 <img src="{{ registro.foto.url }}" alt="Foto {{ registro.nombre }}" class="imagen-mascotas" />
               {% else %}
-                <img src="{% static 'images/mascotas/gato.png' if registro.especie == '🐈' else 'images/mascotas/perro.png' %}" alt="Foto {{ registro.nombre }}" class="imagen-mascotas" />
+                {% if registro.especie == '🐈' %}
+                  <img src="{% static 'images/mascotas/gato.png' %}" alt="Foto {{ registro.nombre }}" class="imagen-mascotas" />
+                {% else %}
+                  <img src="{% static 'images/mascotas/perro.png' %}" alt="Foto {{ registro.nombre }}" class="imagen-mascotas" />
+                {% endif %}
               {% endif %}
             </td>
 
