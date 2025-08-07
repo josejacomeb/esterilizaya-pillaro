@@ -49,13 +49,14 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 3. Debido a que a veces el sistema no tendrá internet, es necesario descargar Boostrap >= 5 localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
 
    ```bash
-      wget -P app/static https://github.com/twbs/bootstrap/releases/download/v5.3.7/bootstrap-5.3.7-dist.zip
+      BOOSTRAP_VERSION="5.3.7"
+      wget -P app/static https://github.com/twbs/bootstrap/releases/download/v$BOOSTRAP_VERSION/bootstrap-$BOOSTRAP_VERSION-dist.zip
       mkdir -p app/static/temp_bootstrap
-      unzip app/static/bootstrap-5.3.7-dist.zip -d app/static/temp_bootstrap
-      mv app/static/temp_bootstrap/bootstrap-5.3.7-dist/js/* app/static/js
-      mv app/static/temp_bootstrap/bootstrap-5.3.7-dist/css/* app/static/css
+      unzip app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip -d app/static/temp_bootstrap
+      mkdir -p app/static/js && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/js/* app/static/js
+      mkdir -p app/static/css && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/css/* app/static/css
       rm -rf app/static/temp_bootstrap
-      rm app/static/bootstrap-5.3.7-dist.zip
+      rm app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.
@@ -100,18 +101,22 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
    ```
 
 ### Correr el servidor en una red local
+
 En caso no tengas acceso a internet, debes hacer una configuración adicional para acceder al servidor, por ejemplo puedes consultar tu dirección de Red en Linux con `ip addr show _remplazar_dispositivo_red_`, luego:
+
 1. Añade la IP donde corre el servidor local al `app/esterilizaya/settings/prod.py`
+
    ```bash
    ALLOWED_HOSTS = ["happypawspillaro.org", "www.happypawspillaro.org", "192.168.1.101"]
    ```
+
 2. Añade la IP para que NGINX `config/nginx/default.conf.template`
+
    ```apacheconf
    server {
       listen              80;
       server_name         www.happypawspillaro.org happypawspillaro.org 192.168.1.101;
    ```
-
 
 ### Guardar datos
 
@@ -124,7 +129,7 @@ Se puede hacer el respaldo de los contenedores a través de estos comandos:
 #### Respaldo
 
 1. Reemplaza el campo `<rootpassword>` con tu contraseña de usuario `root`
-   `docker exec -i esterilizaya-pillaro-db-1 mariadb-dump -u root -p<rootpassword> --all-databases > backup.sql`
+   `docker exec -i esterilizaya-pillaro-db-1 mariadb-dump -u root -p~RXPf@hi^3%5ns7FtcF7 --all-databases > backup.sql`
 2. Respalda el volumen que contiene la base de datos con el siguiente comando
    `docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar czf /backup/mariadb_volume_backup.tar.gz -C /data .`
 3. Respalda el volumen que contiene las imágenes a través del comando.
