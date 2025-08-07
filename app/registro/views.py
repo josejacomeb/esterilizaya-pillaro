@@ -1,7 +1,6 @@
 import logging
 
 from campana.models import Campana
-from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -13,7 +12,6 @@ from esterilizaya.constantes import RUTA_PDFS
 from inscripcion.models import Inscripcion
 from registro.models import Registro
 from weasyprint import HTML
-from django.urls import reverse
 
 from .forms import RegistroForm
 
@@ -33,8 +31,6 @@ def lista(request, campana_id):
         query = request.GET["query"]
     if query:
         registros = registros.filter(nombres_tutor__iregex=query)
-    logger.info(registros)
-
     return render(request, "registro/lista.html", {"registros": registros, "campana_id": campana_id})
 
 
@@ -128,6 +124,7 @@ class RegistradoListView(ListView):
 def generar_pdf(request, registro_id):
     # TODO: Eliminar esto cuando el SSL sea global
     import ssl
+
     ssl._create_default_https_context = ssl._create_unverified_context
     registro = get_object_or_404(Registro, id=registro_id)
     html_string = render_to_string("registro/ficha.html", {"registro": registro, "pdf_mode": True})
@@ -138,7 +135,6 @@ def generar_pdf(request, registro_id):
         HTML(
             string=html_string,
             base_url=request.build_absolute_uri(),
-            
         ).write_pdf(ruta_ficha_pdf)
         logging.info(f"PDF guardado en: {ruta_ficha_pdf}")
         messages.success(request, "PDF generado y guardado exitosamente.")
