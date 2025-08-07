@@ -3,45 +3,49 @@
 {% load django_bootstrap5 %}
 
 <html lang="es">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}{% endblock %}</title>
-  <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" >
-  {% bootstrap_css %}
-  {% bootstrap_javascript %}
-  <link href="{% static 'css/base.css' %}" rel="stylesheet">
-</head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %}
 
-<body class="container mt-4">
-  <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-    <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" class="img-fluid" style="height: 80px;" />
-    <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" class="img-fluid" style="height: 80px;" />
-  </div>
+      {% endblock %}
+    </title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
+  </head>
 
-  {% bootstrap_messages %}
+  <body class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
+      <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" class="img-fluid" style="height: 80px;" />
+      <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" class="img-fluid" style="height: 80px;" />
+    </div>
 
-  <div class="mb-3">
-    <span class="user">
-      {% if request.user.is_authenticated %}
-        Hola {{ request.user.first_name|default:request.user.username }},
-        <form action="{% url 'cuenta:logout' %}" method="post" class="d-inline">
-          {% csrf_token %}
-          <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
-        </form>
-      {% else %}
-        <a href="{% url 'cuenta:login' %}" class="btn btn-sm btn-outline-primary">Acceder</a>
-      {% endif %}
-    </span>
-  </div>
+    {% bootstrap_messages %}
 
-  <div id="content">
-    {% block content %}
-    {% endblock %}
-  </div>
+    <div class="mb-3">
+      <span class="user">
+        {% if request.user.is_authenticated %}
+          Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}" method="post" class="d-inline">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
+          </form>
+        {% else %}
+          <a href="{% url 'cuenta:login' %}" class="btn btn-sm btn-outline-primary">Acceder</a>
+        {% endif %}
+      </span>
+    </div>
 
-  <p class="mt-4">
-    <a href="{% url 'inicio:index' %}" class="btn btn-secondary btn-sm">Volver a la página principal</a>
-  </p>
-</body>
+    <div id="content">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+
+    <p class="mt-4">
+      <a href="{% url 'inicio:index' %}" class="btn btn-secondary btn-sm">Volver a la página principal</a>
+    </p>
+  </body>
 </html>

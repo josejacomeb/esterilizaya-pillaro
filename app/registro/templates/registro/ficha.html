@@ -1,10 +1,15 @@
-{% load static %}
 <!DOCTYPE html>
+{% load static %}
+{% load django_bootstrap5 %}
+
 <html lang="es">
   <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta charset="UTF-8" />
     <title>Formulario de Consentimiento</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <style>
       @page {
@@ -59,19 +64,6 @@
           <div class="col-12 col-md-auto">
             <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm w-100 w-md-auto">Ver todos los registros</a>
           </div>
-          <script>
-            document.getElementById('printFichaBtn').onclick = function (e) {
-              // Detectar si es móvil
-              var isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)
-              if (isMobile) {
-                // Redirigir a la vista que genera el PDF
-                window.location.href = "{% url 'registro:generar_pdf' registro.id %}"
-              } else {
-                // Mostrar ventana de impresión
-                window.print()
-              }
-            }
-          </script>
         {% endif %}
       </div>
 
@@ -144,7 +136,7 @@
           <i>Nombre Tutor:</i> {{ registro.nombres_tutor }},
           <i>Medio Contacto:</i> {{ registro.numero_telefono_tutor|stringformat:'010d' }},
           <i>CI:</i> {{ registro.cedula_identidad|stringformat:'010d' }}
-          <br/>
+          <br />
           <i>Domicilio:</i> {{ registro.get_parroquia_tutor_display }} / {{ registro.barrio_tutor }},
           <i>Razón Tenencia:</i> {{ registro.get_razon_tenencia_display }}
           <br />

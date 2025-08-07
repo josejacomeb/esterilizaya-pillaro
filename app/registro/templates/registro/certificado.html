@@ -1,86 +1,95 @@
+<!DOCTYPE html>
 {% load static %}
 {% load django_bootstrap5 %}
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-<div class="certificado">
-  <div class="header">
-    <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws Píllaro" style="height: 50px; width: auto" />
-    <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 35px; width: auto" />
-  </div>
-  <div class="title">Certificado Esterilización</div>
-  <div class="details">
-    <div class="row">
-      <div class="col-sm-8">
-        <b>Fecha:</b> {{ registro.fecha_registro|date:'d/m/Y' }}
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Certificado de Esterilización</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+  </head>
+  <body>
+    <div class="certificado">
+      <div class="header">
+        <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws Píllaro" style="height: 50px; width: auto" />
+        <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 35px; width: auto" />
       </div>
-      <div class="col-sm-4 text-end">
-        <b>N°:</b> {{ registro.numero_turno }}
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6">
-        <b>Nombre:</b> {{ registro.nombre }}
-      </div>
-      <div class="col-sm-2">
-        <b>Perro</b>
-      </div>
-      <div class="col-sm-1">
-        {% if registro.especie == '🐕' %}
-          ✅
-        {% else %}
-          ☐
-        {% endif %}
-      </div>
-      <div class="col-sm-2">
-        <b>Gato</b>
-      </div>
-      <div class="col-sm-1">
-        {% if registro.especie == '🐈' %}
-          ✅
-        {% else %}
-          ☐
-        {% endif %}
-      </div>
-    </div>
+      <div class="title">Certificado Esterilización</div>
+      <div class="details">
+        <div class="row">
+          <div class="col-sm-8">
+            <b>Fecha:</b> {{ registro.fecha_registro|date:'d/m/Y' }}
+          </div>
+          <div class="col-sm-4 text-end">
+            <b>N°:</b> {{ registro.numero_turno }}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-6">
+            <b>Nombre:</b> {{ registro.nombre }}
+          </div>
+          <div class="col-sm-2">
+            <b>Perro</b>
+          </div>
+          <div class="col-sm-1">
+            {% if registro.especie == '🐕' %}
+              ✅
+            {% else %}
+              ☐
+            {% endif %}
+          </div>
+          <div class="col-sm-2">
+            <b>Gato</b>
+          </div>
+          <div class="col-sm-1">
+            {% if registro.especie == '🐈' %}
+              ✅
+            {% else %}
+              ☐
+            {% endif %}
+          </div>
+        </div>
 
-    <div class="row">
-      <div class="col-sm-6">
-        <b>Peso:</b> {{ registro.peso }} Kg
+        <div class="row">
+          <div class="col-sm-6">
+            <b>Peso:</b> {{ registro.peso }} Kg
+          </div>
+          <div class="col-sm-2">
+            <b>Macho</b>
+          </div>
+          <div class="col-sm-1">
+            {% if registro.sexo == '♂️' %}
+              ✅
+            {% else %}
+              ☐
+            {% endif %}
+          </div>
+          <div class="col-sm-2">
+            <b>Hembra</b>
+          </div>
+          <div class="col-sm-1">
+            {% if registro.sexo == '♀️' %}
+              ✅
+            {% else %}
+              ☐
+            {% endif %}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <b>Raza:</b> {{ registro.raza_mascota }} &nbsp;&nbsp; <b>Edad:</b> {{ registro.edad_anos }} años {{ registro.edad_meses }} meses
+          </div>
+        </div>
       </div>
-      <div class="col-sm-2">
-        <b>Macho</b>
-      </div>
-      <div class="col-sm-1">
-        {% if registro.sexo == '♂️' %}
-          ✅
-        {% else %}
-          ☐
-        {% endif %}
-      </div>
-      <div class="col-sm-2">
-        <b>Hembra</b>
-      </div>
-      <div class="col-sm-1">
-        {% if registro.sexo == '♀️' %}
-          ✅
-        {% else %}
-          ☐
-        {% endif %}
+      <div class="responsable row pt-10">
+        <div class="col-sm-8">
+          <b>Responsable:</b> {{ registro.nombres_tutor }}
+        </div>
+        <div class="col-sm-4 align-bottom">
+          <b>Firma</b>
+        </div>
       </div>
     </div>
-    <div class="row">
-      <div class="col">
-        <b>Raza:</b> {{ registro.raza_mascota }} &nbsp;&nbsp; <b>Edad:</b> {{ registro.edad_anos }} años {{ registro.edad_meses }} meses
-      </div>
-    </div>
-  </div>
-  <div class="responsable row pt-10">
-    <div class="col-sm-8">
-      <b>Responsable:</b> {{ registro.nombres_tutor }}
-    </div>
-    <div class="col-sm-4 align-bottom">
-      <b>Firma</b>
-    </div>
-  </div>
-</div>
+  </body>
+</html>
