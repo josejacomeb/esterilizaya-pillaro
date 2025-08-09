@@ -170,8 +170,8 @@ LOGGING = {
 
 # Redirecciones
 LOGIN_REDIRECT_URL = "campana:index"
-LOGIN_URL = "campana:login"
-LOGOUT_URL = "campana:logout"
+LOGIN_URL = "cuenta:login"
+LOGOUT_URL = "cuenta:logout"
 
 # Media
 MEDIA_URL = "media/"
