@@ -7,7 +7,10 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Nuevo Registro</h1>
+  <h1>Todos los registros</h1>
+  <div>
+    <a href="{% url 'inscripcion:index' campana_id %}" class="btn btn-primary" role="button">Registrar un nuevo Tutor</a>
+  </div>
   <h1>Buscar participantes</h1>
   <form method="get" action="{% url 'registro:lista' campana_id %}">
     <input type="text" name="query" placeholder="Buscar por tutor" />
