@@ -39,10 +39,8 @@ class Registro(models.Model):
         ]
 
     inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
+    foto = models.ImageField(upload_to=obtener_url_unico, blank=True)
     # Encabezado
-    peso = models.FloatField(
-        help_text="Valor entre 0.1 y 100.0", validators=[MaxValueValidator(100.0), MinValueValidator(0.1)], default=12
-    )
     numero_turno = models.PositiveSmallIntegerField(
         help_text="Número turno", validators=[MaxValueValidator(50), MinValueValidator(1)]
     )
@@ -54,7 +52,6 @@ class Registro(models.Model):
     # Datos específicos
     especie = models.CharField(choices=ESPECIE, max_length=1)
     sexo = models.CharField(choices=SEXO, max_length=2)
-    foto = models.ImageField(upload_to=obtener_url_unico, blank=True)
     edad_anos = models.PositiveSmallIntegerField(choices=EDADES_ANOS, default=0)
     edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6)
     raza_mascota = models.CharField(max_length=250)
@@ -76,6 +73,9 @@ class Registro(models.Model):
     )
     n_animales_hogar_esterilizadas = models.SmallIntegerField(
         choices=N_MASCOTAS, default="0", help_text="Total perros y gatos esterilizados en el hogar"
+    )
+    peso = models.FloatField(
+        help_text="Valor entre 0.1 y 100.0", validators=[MaxValueValidator(100.0), MinValueValidator(0.1)], default=12
     )
 
     usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="registro")
