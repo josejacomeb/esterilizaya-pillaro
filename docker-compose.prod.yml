@@ -9,7 +9,7 @@ services:
     healthcheck:
       test:
         - CMD
-        - curl -k --fail http://www.happypawspillaro.org || exit 1
+        - curl -k --fail http://${APP_URL} || exit 1
       interval: 1m30s
       timeout: 30s
       retries: 5

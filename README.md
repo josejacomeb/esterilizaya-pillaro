@@ -104,18 +104,12 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
 En caso no tengas acceso a internet, debes hacer una configuración adicional para acceder al servidor, por ejemplo puedes consultar tu dirección de Red en Linux con `ip addr show _remplazar_dispositivo_red_`, luego:
 
-1. Añade la IP donde corre el servidor local al `app/esterilizaya/settings/prod.py`
+1. Añade el `hostname` y el IP en tu archivo `.env`
 
    ```bash
-   ALLOWED_HOSTS = ["happypawspillaro.org", "www.happypawspillaro.org", "192.168.1.101"]
-   ```
-
-2. Añade la IP para que NGINX `config/nginx/default.conf.template`
-
-   ```apacheconf
-   server {
-      listen              80;
-      server_name         www.happypawspillaro.org happypawspillaro.org 192.168.1.101;
+   # URLs para correr localmente  
+   APP_URL=www.happypawspillaro.org # Hostname como lo configuraste en tu archivo /etc/hosts
+   LOCAL_URL=192.168.1.100 # IP local de tu adaptador de red
    ```
 
 ### Guardar datos
