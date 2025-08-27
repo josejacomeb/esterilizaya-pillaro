@@ -58,7 +58,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       mkdir -p app/static/css && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/css/* app/static/css
       rm -rf app/static/temp_bootstrap
       rm app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip
-      # Descargar boostrap-autocomplete 
+      # Descargar boostrap-autocomplete
       wget -P app/static/js/ https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-autocomplete@master/autocomplete.js
    ```
 
@@ -94,7 +94,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 4. Inicie el servidor de producción con el siguiente comando
 
    ```bash
-      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d 
+      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
    ```
 
 5. Colecciona los archivos estáticos de tu directorio con el siguiente comando
@@ -110,7 +110,7 @@ En caso no tengas acceso a internet, debes hacer una configuración adicional pa
 1. Añade el `hostname` y el IP en tu archivo `.env`
 
    ```bash
-   # URLs para correr localmente  
+   # URLs para correr localmente
    APP_URL=www.happypawspillaro.org # Hostname como lo configuraste en tu archivo /etc/hosts
    LOCAL_URL=192.168.1.100 # IP local de tu adaptador de red
    ```

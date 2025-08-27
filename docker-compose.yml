@@ -7,7 +7,7 @@ services:
       db:
         condition: service_healthy
     ports:
-      - '8000:8000'
+      - "8000:8000"
     volumes:
       - media-volume:/home/esterilizaya/code/media
       - ./app:/home/esterilizaya/code
@@ -49,14 +49,14 @@ services:
       test:
         - CMD
         - healthcheck.sh
-        - '--su-mysql'
-        - '--connect'
-        - '--innodb_initialized'
+        - "--su-mysql"
+        - "--connect"
+        - "--innodb_initialized"
       interval: 5s
       timeout: 3s
       retries: 2
       start_period: 30s
-    command: '--default-authentication-plugin=ed25519'
+    command: "--default-authentication-plugin=ed25519"
     secrets:
       - db_root_password
       - db_password

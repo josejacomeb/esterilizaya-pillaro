@@ -2,9 +2,9 @@
 
 ## Instalación
 
-*Nota:* Estas instrucciones están pensadas a correrlas en la carpeta por defecto de esterilizaya
+_Nota:_ Estas instrucciones están pensadas a correrlas en la carpeta por defecto de esterilizaya
 
-1. Por favor,  crea un nuevo `venv` en Python con el siguiente commando: `python -m venv .venv`
+1. Por favor, crea un nuevo `venv` en Python con el siguiente commando: `python -m venv .venv`
 2. Activa ese nuevo ambiente con `source .venv/bin/activate`
 3. Instale los requisitos de software con `pip install -r impresion-automatica/requirements.txt`
 

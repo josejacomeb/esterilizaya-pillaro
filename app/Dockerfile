@@ -9,22 +9,20 @@ WORKDIR /esterilizaya
 COPY ./app/requirements.txt /esterilizaya
 RUN apk add --no-cache --virtual \
       build-deps \ 
+      cairo-dev=~1 \
+      freetype-dev=~2 \
       gcc=~14 \
-      musl-dev=~1 \
-      cairo-dev \
-      pango-dev \
-      gdk-pixbuf-dev \
-      jpeg-dev \
-      zlib-dev \
-      freetype-dev \
-      harfbuzz-dev \
-      libxml2-dev \
-      libxslt-dev \
-      jpeg-dev \
-      zlib-dev \
+      gdk-pixbuf-dev=~2 \
+      harfbuzz-dev=~11 \
+      jpeg-dev=~9f \
       libffi-dev=~3 \
+      libxml2-dev=~2 \
+      libxslt-dev=~1 \
+      mariadb-dev=~11 \
+      musl-dev=~1 \
+      pango-dev=~1 \
       pkgconf=~2 \
-      mariadb-dev=~11 && \
+      zlib-dev=~1 && \  
     pip install --no-cache-dir -r requirements.txt && \
     apk del build-deps
 
@@ -33,10 +31,10 @@ WORKDIR /home/esterilizaya/code
 RUN apk add --no-cache \ 
       cairo=~1 \
       curl=~8 \
-      freetype=~2 \
-      font-liberation \
-      font-opensans \
+      font-liberation=~2 \
+      font-opensans=~0 \
       fontconfig=~2 \
+      freetype=~2 \
       gdk-pixbuf=~2 \
       harfbuzz=~11 \
       jpeg=~9f \

@@ -1,0 +1,56 @@
+{% load custom_filters %}
+
+<div class="table-responsive mb-5">
+  <table class="table table-bordered table-striped table-hover align-middle text-nowrap">
+    <thead class="table-light">
+      <tr>
+        <th>Nº</th>
+        <th>Nombre Tutor</th>
+        <th>Barrio</th>
+        <th>Parroquia</th>
+        <th>Teléfono</th>
+        <th>Whatsapp</th>
+        <th>Horario</th>
+        <th>Inscrito por</th>
+        <th>Registrar</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for n_cupos, inscripcion, cupos in inscripciones %}
+        <tr>
+          <td>{{ forloop.counter }}</td>
+          <td>{{ inscripcion.nombres_tutor }}</td>
+          <td>{{ inscripcion.barrio_tutor }}</td>
+          <td>{{ inscripcion.get_parroquia_tutor_display }}</td>
+          <td>{{ inscripcion.numero_telefono_tutor|stringformat:'010d' }}</td>
+          <td>
+            {% if inscripcion.numero_telefono_tutor and inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
+              <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank" class="btn btn-success btn-sm">Mensajear</a>
+            {% else %}
+              <span class="text-muted">No tiene Whatsapp</span>
+            {% endif %}
+          </td>
+          <td>{{ inscripcion.get_horario_display }}</td>
+          <td>{{ inscripcion.usuario.username }}</td>
+          <td>
+            <ol class="ps-3 mb-0">
+              {% for n_cupo in cupos %}
+                <li>
+                  {% if pendientes and n_cupo > inscripcion.cupos_registrados %}
+                    <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="btn btn-outline-primary btn-sm">Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}</a>
+                  {% else %}
+                    <span class="text-success">Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}</span>
+                  {% endif %}
+                </li>
+              {% endfor %}
+            </ol>
+          </td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="9" class="text-center">No hay inscripciones {{ titulo|lower }}.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>

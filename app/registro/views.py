@@ -161,7 +161,8 @@ def generar_pdf(request, registro_id):
 
 def obtener_razas(request):
     query = request.GET.get("term", "")
-    # Obtener razas únicas de registros en campañas pasadas y que hayan sido corregidos para que coincidan con la consulta
+    # Obtener razas únicas de registros en campañas pasadas y que sus nombres hayan sido corregidos
+    # para que coincidan con la consulta via AJAX
     raza_mascota = (
         Registro.objects.filter(raza_mascota__icontains=query, inscripcion__campana__estado=Campana.Estado.PASADA)
         .order_by("raza_mascota")

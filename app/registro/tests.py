@@ -1,14 +1,27 @@
-from django.test import TestCase
-from django.contrib.auth import get_user_model
-from inscripcion.models import Inscripcion
 from campana.models import Campana
+from django.contrib.auth import get_user_model
+from django.test import TestCase
+from esterilizaya.constantes import (
+    AFIRMATIVO_NEGATIVO,
+    COLORES,
+    EDADES_ANOS,
+    EDADES_MESES,
+    ESPECIE,
+    N_MASCOTAS,
+    PARROQUIAS,
+    RAZON_TENENCIA,
+    SEXO,
+)
+from inscripcion.models import Inscripcion
 from registro.models import Registro
-from esterilizaya.constantes import COLORES, ESPECIE, SEXO, AFIRMATIVO_NEGATIVO, PARROQUIAS, RAZON_TENENCIA, N_MASCOTAS, EDADES_ANOS, EDADES_MESES
+
 
 class RegistroModelTest(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create(username="testuser")
-        self.campana = Campana.objects.create(nombre="Campaña Test", barrio="Centro", parroquia="Pillaro", fecha="2025-08-07")
+        self.campana = Campana.objects.create(
+            nombre="Campaña Test", barrio="Centro", parroquia="Pillaro", fecha="2025-08-07"
+        )
         self.inscripcion = Inscripcion.objects.create(
             campana=self.campana,
             nombres_tutor="Juan Perez",
@@ -55,10 +68,13 @@ class RegistroModelTest(TestCase):
         self.assertEqual(registro.numero_turno, 1)
         self.assertEqual(registro.nombre, "Firulais")
 
+
 class RegistroViewsTest(TestCase):
     def setUp(self):
         self.user = get_user_model().objects.create_user(username="testuser", password="testpass")
-        self.campana = Campana.objects.create(nombre="Campaña Test", barrio="Centro", parroquia="Pillaro", fecha="2025-08-07")
+        self.campana = Campana.objects.create(
+            nombre="Campaña Test", barrio="Centro", parroquia="Pillaro", fecha="2025-08-07"
+        )
         self.inscripcion = Inscripcion.objects.create(
             campana=self.campana,
             nombres_tutor="Juan Perez",
