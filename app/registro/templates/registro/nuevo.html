@@ -9,9 +9,7 @@
   {% if messages %}
     <ul class="messages list-unstyled">
       {% for message in messages %}
-        <li class="alert alert-{{ message.tags|default:'info' }}">
-          {{ message }}
-        </li>
+        <li class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</li>
       {% endfor %}
     </ul>
   {% endif %}
@@ -21,4 +19,19 @@
     <button type="submit" class="btn btn-success">Ingresar registro</button>
   </form>
   <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Volver</a>
+  <script type="module">
+    import Autocomplete from '/static/js/autocomplete.js'
+    new Autocomplete(document.getElementById('id_raza_mascota'), {
+      // Use the live-server option to make a new request with each keypress
+      liveServer: true,
+      // The URL of our Django view
+      server: '/registro/razas/',
+      // The parameter name for the search query, which our Django view expects
+      serverParams: { q: 'typed' },
+      // The fields to use for the value and the label from the JSON response
+      valueField: 'id',
+      labelField: 'title',
+      highlightTyped: true
+    })
+  </script>
 {% endblock %}

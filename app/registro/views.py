@@ -157,3 +157,15 @@ def generar_pdf(request, registro_id):
         messages.error(request, "Error al generar el PDF. Por favor, inténtelo de nuevo más tarde.")
         return redirect("registro:ver_ficha", campana_id=registro.inscripcion.campana.id, registro_id=registro_id)
     return redirect("registro:lista", campana_id=registro.inscripcion.campana.id)
+
+
+def obtener_razas(request):
+    query = request.GET.get("term", "")
+    # Obtener razas únicas de registros en campañas pasadas y que hayan sido corregidos para que coincidan con la consulta
+    raza_mascota = (
+        Registro.objects.filter(raza_mascota__icontains=query, inscripcion__campana__estado=Campana.Estado.PASADA)
+        .order_by("raza_mascota")
+        .values_list("raza_mascota", flat=True)
+        .distinct()
+    )
+    return JsonResponse(list(raza_mascota), safe=False)
