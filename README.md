@@ -46,9 +46,10 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
    ```
 
-3. Debido a que a veces el sistema no tendrá internet, es necesario descargar Boostrap >= 5 localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
+3. Debido a que a veces el sistema no tendrá internet, es necesario descargar `bootstrap` >= 5 y `bootstrap-autocomplete` localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
 
    ```bash
+      # Descarga Bootstrap
       BOOSTRAP_VERSION="5.3.7"
       wget -P app/static https://github.com/twbs/bootstrap/releases/download/v$BOOSTRAP_VERSION/bootstrap-$BOOSTRAP_VERSION-dist.zip
       mkdir -p app/static/temp_bootstrap
@@ -57,6 +58,8 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       mkdir -p app/static/css && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/css/* app/static/css
       rm -rf app/static/temp_bootstrap
       rm app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip
+      # Descargar boostrap-autocomplete 
+      wget -P app/static/js/ https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-autocomplete@master/autocomplete.js
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.
