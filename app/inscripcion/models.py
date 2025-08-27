@@ -10,8 +10,8 @@ class Inscripcion(models.Model):
         ordering = ["nombres_tutor"]
 
     nombres_tutor = models.CharField(max_length=250)
-    barrio_tutor = models.CharField(max_length=250)
     parroquia_tutor = models.CharField(choices=PARROQUIAS, max_length=100)
+    barrio_tutor = models.CharField(max_length=250)
     numero_telefono_tutor = models.PositiveIntegerField(
         # Entre 7 y 10 dígitos
         validators=[MinValueValidator(1000000), MaxValueValidator(9999999999)]

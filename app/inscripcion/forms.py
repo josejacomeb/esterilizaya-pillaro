@@ -14,3 +14,14 @@ class InscripcionForm(forms.ModelForm):
             "horario",
             "cupos_totales",
         ]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["barrio_tutor"].widget.attrs.update(
+            {
+                "class": "form-control autocomplete",
+                "autocomplete": "on",
+                "data-suggestions-threshold": "1",
+                "placeholder": "Escribe para buscar barrios registrados...",
+            }
+        )
