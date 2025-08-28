@@ -46,9 +46,10 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
    ```
 
-3. Debido a que a veces el sistema no tendrá internet, es necesario descargar Boostrap >= 5 localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
+3. Debido a que a veces el sistema no tendrá internet, es necesario descargar `bootstrap` >= 5 y `bootstrap-autocomplete` localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
 
    ```bash
+      # Descarga Bootstrap
       BOOSTRAP_VERSION="5.3.7"
       wget -P app/static https://github.com/twbs/bootstrap/releases/download/v$BOOSTRAP_VERSION/bootstrap-$BOOSTRAP_VERSION-dist.zip
       mkdir -p app/static/temp_bootstrap
@@ -57,6 +58,8 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       mkdir -p app/static/css && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/css/* app/static/css
       rm -rf app/static/temp_bootstrap
       rm app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip
+      # Descargar boostrap-autocomplete
+      wget -P app/static/js/ https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-autocomplete@master/autocomplete.js
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.
@@ -91,7 +94,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 4. Inicie el servidor de producción con el siguiente comando
 
    ```bash
-      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d 
+      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
    ```
 
 5. Colecciona los archivos estáticos de tu directorio con el siguiente comando
@@ -104,18 +107,12 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
 En caso no tengas acceso a internet, debes hacer una configuración adicional para acceder al servidor, por ejemplo puedes consultar tu dirección de Red en Linux con `ip addr show _remplazar_dispositivo_red_`, luego:
 
-1. Añade la IP donde corre el servidor local al `app/esterilizaya/settings/prod.py`
+1. Añade el `hostname` y el IP en tu archivo `.env`
 
    ```bash
-   ALLOWED_HOSTS = ["happypawspillaro.org", "www.happypawspillaro.org", "192.168.1.101"]
-   ```
-
-2. Añade la IP para que NGINX `config/nginx/default.conf.template`
-
-   ```apacheconf
-   server {
-      listen              80;
-      server_name         www.happypawspillaro.org happypawspillaro.org 192.168.1.101;
+   # URLs para correr localmente
+   APP_URL=www.happypawspillaro.org # Hostname como lo configuraste en tu archivo /etc/hosts
+   LOCAL_URL=192.168.1.100 # IP local de tu adaptador de red
    ```
 
 ### Guardar datos

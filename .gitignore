@@ -178,6 +178,9 @@ app/ssl/*
 app/static/css/bootstrap*
 app/static/js/bootstrap*
 
-# Archivos de impresión
+# Archivos Javascript descargados
+app/static/js/autocomplete.js
+
+# Archivos de impresión 
 pdfs/*
 procesados/*

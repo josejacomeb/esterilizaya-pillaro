@@ -1,22 +1,30 @@
----
 services:
   web:
-    command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
+    volumes:
+      - ./pdfs:/tmp/pdfs
     environment:
       - DEBUG=False
       - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
       - REQUESTS_CA_BUNDLE=/home/esterilizaya/code/ssl/happypaws.crt
-    volumes:
-      - ./pdfs:/tmp/pdfs
+    healthcheck:
+      test:
+        - CMD
+        - curl -k --fail http://${APP_URL} || exit 1
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
+
   nginx:
     image: nginx:alpine
     restart: always
     depends_on:
       - web
+    ports:
+      - "80:80"
+      - "443:443"
     volumes:
       - ./config/nginx:/etc/nginx/templates
       - ./app/:/home/esterilizaya/code
       - media-volume:/home/esterilizaya/code/media
-    ports:
-      - "80:80"
-      - "443:443"

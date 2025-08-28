@@ -56,8 +56,22 @@ def registrar(request, campana_id, inscripcion_id):
         else:
             forma.clean()
     else:
-        forma = RegistroForm(instance=inscripcion, inscripcion_campana_id=campana_id)
-
+        registro_anterior = (
+            Registro.objects.filter(
+                inscripcion__campana_id=campana_id, inscripcion__nombres_tutor=inscripcion.nombres_tutor
+            )
+            .order_by("-id")
+            .first()
+        )
+        initial_data = {}
+        if registro_anterior:
+            logger.info(registro_anterior)
+            initial_data = {
+                "cedula_identidad": registro_anterior.cedula_identidad,
+                "n_animales_hogar": registro_anterior.n_animales_hogar,
+                "n_animales_hogar_esterilizadas": registro_anterior.n_animales_hogar_esterilizadas,
+            }
+        forma = RegistroForm(instance=inscripcion, inscripcion_campana_id=campana_id, initial=initial_data)
     return render(request, "registro/nuevo.html", {"form": forma})
 
 
@@ -143,3 +157,16 @@ def generar_pdf(request, registro_id):
         messages.error(request, "Error al generar el PDF. Por favor, inténtelo de nuevo más tarde.")
         return redirect("registro:ver_ficha", campana_id=registro.inscripcion.campana.id, registro_id=registro_id)
     return redirect("registro:lista", campana_id=registro.inscripcion.campana.id)
+
+
+def obtener_razas(request):
+    query = request.GET.get("term", "")
+    # Obtener razas únicas de registros en campañas pasadas y que sus nombres hayan sido corregidos
+    # para que coincidan con la consulta via AJAX
+    raza_mascota = (
+        Registro.objects.filter(raza_mascota__icontains=query, inscripcion__campana__estado=Campana.Estado.PASADA)
+        .order_by("raza_mascota")
+        .values_list("raza_mascota", flat=True)
+        .distinct()
+    )
+    return JsonResponse(list(raza_mascota), safe=False)

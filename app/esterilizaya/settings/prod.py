@@ -1,8 +1,9 @@
 from .base import *
+from .utils import retornar_urls
 
 DEBUG = False
-ADMINS = [("José Jacome", "josejacomeb@gmail.com")]
-ALLOWED_HOSTS = ["happypawspillaro.org", "www.happypawspillaro.org"]
+ADMINS = [("José Jácome", "josejacomeb@gmail.com")]
+ALLOWED_HOSTS = [*retornar_urls(), "localhost"]
 STATIC_ROOT = BASE_DIR / "static"
 
 # Configuraciones de seguridad

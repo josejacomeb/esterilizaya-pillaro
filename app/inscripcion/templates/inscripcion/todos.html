@@ -1,6 +1,5 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{% load custom_filters %}
 
 {% block title %}
   Ver todos los inscritos
@@ -15,118 +14,12 @@
     <a href="{% url 'inscripcion:create' campana.id %}" class="btn btn-primary btn-sm mt-2">Crear una nueva inscripción</a>
   </div>
 
-  <!-- Tabla de inscripciones pendientes -->
   <h2 class="h5 mt-4">Inscripciones pendientes de registrar</h2>
-  <div class="table-responsive mb-5">
-    <table class="table table-bordered table-striped table-hover align-middle text-nowrap">
-      <thead class="table-light">
-        <tr>
-          <th>Nº</th>
-          <th>Nombre Tutor</th>
-          <th>Barrio</th>
-          <th>Parroquia</th>
-          <th>Teléfono</th>
-          <th>Whatsapp</th>
-          <th>Horario</th>
-          <th>Inscrito por</th>
-          <th>Registrar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for n_cupos, inscripcion, cupos in pendientes %}
-          <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ inscripcion.nombres_tutor }} </td>
-            <td>{{ inscripcion.barrio_tutor }}</td>
-            <td>{{ inscripcion.get_parroquia_tutor_display }}</td>
-            <td>{{ inscripcion.numero_telefono_tutor|stringformat:'010d' }}</td>
-            <td>
-              {% if inscripcion.numero_telefono_tutor and inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
-                <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank" class="btn btn-success btn-sm">Mensajear</a>
-              {% else %}
-                <span class="text-muted">No tiene Whatsapp</span>
-              {% endif %}
-            </td>
-            <td>{{ inscripcion.get_horario_display }}</td>
-            <td>{{ inscripcion.usuario.username }}</td>
-            <td>
-              <ol class="ps-3 mb-0">
-                {% for n_cupo in cupos %}
-                  <li>
-                    {% if n_cupo > inscripcion.cupos_registrados %}
-                      <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="btn btn-outline-primary btn-sm">Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}</a>
-                    {% else %}
-                      <span class="text-success">Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}</span>
-                    {% endif %}
-                  </li>
-                {% endfor %}
-              </ol>
-            </td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="9" class="text-center">No hay inscripciones pendientes de registrar.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Tabla de inscripciones ya registradas -->
+  {% include "inscripcion/tabla_inscripciones.html" with inscripciones=pendientes pendientes=True titulo="Inscripciones pendientes de registrar" %}
   <h2 class="h5 mt-4">Inscripciones registradas</h2>
-  <div class="table-responsive">
-    <table class="table table-bordered table-striped table-hover align-middle text-nowrap">
-      <thead class="table-light">
-        <tr>
-          <th>Nº</th>
-          <th>Nombre Tutor</th>
-          <th>Barrio</th>
-          <th>Parroquia</th>
-          <th>Teléfono</th>
-          <th>Whatsapp</th>
-          <th>Horario</th>
-          <th>Inscrito por</th>
-          <th>Registrar</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for n_cupos, inscripcion, cupos in registrados %}
-          <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ inscripcion.nombres_tutor }}</td>
-            <td>{{ inscripcion.barrio_tutor }}</td>
-            <td>{{ inscripcion.get_parroquia_tutor_display }}</td>
-            <td>{{ inscripcion.numero_telefono_tutor|stringformat:'010d' }}</td>
-            <td>
-              {% if inscripcion.numero_telefono_tutor and inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
-                <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank" class="btn btn-success btn-sm">Mensajear</a>
-              {% else %}
-                <span class="text-muted">No tiene Whatsapp</span>
-              {% endif %}
-            </td>
-            <td>{{ inscripcion.get_horario_display }}</td>
-            <td>{{ inscripcion.usuario.username }}</td>
-            <td>
-              <ol class="ps-3 mb-0">
-                {% for n_cupo in cupos %}
-                  <li>
-                    <span class="text-success">Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}</span>
-                  </li>
-                {% endfor %}
-              </ol>
-            </td>
-          </tr>
-        {% empty %}
-          <tr>
-            <td colspan="9" class="text-center">No hay inscripciones registradas.</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+  {% include "inscripcion/tabla_inscripciones.html" with inscripciones=registrados pendientes=False titulo="Inscripciones registradas" %}
 
   <style>
-    /* Mobile-friendly table: horizontal scroll and smaller font on small screens */
     @media (max-width: 767.98px) {
       .table-responsive {
         font-size: 0.95em;
@@ -143,7 +36,6 @@
         padding: 0.3em 0.7em;
       }
     }
-    /* Extra: make table scrollable on small screens */
     .table-responsive {
       overflow-x: auto;
       -webkit-overflow-scrolling: touch;

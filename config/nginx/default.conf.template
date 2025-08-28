@@ -4,14 +4,14 @@ upstream uwsgi_app {
 }
 server {
     listen              80;
-    server_name         www.happypawspillaro.org happypawspillaro.org;
+    server_name         ${APP_URL} ${LOCAL_URL};
     return 301 https://$host$request_uri;
 }
 server{
     listen              443 ssl;
     ssl_certificate     /home/esterilizaya/code/ssl/happypaws.crt;
     ssl_certificate_key /home/esterilizaya/code/ssl/happypaws.key;
-    server_name         www.happypawspillaro.org happypawspillaro.org;
+    server_name         ${APP_URL};
     client_max_body_size 50M;
     error_log   stderr warn;
     access_log /dev/stdout main;

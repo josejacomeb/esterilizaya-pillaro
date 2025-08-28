@@ -17,7 +17,14 @@ class RegistroForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.inscripcion_campana_id = kwargs.pop("inscripcion_campana_id", None)
         super().__init__(*args, **kwargs)
-        self.fields["raza_mascota"].initial = "Mestizo"
+        self.fields["raza_mascota"].widget.attrs.update(
+            {
+                "class": "form-control autocomplete",
+                "autocomplete": "on",
+                "placeholder": "Escribe para buscar razas registradas...",
+                "data-suggestions-threshold": "1",
+            }
+        )
 
     def clean_numero_turno(self):
         numero_turno = self.cleaned_data.get("numero_turno")
