@@ -4,7 +4,12 @@ from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.urls import reverse
-from esterilizaya.constantes import PARROQUIAS
+from esterilizaya.constantes import (
+    CANTONES,
+    MAX_LONG_BARRIOS,
+    MAX_LONG_CANTONES,
+    MAX_LONG_PARROQUIAS,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -30,8 +35,11 @@ class Campana(models.Model):
         ordering = ["fecha"]
 
     nombre = models.CharField(max_length=250)
-    barrio = models.CharField(max_length=100)
-    parroquia = models.CharField(choices=PARROQUIAS, max_length=3, unique_for_date="creada")
+    canton = models.CharField(
+        choices=CANTONES, max_length=MAX_LONG_CANTONES, default="PI", help_text="Cantón de la campaña"
+    )
+    parroquia = models.CharField(max_length=MAX_LONG_PARROQUIAS, unique_for_date="creada")
+    barrio = models.CharField(max_length=MAX_LONG_BARRIOS)
     fecha = models.DateField()
     n_animales = models.PositiveSmallIntegerField(
         help_text="Valor del 1 al 50", validators=[MaxValueValidator(50), MinValueValidator(1)]

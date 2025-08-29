@@ -7,12 +7,15 @@ from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from esterilizaya.constantes import (
     AFIRMATIVO_NEGATIVO,
+    CANTONES,
     COLORES,
     EDADES_ANOS,
     EDADES_MESES,
     ESPECIE,
+    MAX_LONG_BARRIOS,
+    MAX_LONG_CANTONES,
+    MAX_LONG_PARROQUIAS,
     N_MASCOTAS,
-    PARROQUIAS,
     RAZON_TENENCIA,
     SEXO,
 )
@@ -65,8 +68,11 @@ class Registro(models.Model):
     )
     cedula_identidad = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
     razon_tenencia = models.CharField(choices=RAZON_TENENCIA, max_length=2, default="CO")
-    parroquia_tutor = models.CharField(choices=PARROQUIAS, max_length=100)
-    barrio_tutor = models.CharField(max_length=250)
+    canton_tutor = models.CharField(
+        choices=CANTONES, max_length=MAX_LONG_CANTONES, help_text="Cantón residencia mascota", default="PI"
+    )
+    parroquia_tutor = models.CharField(max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia residencia mascota")
+    barrio_tutor = models.CharField(max_length=MAX_LONG_BARRIOS, help_text="Barrio residencia mascota")
     # Porcentaje esterilización
     n_animales_hogar = models.SmallIntegerField(
         choices=N_MASCOTAS, default="3", help_text="Total perros y gatos en el hogar"

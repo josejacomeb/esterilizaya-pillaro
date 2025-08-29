@@ -1,4 +1,5 @@
 from django import forms
+from esterilizaya.constantes import SelectInput
 
 from .models import Campana
 
@@ -10,5 +11,5 @@ class DateInput(forms.DateInput):
 class CampanaForm(forms.ModelForm):
     class Meta:
         model = Campana
-        fields = ["nombre", "barrio", "parroquia", "fecha", "n_animales"]
-        widgets = {"fecha": DateInput()}
+        fields = ["nombre", "canton", "parroquia", "barrio", "fecha", "n_animales"]
+        widgets = {"fecha": DateInput(), "parroquia": SelectInput()}
