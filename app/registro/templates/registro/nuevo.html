@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load static %}
 
 {% block title %}
   Ingresar un nuevo registro
@@ -19,6 +20,22 @@
     <button type="submit" class="btn btn-success">Ingresar registro</button>
   </form>
   <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Volver</a>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/canton_parroquia.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+      const url = "{% url 'campana:listar_canton_parroquia' %}"
+      actualizarSelectorCantonParroquia('id_canton', 'id_parroquia', url)
+    })
+  </script>
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/canton_parroquia.js' %}"></script>
+  <script>
+    $(document).ready(function () {
+      const url = "{% url 'campana:listar_canton_parroquia' %}"
+      actualizarSelectorCantonParroquia('id_canton_tutor', 'id_parroquia_tutor', url)
+    })
+  </script>
   <script type="module">
     import Autocomplete from '/static/js/autocomplete.js'
     new Autocomplete(document.getElementById('id_raza_mascota'), {

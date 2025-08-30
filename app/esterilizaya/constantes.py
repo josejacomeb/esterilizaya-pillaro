@@ -48,19 +48,75 @@ COLORES = [
 CANTONES = [("PI", "Píllaro"), ("AM", "Ambato"), ("PE", "Pelileo"), ("PA", "Patate"), ("SA", "Salcedo")]
 
 
-PARROQUIAS = [
-    # Rurales
-    ("BM", "Baquerizo Moreno"),
-    ("EMT", "Emilio Maria Terán"),
-    ("ME", "Marcos Espinel"),
-    ("PU", "Presidente Urbina"),
-    ("SA", "San Andrés"),
-    ("SJP", "San José de Poaló"),
-    ("SM", "San Miguelito"),
-    # Urbanas
-    ("LM", "La Matriz"),
-    ("CN", "Ciudad Nueva"),
-]
+PARROQUIAS = {
+    "PI": [
+        # Rurales
+        "Baquerizo Moreno",
+        "Emilio Maria Terán",
+        "Marcos Espinel",
+        "Presidente Urbina",
+        "San Andrés",
+        "San José de Poaló",
+        "San Miguelito",
+        # Urbanas
+        "La Matriz",
+        "Ciudad Nueva",
+    ],
+    "AM": [
+        # Rurales
+        "Ambatillo",
+        "Atahualpa",
+        "Augusto Nicolás Martínez",
+        "Constantino Fernández",
+        "Cunchibamba",
+        "Huachi Grande",
+        "Izamba",
+        "Juan Benigno Vela",
+        "Montalvo",
+        "Pasa",
+        "Picaihua",
+        "Pilahuín",
+        "Quisapincha",
+        "San Bartolomé de Pinllo",
+        "San Fernando",
+        "Santa Rosa",
+        "Totoras",
+        "Unamuncho",
+        # Urbanas
+        "Ambato",
+    ],
+    "PE": [
+        # Rurales
+        "Benítez",
+        "Bolívar",
+        "Cotaló",
+        "Chiquicha",
+        "El Rosario",
+        "García Moreno",
+        "Huambaló",
+        "Salasaca",
+        # Urbanas
+        "Pelileo",
+    ],
+    "PA": [
+        # Rurales
+        "El Triunfo",
+        "Los Andes",
+        "Sucre",
+        # Urbanas
+        "Patate",
+    ],
+    "SA": [
+        # Rurales
+        "Antonio José Holguín",
+        "Cusubamba",
+        "Mulalillo",
+        "Mulliquindil",
+        "Panzaleo",
+        # Urbanas
+        "San Miguel",
+    ],
+}
 
 RAZON_TENENCIA = [
     ("CO", "Compañia"),
