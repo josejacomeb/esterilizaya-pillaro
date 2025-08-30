@@ -58,8 +58,11 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       mkdir -p app/static/css && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/css/* app/static/css
       rm -rf app/static/temp_bootstrap
       rm app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip
-      # Descargar boostrap-autocomplete
+      # Descarga boostrap-autocomplete
       wget -P app/static/js/ https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-autocomplete@master/autocomplete.js
+      # Descarga jQuery
+      JQUERY_VERSION="3.7.1"
+      wget https://code.jquery.com/jquery-$JQUERY_VERSION.min.js -O app/static/js/jquery.min.js
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.
