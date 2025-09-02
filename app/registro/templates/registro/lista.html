@@ -7,7 +7,8 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Todos los registros</h1>
+  <h2>Todos los registros</h2>
+  <h3>{{ nombre_campana }}</h3>
   <div>
     <a href="{% url 'inscripcion:index' campana_id %}" class="btn btn-primary" role="button">Registrar un nuevo Tutor</a>
   </div>

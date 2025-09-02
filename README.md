@@ -133,7 +133,7 @@ Se puede hacer el respaldo de los contenedores a través de estos comandos:
 2. Respalda el volumen que contiene la base de datos con el siguiente comando
    `docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar czf /backup/mariadb_volume_backup.tar.gz -C /data .`
 3. Respalda el volumen que contiene las imágenes a través del comando.
-   `docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar czf /backup/django_media_backup.tar.gz -C /data .`
+   `docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar xzf /backup/django_media_backup.tar.gz -C /data .`
 
 ##### Restaurar
 
