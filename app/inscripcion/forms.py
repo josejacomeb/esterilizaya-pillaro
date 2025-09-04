@@ -18,7 +18,7 @@ class InscripcionForm(forms.ModelForm):
         ]
         widgets = {"parroquia_tutor": SelectInput()}
 
-    def __init__(self, *args, **kwargs):
+    def __init__(self, *args, campana=None, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields["barrio_tutor"].widget.attrs.update(
             {
@@ -28,3 +28,6 @@ class InscripcionForm(forms.ModelForm):
                 "placeholder": "Escribe para buscar barrios registrados...",
             }
         )
+        if campana:
+            self.fields["canton_tutor"].initial = campana.canton
+            self.fields["parroquia_tutor"].initial = campana.parroquia

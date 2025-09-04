@@ -57,7 +57,7 @@ def crear(request, campana_id):
         else:
             forma.clean()
     else:
-        forma = InscripcionForm()
+        forma = InscripcionForm(campana=campana)
     campanas = Campana.objects.all()
     return render(request, "inscripcion/nueva.html", {"form": forma, "campanas": campanas})
 
