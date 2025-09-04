@@ -1,8 +1,8 @@
-function actualizarSelectorCantonParroquia (ciudadId, parroquiaId, url) {
+function actualizarSelectorCantonParroquia(ciudadId, parroquiaId, url) {
   const $ciudad = $(`#${ciudadId}`);
   const $parroquia = $(`#${parroquiaId}`);
 
-  function cargarParroquias () {
+  function cargarParroquias() {
     const canton = $ciudad.val();
     const defaultParroquiaValue = $parroquia.val();
     $parroquia.empty();
@@ -24,8 +24,8 @@ function actualizarSelectorCantonParroquia (ciudadId, parroquiaId, url) {
   }
 
   $ciudad
-    .off('change.actualizarParroquia')
-    .on('change.actualizarParroquia', cargarParroquias);
+    .off("change.actualizarParroquia")
+    .on("change.actualizarParroquia", cargarParroquias);
 
   // Load parroquias at startup
   cargarParroquias();
