@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
-from esterilizaya.constantes import PARROQUIAS
+from esterilizaya.constantes import PARROQUIAS_CANTON
 from inscripcion.models import Inscripcion
 
 from .forms import CampanaForm
@@ -42,5 +42,5 @@ def mostrar(request, anio, parroquia, mes, dia):
 def listar_canton_parroquia(request):
     canton = request.GET.get("canton")
     if not canton:
-        return JsonResponse({"parroquias": PARROQUIAS})
-    return JsonResponse({"parroquias": PARROQUIAS.get(canton, [])})
+        return JsonResponse({"parroquias": PARROQUIAS_CANTON})
+    return JsonResponse({"parroquias": PARROQUIAS_CANTON.get(canton, [])})

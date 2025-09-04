@@ -9,6 +9,7 @@ from esterilizaya.constantes import (
     MAX_LONG_BARRIOS,
     MAX_LONG_CANTONES,
     MAX_LONG_PARROQUIAS,
+    PARROQUIAS,
 )
 
 logger = logging.getLogger(__name__)
@@ -38,7 +39,7 @@ class Campana(models.Model):
     canton = models.CharField(
         choices=CANTONES, max_length=MAX_LONG_CANTONES, default="PI", help_text="Cantón de la campaña"
     )
-    parroquia = models.CharField(max_length=MAX_LONG_PARROQUIAS, unique_for_date="creada")
+    parroquia = models.CharField(choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, unique_for_date="creada")
     barrio = models.CharField(max_length=MAX_LONG_BARRIOS)
     fecha = models.DateField()
     n_animales = models.PositiveSmallIntegerField(

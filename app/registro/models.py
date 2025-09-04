@@ -16,6 +16,7 @@ from esterilizaya.constantes import (
     MAX_LONG_CANTONES,
     MAX_LONG_PARROQUIAS,
     N_MASCOTAS,
+    PARROQUIAS,
     RAZON_TENENCIA,
     SEXO,
 )
@@ -71,7 +72,9 @@ class Registro(models.Model):
     canton_tutor = models.CharField(
         choices=CANTONES, max_length=MAX_LONG_CANTONES, help_text="Cantón residencia mascota", default="PI"
     )
-    parroquia_tutor = models.CharField(max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia residencia mascota")
+    parroquia_tutor = models.CharField(
+        choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia residencia mascota"
+    )
     barrio_tutor = models.CharField(max_length=MAX_LONG_BARRIOS, help_text="Barrio residencia mascota")
     # Porcentaje esterilización
     n_animales_hogar = models.SmallIntegerField(

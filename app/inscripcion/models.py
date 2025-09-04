@@ -9,6 +9,7 @@ from esterilizaya.constantes import (
     MAX_LONG_BARRIOS,
     MAX_LONG_CANTONES,
     MAX_LONG_PARROQUIAS,
+    PARROQUIAS,
 )
 
 
@@ -20,7 +21,9 @@ class Inscripcion(models.Model):
     canton_tutor = models.CharField(
         choices=CANTONES, max_length=MAX_LONG_CANTONES, default="PI", help_text="Cantón residencia mascota"
     )
-    parroquia_tutor = models.CharField(max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia residencia mascota")
+    parroquia_tutor = models.CharField(
+        choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, help_text="Parroquia residencia mascota"
+    )
     barrio_tutor = models.CharField(max_length=MAX_LONG_BARRIOS, help_text="Barrio residencia mascota")
     numero_telefono_tutor = models.PositiveIntegerField(
         # Entre 7 y 10 dígitos
