@@ -28,8 +28,13 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
 ## Herramientas Software
 
-- Django
-- MariaDB
+- [Django](https://www.djangoproject.com/) >= 5.x
+- [MariaDB](https://mariadb.org/) >= 11.x
+- [Bootstrap](https://getbootstrap.com/) >= 5.x
+- [boostrap-autocomplete](https://bootstrap-autocomplete.readthedocs.io/en/latest/) >= 2.x
+- [jQuery](https://jquery.com/) >= v3.x
+- [WeasyPrint](https://weasyprint.org/) >= v63.x
+- [watchfiles](https://github.com/samuelcolvin/watchfiles) >= v1.x
 
 ## Instrucciones
 
@@ -106,7 +111,11 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
    docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
    ```
 
-### Correr el servidor en una red local
+## Servidor de forma local
+
+Estas instrucciones pueden servir cuando se genere una campaña en un lugar que no tenga acceso de internet.
+
+### Configuraciones Django
 
 En caso no tengas acceso a internet, debes hacer una configuración adicional para acceder al servidor, por ejemplo puedes consultar tu dirección de Red en Linux con `ip addr show _remplazar_dispositivo_red_`, luego:
 
@@ -118,7 +127,15 @@ En caso no tengas acceso a internet, debes hacer una configuración adicional pa
    LOCAL_URL=192.168.1.100 # IP local de tu adaptador de red
    ```
 
-### Guardar datos
+### Impresiones automáticas
+
+Si la computadora donde corre este servidor tiene una impresora conectada, la puedes configurar en Linux para imprimir automáticamente.
+
+Para saber cómo hacerlo por favor Instrucciones [Impresion Automática](impresion-automatica/README.md)
+
+## Generación respaldos
+
+### Exportar datos crudos
 
 Para exportar los datos de las esterilizaciones, por favor use: `python manage.py  dumpdata --exclude auth.permission > Xda_campana.json`
 
