@@ -176,3 +176,14 @@ def obtener_razas(request):
         .distinct()
     )
     return JsonResponse(list(raza_mascota), safe=False)
+
+
+def obtener_barrios(request):
+    query = request.GET.get("term", "")
+    barrio_tutor = (
+        Registro.objects.filter(barrio_tutor__icontains=query, inscripcion__campana__estado=Campana.Estado.PASADA)
+        .order_by("barrio_tutor")
+        .values_list("barrio_tutor", flat=True)
+        .distinct()
+    )
+    return JsonResponse(list(barrio_tutor), safe=False)

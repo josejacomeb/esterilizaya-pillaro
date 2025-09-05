@@ -3,7 +3,6 @@ import logging
 from campana.models import Campana
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 
 from .forms import InscripcionForm
@@ -60,14 +59,3 @@ def crear(request, campana_id):
         forma = InscripcionForm(campana=campana)
     campanas = Campana.objects.all()
     return render(request, "inscripcion/nueva.html", {"form": forma, "campanas": campanas})
-
-
-def obtener_barrios(request):
-    query = request.GET.get("term", "")
-    barrio_tutor = (
-        Inscripcion.objects.filter(barrio_tutor__icontains=query, campana__estado=Campana.Estado.PASADA)
-        .order_by("barrio_tutor")
-        .values_list("barrio_tutor", flat=True)
-        .distinct()
-    )
-    return JsonResponse(list(barrio_tutor), safe=False)
