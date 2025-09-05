@@ -37,13 +37,18 @@ class Campana(models.Model):
 
     nombre = models.CharField(max_length=250)
     canton = models.CharField(
-        choices=CANTONES, max_length=MAX_LONG_CANTONES, default="PI", help_text="Cantón de la campaña"
+        choices=CANTONES, max_length=MAX_LONG_CANTONES, default="PI", help_text="Cantón donde se desarrolla la campaña"
     )
-    parroquia = models.CharField(choices=PARROQUIAS, max_length=MAX_LONG_PARROQUIAS, unique_for_date="creada")
-    barrio = models.CharField(max_length=MAX_LONG_BARRIOS)
-    fecha = models.DateField()
+    parroquia = models.CharField(
+        choices=PARROQUIAS,
+        max_length=MAX_LONG_PARROQUIAS,
+        unique_for_date="creada",
+        help_text="Parroquia donde se desarrolla la campaña",
+    )
+    barrio = models.CharField(max_length=MAX_LONG_BARRIOS, help_text="Barrio donde se desarrolla la campaña")
+    fecha = models.DateField(help_text="Fecha de desarrollo de la campaña")
     n_animales = models.PositiveSmallIntegerField(
-        help_text="Valor del 1 al 50", validators=[MaxValueValidator(50), MinValueValidator(1)]
+        help_text="Mínimo 20 y máximo 50 animales", validators=[MaxValueValidator(50), MinValueValidator(1)]
     )
     creada = models.DateTimeField(auto_now_add=True)
     actualizada = models.DateTimeField(auto_now=True)

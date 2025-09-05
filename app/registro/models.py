@@ -43,32 +43,46 @@ class Registro(models.Model):
         ]
 
     inscripcion = models.ForeignKey(Inscripcion, on_delete=models.CASCADE)
-    foto = models.ImageField(upload_to=obtener_url_unico, blank=True)
+    foto = models.ImageField(upload_to=obtener_url_unico, blank=True, help_text="Foto de frente mascota a esterilizar")
     # Encabezado
     numero_turno = models.PositiveSmallIntegerField(
-        help_text="Número turno", validators=[MaxValueValidator(50), MinValueValidator(1)]
+        help_text="Número turno entregado al tutor", validators=[MaxValueValidator(50), MinValueValidator(1)]
     )
     # Datos generales
-    nombre = models.CharField(max_length=40, help_text="Nombre mascota")
-    color_principal = models.CharField(max_length=30, help_text="Color principal", choices=COLORES)
-    color_secundario = models.CharField(max_length=30, help_text="Color secundario", blank=True, choices=COLORES)
-    observaciones = models.CharField(max_length=200, blank=True)
+    nombre = models.CharField(max_length=40, help_text="Nombre identificación mascota")
+    color_principal = models.CharField(max_length=30, help_text="Color predominante mascota", choices=COLORES)
+    color_secundario = models.CharField(
+        max_length=30, help_text="Segundo color más frecuente mascota", blank=True, choices=COLORES
+    )
+    observaciones = models.CharField(
+        max_length=200, blank=True, help_text="¿Celo? ¿Enfermedad? ¿Lactancia? ¿Encontrado calle?"
+    )
     # Datos específicos
-    especie = models.CharField(choices=ESPECIE, max_length=1)
-    sexo = models.CharField(choices=SEXO, max_length=2)
-    edad_anos = models.PositiveSmallIntegerField(choices=EDADES_ANOS, default=0)
-    edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6)
-    raza_mascota = models.CharField(max_length=250)
-    carnet = models.CharField(choices=AFIRMATIVO_NEGATIVO, max_length=1, default="N")
-    vulnerable = models.BooleanField(default=False)
+    especie = models.CharField(choices=ESPECIE, max_length=1, help_text="Especie mascota a esterilizar")
+    sexo = models.CharField(choices=SEXO, max_length=2, help_text="Género mascota a esterilizar")
+    edad_anos = models.PositiveSmallIntegerField(choices=EDADES_ANOS, default=0, help_text="Edad aproximada en años")
+    edad_meses = models.PositiveSmallIntegerField(choices=EDADES_MESES, default=6, help_text="Edad aproximada en meses")
+    raza_mascota = models.CharField(max_length=65, help_text="Raza mascota, en caso de cruces poner Raza1/Raza2")
+    carnet = models.CharField(
+        choices=AFIRMATIVO_NEGATIVO,
+        max_length=1,
+        default="N",
+        help_text="Vacunas para enfermedades caninas/felinas, rabia",
+    )
+    vulnerable = models.BooleanField(default=False, help_text="Indicar aquí si es un cupo gratuito")
     # Datos tutor
-    nombres_tutor = models.CharField(max_length=250)
+    nombres_tutor = models.CharField(max_length=250, help_text="Al menos un nombre y apellido tutor")
     numero_telefono_tutor = models.PositiveIntegerField(
         # Entre 7 y 10 dígitos
-        validators=[MinValueValidator(1000000), MaxValueValidator(9999999999)]
+        validators=[MinValueValidator(1000000), MaxValueValidator(9999999999)],
+        help_text="Teléfono celular o convencional, en caso de no haber escribe 0900000000",
     )
-    cedula_identidad = models.PositiveIntegerField(validators=[MaxValueValidator(9999999999)])
-    razon_tenencia = models.CharField(choices=RAZON_TENENCIA, max_length=2, default="CO")
+    cedula_identidad = models.PositiveIntegerField(
+        validators=[MaxValueValidator(9999999999)], help_text="Número de diez dígitos, en caso de no haber 1800000000"
+    )
+    razon_tenencia = models.CharField(
+        choices=RAZON_TENENCIA, max_length=2, default="CO", help_text="Por estadística, ¿Por qué lo tiene?"
+    )
     canton_tutor = models.CharField(
         choices=CANTONES, max_length=MAX_LONG_CANTONES, help_text="Cantón residencia mascota", default="PI"
     )
