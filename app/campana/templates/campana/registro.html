@@ -5,19 +5,10 @@
   Registrar una nueva campaña
 {% endblock %}
 {% block content %}
-  <h1>{{ title }}</h1>
-  <p>{{ content }}</p>
   <form method="post">
-    {% csrf_token %} 
+    {% csrf_token %}
     {% bootstrap_form form %}
     {% bootstrap_button button_type='submit' content='Registrar Campaña' %}
   </form>
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/canton_parroquia.js' %}"></script>
-  <script>
-    $(document).ready(function () {
-      const url = "{% url 'campana:listar_canton_parroquia' %}"
-      actualizarSelectorCantonParroquia('id_canton', 'id_parroquia', url)
-    })
-  </script>
+  {% include 'selector-cascada.html' with id_parroquia='id_parroquia' id_canton='id_canton' %}
 {% endblock %}

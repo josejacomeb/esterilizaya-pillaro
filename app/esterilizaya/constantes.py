@@ -1,12 +1,5 @@
 import pathlib
 
-from django import forms
-
-
-class SelectInput(forms.Select):
-    input_type = "select"
-
-
 ESPECIE = [("🐕", "Canino"), ("🐈", "Felino")]
 SEXO = [("♂️", "Macho"), ("♀️", "Hembra")]
 AFIRMATIVO_NEGATIVO = [("S", "Si"), ("N", "No")]

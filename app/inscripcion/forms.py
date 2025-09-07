@@ -1,5 +1,4 @@
 from django import forms
-from esterilizaya.constantes import SelectInput
 
 from .models import Inscripcion
 
@@ -16,7 +15,6 @@ class InscripcionForm(forms.ModelForm):
             "horario",
             "cupos_totales",
         ]
-        widgets = {"parroquia_tutor": SelectInput()}
 
     def __init__(self, *args, campana=None, **kwargs):
         super().__init__(*args, **kwargs)

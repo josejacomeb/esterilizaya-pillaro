@@ -21,23 +21,6 @@
     {% bootstrap_form form layout='vertical' %}
     <button type="submit" class="btn btn-primary">Subir</button>
   </form>
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/canton_parroquia.js' %}"></script>
-  <script>
-    $(document).ready(function () {
-      const url = "{% url 'campana:listar_canton_parroquia' %}"
-      actualizarSelectorCantonParroquia('id_canton_tutor', 'id_parroquia_tutor', url)
-    })
-  </script>
-  <script type="module">
-    import Autocomplete from '/static/js/autocomplete.js'
-    new Autocomplete(document.getElementById('id_barrio_tutor'), {
-      liveServer: true,
-      server: '/registro/barrios/',
-      serverParams: { q: 'typed' },
-      valueField: 'id',
-      labelField: 'title',
-      highlightTyped: true
-    })
-  </script>
+  {% include 'selector-cascada.html' with id_parroquia='id_parroquia_tutor' id_canton='id_canton_tutor' %}
+  {% include 'autocompletar-barrios.html' %}
 {% endblock %}

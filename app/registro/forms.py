@@ -1,7 +1,6 @@
 import logging
 
 from django import forms
-from esterilizaya.constantes import SelectInput
 
 from .models import Registro
 
@@ -14,7 +13,6 @@ class RegistroForm(forms.ModelForm):
     class Meta:
         model = Registro
         exclude = ["inscripcion", "usuario"]
-        widgets = {"parroquia_tutor": SelectInput()}
 
     def __init__(self, *args, **kwargs):
         self.inscripcion_campana_id = kwargs.pop("inscripcion_campana_id", None)
