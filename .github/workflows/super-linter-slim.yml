@@ -1,5 +1,5 @@
 ---
-name: Lint
+name: Comprobar formato de código
 
 on: # yamllint disable-line rule:truthy
   push: null
@@ -39,6 +39,7 @@ jobs:
           PYTHON_ISORT_CONFIG_FILE: pyproject.toml
           PYTHON_PYLINT_CONFIG_FILE: .pylintrc
           JSCPD_CONFIG_FILE: .jscpd.json
+          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
           VALIDATE_HTML: false
           VALIDATE_HTML_PRETTIER: false
           VALIDATE_PYTHON_PYINK: false

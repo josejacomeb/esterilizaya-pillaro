@@ -1,3 +1,4 @@
+// eslint-disable-next-line no-unused-vars
 function actualizarSelectorCantonParroquia(ciudadId, parroquiaId, url) {
   const $ciudad = $(`#${ciudadId}`);
   const $parroquia = $(`#${parroquiaId}`);
@@ -29,4 +30,4 @@ function actualizarSelectorCantonParroquia(ciudadId, parroquiaId, url) {
 
   // Load parroquias at startup
   cargarParroquias();
-}
+ }
