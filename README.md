@@ -129,7 +129,7 @@ En caso no tengas acceso a internet, debes hacer una configuración adicional pa
 
 ### Impresiones automáticas
 
-Si la computadora donde corre este servidor tiene una impresora conectada, la puedes configurar en Linux para imprimir automáticamente.
+Si la computadora donde corre este servidor tiene una impresora conectada, la puedes configurar en Linux para imprimir las fichas automáticamente.
 
 Para saber cómo hacerlo por favor Instrucciones [Impresion Automática](impresion-automatica/README.md)
 
