@@ -1,18 +1,22 @@
+// eslint.config.mjs
 import js from "@eslint/js";
-import globals from "globals";
-import { defineConfig } from "eslint/config";
 
-export default defineConfig([
+export default [
+  // Base recommended config
+  js.configs.recommended,
+
   {
-    files: ["**/*.{js,mjs,cjs}"],
-    plugins: { js },
-    extends: ["js/recommended"],
     languageOptions: {
       globals: {
-        ...globals.browser,
-        ...globals.jquery,
+        // Enable jQuery globals so ESLint doesn’t complain
+        $: "readonly",
+        jQuery: "readonly",
       },
     },
+    rules: {
+      // Example overrides (adjust as needed)
+      "no-unused-vars": "warn",
+      "no-console": "off",
+    },
   },
-  { files: ["**/*.js"], languageOptions: { sourceType: "script" } },
-]);
+];
