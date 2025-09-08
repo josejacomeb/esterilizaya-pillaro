@@ -7,7 +7,7 @@ import js from "@eslint/js";
 import globals from "globals";
 
 // Import the defineConfig helper for a better configuration experience.
-import { defineConfig } from "eslint/config";
+import { defineConfig } from "@eslint/js";
 
 /**
  * The new "flat config" for ESLint is an array of configuration objects.
@@ -33,7 +33,7 @@ export default defineConfig([
       },
     },
   },
-
+  
   // This object specifically sets the source type to 'commonjs' for .js files.
   // Note: This rule may not be necessary if your project is configured as a module.
   { files: ["**/*.js"], languageOptions: { sourceType: "commonjs" } },
