@@ -30,4 +30,4 @@ function actualizarSelectorCantonParroquia(ciudadId, parroquiaId, url) {
 
   // Load parroquias at startup
   cargarParroquias();
- }
+}
