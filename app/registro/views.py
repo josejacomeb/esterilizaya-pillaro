@@ -26,12 +26,18 @@ def index(request):
 
 def lista(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
+    # Dato del primer resultado
+    nombre_campana = registros[0].inscripcion.campana.nombre
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]
     if query:
         registros = registros.filter(nombres_tutor__iregex=query)
-    return render(request, "registro/lista.html", {"registros": registros, "campana_id": campana_id})
+    return render(
+        request,
+        "registro/lista.html",
+        {"registros": registros, "campana_id": campana_id, "nombre_campana": nombre_campana},
+    )
 
 
 @login_required(login_url="cuenta:login")
@@ -170,3 +176,14 @@ def obtener_razas(request):
         .distinct()
     )
     return JsonResponse(list(raza_mascota), safe=False)
+
+
+def obtener_barrios(request):
+    query = request.GET.get("term", "")
+    barrio_tutor = (
+        Registro.objects.filter(barrio_tutor__icontains=query, inscripcion__campana__estado=Campana.Estado.PASADA)
+        .order_by("barrio_tutor")
+        .values_list("barrio_tutor", flat=True)
+        .distinct()
+    )
+    return JsonResponse(list(barrio_tutor), safe=False)

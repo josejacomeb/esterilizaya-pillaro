@@ -7,8 +7,8 @@ from .models import Registro
 
 @admin.register(Registro)
 class RegistroAdmin(admin.ModelAdmin):
-    list_display = ["nombre", "numero_turno", "sexo", "especie", "foto", "obtener_campana_id"]
-    list_filter = ("inscripcion__campana__id",)
+    list_display = ["nombre", "numero_turno", "nombres_tutor", "sexo", "especie", "obtener_campana_id", "barrio_tutor"]
+    list_filter = ("inscripcion__campana__id", "barrio_tutor")
     show_facets = admin.ShowFacets.ALWAYS
 
     @admin.display(description="Campaña ID")

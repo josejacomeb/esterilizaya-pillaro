@@ -1,0 +1,11 @@
+<script type="module">
+  import Autocomplete from "/static/js/autocomplete.js";
+  new Autocomplete(document.getElementById("id_barrio_tutor"), {
+    liveServer: true,
+    server: "/registro/barrios/",
+    serverParams: { q: "typed" },
+    valueField: "id",
+    labelField: "title",
+    highlightTyped: true,
+  });
+</script>

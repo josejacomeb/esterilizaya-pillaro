@@ -20,19 +20,6 @@
     {% bootstrap_form form layout='vertical' %}
     <button type="submit" class="btn btn-primary">Subir</button>
   </form>
-  <script type="module">
-    import Autocomplete from '/static/js/autocomplete.js'
-    new Autocomplete(document.getElementById('id_barrio_tutor'), {
-      // Use the live-server option to make a new request with each keypress
-      liveServer: true,
-      // The URL of our Django view
-      server: '/inscripcion/barrios/',
-      // The parameter name for the search query, which our Django view expects
-      serverParams: { q: 'typed' },
-      // The fields to use for the value and the label from the JSON response
-      valueField: 'id',
-      labelField: 'title',
-      highlightTyped: true
-    })
-  </script>
+  {% include 'selector-cascada.html' with id_parroquia='id_parroquia_tutor' id_canton='id_canton_tutor' %}
+  {% include 'autocompletar-barrios.html' %}
 {% endblock %}

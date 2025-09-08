@@ -10,5 +10,5 @@ class DateInput(forms.DateInput):
 class CampanaForm(forms.ModelForm):
     class Meta:
         model = Campana
-        fields = ["nombre", "barrio", "parroquia", "fecha", "n_animales"]
+        fields = ["nombre", "canton", "parroquia", "barrio", "fecha", "n_animales"]
         widgets = {"fecha": DateInput()}

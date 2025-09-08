@@ -3,7 +3,9 @@ import logging
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
+from esterilizaya.constantes import PARROQUIAS_CANTON
 from inscripcion.models import Inscripcion
 
 from .forms import CampanaForm
@@ -35,3 +37,10 @@ def mostrar(request, anio, parroquia, mes, dia):
     campana = get_object_or_404(Campana, creada__year=anio, parroquia=parroquia, creada__month=mes, creada__day=dia)
     n_registrados = Inscripcion.objects.filter(campana_id=campana.id).count()
     return render(request, "campana/campana.html", {"campana": campana, "n_registrados": n_registrados})
+
+
+def listar_canton_parroquia(request):
+    canton = request.GET.get("canton")
+    if not canton:
+        return JsonResponse({"parroquias": PARROQUIAS_CANTON})
+    return JsonResponse({"parroquias": PARROQUIAS_CANTON.get(canton, [])})

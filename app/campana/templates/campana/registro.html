@@ -1,12 +1,14 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
-{% block title %} Registrar una nueva campaña {% endblock%}
+{% load static %}
+{% block title %}
+  Registrar una nueva campaña
+{% endblock %}
 {% block content %}
-<h1>{{ title }}</h1>
-<p>{{ content }}</p>
-<form method="post">
+  <form method="post">
     {% csrf_token %}
     {% bootstrap_form form %}
-    {% bootstrap_button button_type="submit" content="Registrar Campaña" %}
-</form>
+    {% bootstrap_button button_type='submit' content='Registrar Campaña' %}
+  </form>
+  {% include 'selector-cascada.html' with id_parroquia='id_parroquia' id_canton='id_canton' %}
 {% endblock %}
