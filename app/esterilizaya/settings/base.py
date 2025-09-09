@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "inicio.apps.InicioConfig",
     "registro.apps.RegistroConfig",
     "reportes.apps.ReportesConfig",
+    "mascotas.apps.MascotasConfig",
     "django_bootstrap5",
     "django.contrib.admin",
     "django.contrib.auth",

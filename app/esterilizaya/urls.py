@@ -27,6 +27,7 @@ urlpatterns = [
     path("campana/", include("campana.urls", namespace="campana")),
     path("registro/", include("registro.urls", namespace="registro")),
     path("cuenta/", include("cuenta.urls", namespace="cuenta")),
+    path("mascotas/", include("mascotas.urls", namespace="mascotas")),
 ]
 
 if settings.DEBUG:
