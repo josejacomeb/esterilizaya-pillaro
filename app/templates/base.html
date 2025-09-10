@@ -15,37 +15,105 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link href="{% static 'css/base.css' %}" rel="stylesheet" />
+    <style>
+      /* Custom responsive enhancements */
+      .brand-container {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1rem;
+        padding: 0.5rem 1rem;
+      }
+      
+      .brand-logo {
+        height: 80px;
+        max-width: 100%;
+        object-fit: contain;
+      }
+      
+      .user-info-container {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        padding: 0.5rem 1rem;
+        background-color: #f8f9fa;
+        border-bottom: 1px solid #e9ecef;
+      }
+      
+      .user-info-container form {
+        margin-left: 0.5rem;
+      }
+      
+      .content-container {
+        padding: 1rem;
+        min-height: calc(100vh - 280px);
+      }
+      
+      .footer-nav {
+        padding: 1rem;
+        background-color: #f8f9fa;
+        border-top: 1px solid #e9ecef;
+        text-align: center;
+      }
+      
+      /* Responsive adjustments */
+      @media (max-width: 576px) {
+        .brand-container {
+          justify-content: center;
+        }
+      
+        .brand-logo {
+          height: 60px;
+        }
+      
+        .user-info-container {
+          justify-content: center;
+          flex-direction: column;
+          text-align: center;
+          gap: 0.5rem;
+        }
+      
+        .user-info-container form {
+          margin-left: 0;
+        }
+      }
+    </style>
   </head>
 
-  <body class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center flex-wrap mb-3">
-      <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" class="img-fluid" style="height: 80px;" />
-      <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" class="img-fluid" style="height: 80px;" />
-    </div>
+  <body class="d-flex flex-column min-vh-100 bg-light">
+    <header>
+      <div class="brand-container">
+        <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" class="brand-logo" />
+        <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" class="brand-logo" />
+      </div>
+    </header>
 
-    {% bootstrap_messages %}
+    <main class="flex-grow-1">
+      {% bootstrap_messages %}
 
-    <div class="mb-3">
-      <span class="user">
-        {% if request.user.is_authenticated %}
-          Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}" method="post" class="d-inline">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
-          </form>
-        {% else %}
-          <a href="{% url 'cuenta:login' %}" class="btn btn-sm btn-outline-primary">Acceder</a>
-        {% endif %}
-      </span>
-    </div>
+      <div class="user-info-container">
+        <span class="user">
+          {% if request.user.is_authenticated %}
+            Hola {{ request.user.first_name|default:request.user.username }},<form action="{% url 'cuenta:logout' %}" method="post" class="d-inline">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
+            </form>
+          {% else %}
+            <a href="{% url 'cuenta:login' %}" class="btn btn-sm btn-outline-primary">Acceder</a>
+          {% endif %}
+        </span>
+      </div>
 
-    <div id="content">
-      {% block content %}
+      <div id="content" class="content-container">
+        {% block content %}
 
-      {% endblock %}
-    </div>
+        {% endblock %}
+      </div>
+    </main>
 
-    <p class="mt-4">
+    <footer class="footer-nav mt-auto">
       <a href="{% url 'inicio:index' %}" class="btn btn-secondary btn-sm">Volver a la página principal</a>
-    </p>
+    </footer>
   </body>
 </html>
