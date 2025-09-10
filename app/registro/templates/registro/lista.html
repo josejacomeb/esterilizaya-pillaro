@@ -37,15 +37,7 @@
             <td>{{ registro.id }}</td>
             <td>{{ registro.numero_turno }}</td>
             <td>
-              {% if registro.foto %}
-                <img src="{{ registro.foto.url }}" alt="Foto {{ registro.nombre }}" class="imagen-mascotas" />
-              {% else %}
-                {% if registro.especie == '🐈' %}
-                  <img src="{% static 'images/mascotas/gato.png' %}" alt="Foto {{ registro.nombre }}" class="imagen-mascotas" />
-                {% else %}
-                  <img src="{% static 'images/mascotas/perro.png' %}" alt="Foto {{ registro.nombre }}" class="imagen-mascotas" />
-                {% endif %}
-              {% endif %}
+              {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
             </td>
 
             <td>{{ registro.nombre }}</td>
