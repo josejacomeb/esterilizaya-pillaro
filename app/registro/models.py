@@ -5,6 +5,7 @@ from pathlib import Path
 from django.conf import settings
 from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
+from django.urls import reverse
 from esterilizaya.constantes import (
     AFIRMATIVO_NEGATIVO,
     CANTONES,
@@ -106,3 +107,9 @@ class Registro(models.Model):
 
     def __str__(self) -> str:
         return f"{self.nombre} de {self.nombres_tutor}"
+
+    def get_absolute_url(self):
+        return reverse(
+            "mascotas:ver",
+            args=[self.inscripcion.campana.id, self.canton_tutor, self.parroquia_tutor, self.barrio_tutor, self.id],
+        )

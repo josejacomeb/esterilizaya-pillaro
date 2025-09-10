@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}
+  Todas las mascotas
+{% endblock %}
+
+{% block content %}
+  <div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+      <div class="col-md-4">
+        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
+      </div>
+      <div class="col-md-8">
+        <div class="card-body">
+          <h5 class="card-title">{{ registro }}</h5>
+          <p class="card-text">
+            <strong>ID:</strong> {{ registro.id }} | <strong>Esterilizado en:</strong> {{ registro.inscripcion.campana.nombre }}
+          </p>
+
+          <p class="card-text">
+            <strong>Hogar:</strong> {{ registro.barrio_tutor }} - {{ registro.get_parroquia_tutor_display }} - {{ registro.get_canton_tutor_display }}
+          </p>
+          <p class="card-text">
+            <strong>Raza:</strong> {{ registro.raza_mascota }}
+          </p>
+          <p class="card-text">
+            <small class="text-muted">Registrada: {{ registro.fecha_registro }}</small>
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
