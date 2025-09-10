@@ -11,68 +11,12 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link href="{% static 'css/base.css' %}" rel="stylesheet" />
-    <style>
-      /* Style for gender-specific rows */
-      .female-row {
-        background-color: pink !important;
-      }
-      .male-row {
-        background-color: lightblue !important;
-      }
-      /* Ensure table fits in A4 landscape */
-      @media print {
-        @page {
-          size: A4 landscape;
-          margin: 10mm;
-        }
-      
-        body {
-          margin: 0;
-          font-size: 12px;
-        }
-      
-        table {
-          width: 100%;
-          border-collapse: collapse;
-          font-size: 10pt;
-        }
-      
-        th,
-        td {
-          border: 1px solid black;
-          padding: 5px;
-          text-align: center;
-        }
-      
-        .table-responsive {
-          overflow: visible;
-        }
-      
-        /* Ensure row colors are visible during printing */
-        .female-row {
-          background-color: pink !important;
-          -webkit-print-color-adjust: exact;
-        }
-      
-        .male-row {
-          background-color: lightblue !important;
-          -webkit-print-color-adjust: exact;
-        }
-      
-        thead {
-          background-color: black !important;
-          color: white !important;
-          -webkit-print-color-adjust: exact;
-        }
-      }
-    </style>
   </head>
   <body>
-    <div class="container mt-5">
       <h2 class="text-center mb-4">Lista de Mascotas Registradas</h2>
       <div class="table-responsive">
-        <table class="table table-bordered table-hover">
-          <thead class="table-dark">
+        <table class="table table-bordered table-hover table-striped table-sm">
+          <thead class="table-light">
             <tr>
               <th>No.</th>
               <th>Fecha</th>
@@ -85,11 +29,11 @@
               <th>Vulnerable</th>
               <th>Sexo</th>
               <th>Edad</th>
+              <th>Observaciones</th>
               <th>Estado fisiológico</th>
               <th>Premed</th>
               <th>Anes</th>
               <th>Entregado</th>
-              <th>Observaciones</th>
             </tr>
           </thead>
           <tbody id="pets-table-body">
@@ -97,66 +41,55 @@
           </tbody>
         </table>
       </div>
-    </div>
+    <script src="{% static 'js/jquery.min.js' %}"></script>
     <script>
       function getDefaultPhoto(especie) {
-        // Map sex to appropriate default photo
         const defaultPhotos = {
           '🐈': '/static/images/mascotas/gato.png',
           '🐕': '/static/images/mascotas/perro.png'
         }
-        // Use sex-specific photo, or fallback to default
         return defaultPhotos[especie.toLowerCase()]
       }
       function fetchPets() {
-        fetch(window.location.href, {
-          headers: { 'x-requested-with': 'XMLHttpRequest' }
-        })
-          .then((response) => response.json())
-          .then((data) => {
-            const tableBody = document.getElementById('pets-table-body')
-            tableBody.innerHTML = '' // Clear existing rows
-            data.registros.forEach((pet) => {
-              const row = tableBody.insertRow()
-              row.className = pet.sexo === '♀️' ? 'female-row' : 'male-row'
-              const date = new Date(pet.fecha_registro)
-              const formattedDate = [
-                String(date.getDate()).padStart(2, '0'), // Day with leading zero
-                String(date.getMonth() + 1).padStart(2, '0'), // Month with leading zero
-                date.getFullYear() // Full year
-              ].join('/')
-              row.insertCell(0).textContent = pet.numero_turno
-              row.insertCell(1).textContent = formattedDate
-              row.insertCell(2).textContent = 'C'
-              const celdaFoto = row.insertCell(3)
-              const img = document.createElement('img')
-              if (pet.foto === '') {
-                img.src = getDefaultPhoto(pet.especie)
-              } else {
-                img.src = `/../../media/${pet.foto}`
-              }
-              img.alt = `Foto de ${pet.nombre}`
-              img.className = 'imagen-mascotas'
-              celdaFoto.appendChild(img)
-              row.insertCell(4).textContent = pet.nombres_tutor
-              row.insertCell(5).textContent = `${pet.especie === '🐈' ? 'Felino' : 'Canino'}`
-              row.insertCell(6).textContent = pet.peso
-              row.insertCell(7).textContent = pet.nombre
-              row.insertCell(8).textContent = `${pet.vulnerable === true ? '✅' : ''}`
-              row.insertCell(9).textContent = pet.sexo
-              row.insertCell(10).textContent = `${pet.edad_anos}a ${pet.edad_meses}m`
-              row.insertCell(11).textContent = ''
-              row.insertCell(12).textContent = ''
-              row.insertCell(13).textContent = ''
-              row.insertCell(14).textContent = ''
-              row.insertCell(15).textContent = pet.observaciones
-            })
+        $.ajax({
+          url: window.location.href,
+          dataType: 'json'
+        }).done(function (data) {
+          const $tableBody = $('#pets-table-body')
+          $tableBody.empty()
+          $.each(data.registros, function (_, pet) {
+            const $row = $('<tr>')
+            if (pet.sexo === '♂️') $row.addClass('table-info')
+            const date = new Date(pet.fecha_registro)
+            const formattedDate = [String(date.getDate()).padStart(2, '0'), String(date.getMonth() + 1).padStart(2, '0'), date.getFullYear()].join('/')
+            $row.append($('<td>').text(pet.numero_turno))
+            $row.append($('<td>').text(formattedDate))
+            $row.append($('<td>').text('C'))
+            const $img = $('<img>')
+              .attr('src', pet.foto === '' ? getDefaultPhoto(pet.especie) : `/../../media/${pet.foto}`)
+              .attr('alt', `Foto de ${pet.nombre}`)
+              .addClass('imagen-mascotas')
+            $row.append($('<td>').append($img))
+            $row.append($('<td>').text(pet.nombres_tutor))
+            $row.append($('<td>').text(pet.especie === '🐈' ? 'Felino' : 'Canino'))
+            $row.append($('<td>').text(pet.peso))
+            $row.append($('<td>').text(pet.nombre))
+            $row.append($('<td>').text(pet.vulnerable === true ? '✅' : ''))
+            $row.append($('<td>').text(pet.sexo))
+            $row.append($('<td>').text(`${pet.edad_anos}a ${pet.edad_meses}m`))
+            $row.append($('<td>').text(pet.observaciones))
+            $row.append($('<td>').text(''))
+            $row.append($('<td>').text(''))
+            $row.append($('<td>').text(''))
+            $row.append($('<td>').text(''))
+            $tableBody.append($row)
           })
+        })
       }
-      
-      // Fetch pets every 5 seconds to update the table
       setInterval(fetchPets, 5000)
-      window.onload = fetchPets // Fetch pets on page load
+      $(document).ready(function () {
+        fetchPets()
+      })
     </script>
   </body>
 </html>
