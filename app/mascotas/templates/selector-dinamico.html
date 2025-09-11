@@ -1,0 +1,11 @@
+<div>
+    <label for="{{elemento}}" class="form-label">{{texto}}</label>
+    <select name="{{elemento}}" id="{{elemento}}-id" class="form-select">
+        <option value="">Todos</option>
+        {% for id, valor in valores %}
+            {% if id %}
+                <option value="{{id}}" {% if actual == id %} selected {% endif %}> {{valor}} </option>
+            {% endif %}
+        {% endfor %}
+    </select>
+</div>

@@ -14,41 +14,54 @@
       {% endfor %}
     </ul>
   {% endif %}
-  {% if registros %}
-    <div class="table-responsive">
-      <table class="table table-bordered text-center mb-1 border-1px-dark">
-        <thead class="table-light">
-          <tr>
-            <th>Nº</th>
-            <th>Nombre</th>
-            <th>Tutor</th>
-            <th>Especie</th>
-            <th>Género</th>
-            <th>Raza</th>
-            <th>Foto</th>
-            <th>Campaña</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for registro in registros %}
-            <tr>
-              <td>{{ registro.id }}</td>
-              <td>
-                <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
-              </td>
-              <td>{{ registro.nombres_tutor }}</td>
-              <td>{{ registro.especie }}</td>
-              <td>{{ registro.sexo }}</td>
-              <td>{{ registro.raza_mascota }}</td>
-              <td>
-                {% include "registro/foto.html" with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
-              </td>
-              <td>{{ registro.inscripcion.campana }}</td>
-            </tr>
-          {% endfor %}
-        </tbody>
-      </table>
+  <div class="row">
+    <div class="col-md-9">
+      {% if registros %}
+        <div class="table-responsive">
+          <table class="table table-bordered text-center mb-1 border-1px-dark">
+            <thead class="table-light">
+              <tr>
+                <th>ID</th>
+                <th>Nº</th>
+                <th>Nombre</th>
+                <th>Tutor</th>
+                <th>Especie</th>
+                <th>Género</th>
+                <th>Raza</th>
+                <th>Foto</th>
+                <th>Campaña</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for registro in registros %}
+                <tr>
+                  <td>{{ registro.id }}</td>
+                  <td>{{ forloop.counter }}</td>
+                  <td>
+                    <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
+                  </td>
+                  <td>{{ registro.nombres_tutor }}</td>
+                  <td>{{ registro.especie }}</td>
+                  <td>{{ registro.sexo }}</td>
+                  <td>{{ registro.raza_mascota }}</td>
+                  <td>
+                    {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
+                  </td>
+                  <td>{{ registro.inscripcion.campana }}</td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      {% else %}
+        <p>No hay registros para mostrar</p>
+      {% endif %}
     </div>
+    <div class="col-md-3 d-none d-md-block bg-white border-start min-vh-100 p-4">
+      {% include 'filtro.html' %}
+    </div>
+  </div>
+  {% if registros %}
+    {% include 'pagination.html' with page=registros %}
   {% endif %}
-  {% include 'pagination.html' with page=registros %}
 {% endblock %}

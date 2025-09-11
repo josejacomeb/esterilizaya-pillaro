@@ -1,0 +1,47 @@
+{% load static %}
+
+<form method="get" id="filterForm" class="d-flex flex-column gap-3">
+  <!-- Nombre -->
+  <div>
+    <label for="nombre" class="form-label">Nombre</label>
+    <input type="text" name="nombre" id="nombre-id" class="form-control" placeholder="Buscar por nombre o id" value="{{ nombre_actual }}" />
+  </div>
+  <!-- Campana -->
+  {% include 'selector-dinamico.html' with texto='Campaña' valores=campanas elemento='campana' actual=campana_actual %}
+  <!-- Especie -->
+  {% include 'selector-dinamico.html' with texto='Especie' valores=especies elemento='especie' actual=especie_actual %}
+  <!-- Género -->
+  {% include 'selector-dinamico.html' with texto='Género' valores=generos elemento='genero' actual=genero_actual %}
+  <!-- Cantones -->
+  {% include 'selector-dinamico.html' with texto='Cantón' valores=cantones elemento='canton' actual=canton_actual %}
+  <!-- Parroquias -->
+  {% include 'selector-dinamico.html' with texto='Parroquia' valores=parroquias elemento='parroquia' actual=parroquia_actual %}
+  <!-- Barrio -->
+  {% include 'selector-dinamico.html' with texto='Barrio' valores=barrios elemento='barrio' actual=barrio_actual %}
+  <!-- Botón Reset -->
+  <div>
+    <a href="{% url 'mascotas:index' %}" class="btn btn-outline-secondary w-100">Resetear</a>
+  </div>
+</form>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script>
+  $(function () {
+    // Auto-submit when select changes
+    $('#campana-id, #especie-id, #genero-id, #canton-id, #parroquia-id, #barrio-id').on('change', function () {
+      console.log($('#filterForm'))
+      $('#filterForm').submit()
+    })
+  
+    // Auto-submit when user types in the nombre field and pauses
+    let typingTimer
+    const typingDelay = 500 // ms
+  
+    $('#nombre-id').on('keyup', function () {
+      clearTimeout(typingTimer)
+      typingTimer = setTimeout(function () {
+        $('#filterForm').submit()
+      }, typingDelay)
+    })
+  })
+</script>
