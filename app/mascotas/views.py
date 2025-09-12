@@ -2,16 +2,18 @@ import logging
 from typing import List
 
 from django.core.paginator import Paginator
+from django.db.models import Count
 from django.shortcuts import get_object_or_404, render
 from esterilizaya.constantes import CANTONES, ESPECIE, PARROQUIAS, SEXO
 from registro.models import Registro
+import json
 
 logger = logging.getLogger(__name__)
 
 
 def devolver_tupla_codigo_territorio(lista_codigo_territorio: list, lista_valores_tupla: List):
     valor_dict = dict(lista_valores_tupla)
-    return [(str(codigo), valor_dict.get(codigo, codigo)) for codigo in lista_codigo_territorio]
+    return [(codigo, valor_dict.get(codigo, codigo)) for codigo in lista_codigo_territorio]
 
 
 def index(request):
@@ -29,7 +31,8 @@ def index(request):
         .distinct()
         .values_list("inscripcion__campana", "inscripcion__campana__nombre")
     )
-    logger.info(f"{nombre_actual}: {nombre_actual.isnumeric()}")
+    # Comparar solo strings en los selectores
+    campanas = [(str(id), nombre) for id, nombre in campanas]
     if nombre_actual:
         if nombre_actual.isnumeric():
             lista_registros = lista_registros.filter(id__startswith=nombre_actual)
@@ -59,6 +62,11 @@ def index(request):
     barrios = [(cod, cod) for cod in barrios_codigos]
     if barrio_actual:
         lista_registros = lista_registros.filter(barrio_tutor=barrio_actual)
+    mascotas_locaciones = (
+        lista_registros.values_list("canton_tutor", "parroquia_tutor", "barrio_tutor")
+        .annotate(count=Count("barrio_tutor"))
+        .order_by("barrio_tutor")
+    )
 
     paginator = Paginator(lista_registros, 25)
     registros = paginator.page(page_number)
@@ -83,6 +91,7 @@ def index(request):
         "parroquia_actual": parroquia_actual,
         "barrio_actual": barrio_actual,
         "query_string": query_string,
+        "mascotas_ubicacion": json.dumps(list(mascotas_locaciones)),
     }
     return render(
         request,

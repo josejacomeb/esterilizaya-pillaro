@@ -16,46 +16,61 @@
   {% endif %}
   <div class="row">
     <div class="col-md-9">
-      {% if registros %}
-        <div class="table-responsive">
-          <table class="table table-bordered text-center mb-1 border-1px-dark">
-            <thead class="table-light">
-              <tr>
-                <th>ID</th>
-                <th>Nº</th>
-                <th>Nombre</th>
-                <th>Tutor</th>
-                <th>Especie</th>
-                <th>Género</th>
-                <th>Raza</th>
-                <th>Foto</th>
-                <th>Campaña</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for registro in registros %}
-                <tr>
-                  <td>{{ registro.id }}</td>
-                  <td>{{ forloop.counter }}</td>
-                  <td>
-                    <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
-                  </td>
-                  <td>{{ registro.nombres_tutor }}</td>
-                  <td>{{ registro.especie }}</td>
-                  <td>{{ registro.sexo }}</td>
-                  <td>{{ registro.raza_mascota }}</td>
-                  <td>
-                    {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
-                  </td>
-                  <td>{{ registro.inscripcion.campana }}</td>
-                </tr>
-              {% endfor %}
-            </tbody>
-          </table>
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="registros-tab" data-bs-toggle="tab" data-bs-target="#registros" type="button" role="tab" aria-controls="registros" aria-selected="true">Registros</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="estadisticas-tab" data-bs-toggle="tab" data-bs-target="#estadisticas" type="button" role="tab" aria-controls="estadisticas" aria-selected="false">Estadísticas</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="datosPestaña">
+        <div class="tab-pane fade show active" id="registros" role="tabpanel" aria-labelledby="registros-tab">
+          {% if registros %}
+            <div class="table-responsive">
+              <table class="table table-bordered text-center mb-1 border-1px-dark">
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Nº</th>
+                    <th>Nombre</th>
+                    <th>Tutor</th>
+                    <th>Especie</th>
+                    <th>Género</th>
+                    <th>Raza</th>
+                    <th>Foto</th>
+                    <th>Campaña</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for registro in registros %}
+                    <tr>
+                      <td>{{ registro.id }}</td>
+                      <td>{{ forloop.counter }}</td>
+                      <td>
+                        <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
+                      </td>
+                      <td>{{ registro.nombres_tutor }}</td>
+                      <td>{{ registro.especie }}</td>
+                      <td>{{ registro.sexo }}</td>
+                      <td>{{ registro.raza_mascota }}</td>
+                      <td>
+                        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
+                      </td>
+                      <td>{{ registro.inscripcion.campana }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p>No hay registros para mostrar</p>
+          {% endif %}
         </div>
-      {% else %}
-        <p>No hay registros para mostrar</p>
-      {% endif %}
+        <div class="tab-pane fade p-3" id="estadisticas" role="tabpanel" style="position: relative;">
+          <div id="mapa" style="width: 100%; height: 100%; min-height: 500px;"></div>
+        </div>
+      </div>
     </div>
     <div class="col-md-3 d-none d-md-block bg-white border-start min-vh-100 p-4">
       {% include 'filtro.html' %}
@@ -64,4 +79,80 @@
   {% if registros %}
     {% include 'pagination.html' with page=registros %}
   {% endif %}
+  <!-- <script src="{% static 'js/chart.min.js' %}"></script> -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <!-- Make sure you put this AFTER Leaflet's CSS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+  <script>
+  $(function () {
+    let mapInitialized = false;
+
+    // When the statistics tab is shown
+    $('#estadisticas-tab').on('shown.bs.tab', function () {
+      if (!mapInitialized) {
+        mapInitialized = true;
+        var HappyPawsIcon = L.icon({
+            iconUrl: "{% static 'images/happypaws.ico' %}",
+            shadowUrl: "{% static 'images/happypaws.ico' %}",
+
+            iconSize:     [30, 30], // size of the icon
+            shadowSize:   [30, 30], // size of the shadow
+            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+            shadowAnchor: [4, 62],  // the same for the shadow
+            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+        });
+        $.getJSON("{% static 'assets/locaciones.json' %}", function( data ) {
+          // Init map
+          const map = L.map('mapa').setView([-1.1690711,-78.5168839], 13);
+          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '&copy; OpenStreetMap contributors'
+          }).addTo(map);
+
+          // City stats from Django
+          const locaciones = {{ mascotas_ubicacion|safe }};
+    
+
+          $.each(locaciones, function( index, locacion ){
+            const canton = locacion[0];
+            const parroquia = locacion[1];
+            const barrio = locacion[2];
+            const conteo = locacion[3];
+            let lat = null, lon = null;
+            if (data[canton] && data[canton][parroquia] && data[canton][parroquia][barrio]) {
+              const lat_lon = data[canton][parroquia][barrio];
+              lat = lat_lon[0];
+              lon = lat_lon[1];
+            }
+            else 
+              console.log(`${lat}, ${lon}, ${canton}, ${parroquia}, ${barrio}`);
+            if (lat && lon){
+              L.marker([lat, lon]).addTo(map)
+                .bindPopup(`${canton} | ${parroquia} | ${barrio}: ${conteo}`);
+            }
+          });
+          
+          // Force map to resize to fit its container
+          setTimeout(function() {
+            map.invalidateSize();
+          }, 100);
+        });
+      }
+    });
+  });
+</script>
+
+  <style>
+  #estadisticas {
+    height: calc(100vh - 200px); /* Adjust this value based on your header/footer height */
+    overflow: hidden;
+  }
+  
+  @media (max-width: 768px) {
+    #estadisticas {
+      height: 400px; /* Fixed height on mobile */
+    }
+  }
+</style>
 {% endblock %}
