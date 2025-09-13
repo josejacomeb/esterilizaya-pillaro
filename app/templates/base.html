@@ -79,6 +79,9 @@
         }
       }
     </style>
+    {% block extra_head %}
+
+    {% endblock %}
   </head>
 
   <body class="d-flex flex-column min-vh-100 bg-light">
@@ -115,5 +118,8 @@
     <footer class="footer-nav mt-auto">
       <a href="{% url 'inicio:index' %}" class="btn btn-secondary btn-sm">Volver a la página principal</a>
     </footer>
+    {% block extra_body %}
+
+    {% endblock %}
   </body>
 </html>

@@ -181,6 +181,7 @@ app/static/js/bootstrap*
 # Archivos Javascript descargados
 app/static/js/autocomplete.js
 app/static/js/jquery*
+app/static/js/chart*
 
 # Archivos de impresión 
 pdfs/*

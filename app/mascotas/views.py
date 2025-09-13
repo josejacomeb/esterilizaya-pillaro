@@ -2,7 +2,7 @@ import logging
 from typing import List
 
 from django.core.paginator import Paginator
-from django.db.models import Count
+from django.db.models import Count, QuerySet, Sum, Avg
 from django.shortcuts import get_object_or_404, render
 from esterilizaya.constantes import CANTONES, ESPECIE, PARROQUIAS, SEXO
 from registro.models import Registro
@@ -14,6 +14,10 @@ logger = logging.getLogger(__name__)
 def devolver_tupla_codigo_territorio(lista_codigo_territorio: list, lista_valores_tupla: List):
     valor_dict = dict(lista_valores_tupla)
     return [(codigo, valor_dict.get(codigo, codigo)) for codigo in lista_codigo_territorio]
+
+
+def contar_datos_por_key(lista_registros: QuerySet, key: str):
+    return lista_registros.values(key).order_by(key).annotate(total=Count(key))
 
 
 def index(request):
@@ -62,12 +66,27 @@ def index(request):
     barrios = [(cod, cod) for cod in barrios_codigos]
     if barrio_actual:
         lista_registros = lista_registros.filter(barrio_tutor=barrio_actual)
+    # Estadísticas
     mascotas_locaciones = (
         lista_registros.values_list("canton_tutor", "parroquia_tutor", "barrio_tutor")
         .annotate(count=Count("barrio_tutor"))
         .order_by("barrio_tutor")
     )
-
+    estadisticas_genero = contar_datos_por_key(lista_registros, "sexo")
+    estadisticas_especie = contar_datos_por_key(lista_registros, "especie")
+    estadisticas_raza = contar_datos_por_key(lista_registros, "raza_mascota")
+    estadisticas_parroquia = contar_datos_por_key(lista_registros, "parroquia_tutor")
+    estadisticas_barrio = contar_datos_por_key(lista_registros, "barrio_tutor")
+    queryset_limpio = lista_registros.exclude(n_animales_hogar__lte=0)
+    datos_mascotas_hogar = {
+        "hogar": queryset_limpio.aggregate(total_value=Sum("n_animales_hogar"))["total_value"],
+        "hogar_esterilizadas": queryset_limpio.aggregate(total_value=Sum("n_animales_hogar_esterilizadas"))[
+            "total_value"
+        ],
+        "promedio_hogar": round(queryset_limpio.aggregate(Avg("n_animales_hogar"))["n_animales_hogar__avg"], 2),
+    }
+    datos_mascotas_hogar["porcentaje_esterilizacion"] = round(100 * datos_mascotas_hogar["hogar_esterilizadas"] / datos_mascotas_hogar["hogar"], 2)
+    # Paginación
     paginator = Paginator(lista_registros, 25)
     registros = paginator.page(page_number)
     # Mantener la URL sin el número de página
@@ -92,6 +111,12 @@ def index(request):
         "barrio_actual": barrio_actual,
         "query_string": query_string,
         "mascotas_ubicacion": json.dumps(list(mascotas_locaciones)),
+        "estadisticas_genero": list(estadisticas_genero),
+        "estadisticas_especie": list(estadisticas_especie),
+        "estadisticas_raza": list(estadisticas_raza),
+        "estadisticas_parroquia": list(estadisticas_parroquia),
+        "estadisticas_barrio": list(estadisticas_barrio),
+        "datos_mascotas_hogar": datos_mascotas_hogar,
     }
     return render(
         request,

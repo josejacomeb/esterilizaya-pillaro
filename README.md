@@ -68,6 +68,10 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       # Descarga jQuery
       JQUERY_VERSION="3.7.1"
       wget https://code.jquery.com/jquery-$JQUERY_VERSION.min.js -O app/static/js/jquery.min.js
+      # Descargar Chart.js 
+      CHART_JS_VERSION="4.5.0"
+      wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js -O app/static/js/chart.umd.min.js
+      wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.js.map -O app/static/js/chart.umd.js.map
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.

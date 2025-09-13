@@ -3,9 +3,37 @@
 {% load static %}
 
 {% block title %}
-  Todas las mascotas
+  Mostrar registros de todas las mascotas
 {% endblock %}
 
+{% block extra_head %}
+  <script src="{% static 'js/chart.umd.min.js' %}"></script>
+  <style>
+    .chart-container {
+      position: relative;
+      height: 250px;
+    }
+    @media (max-width: 768px) {
+      .chart-container {
+        height: 200px;
+      }
+      .col-md-3 {
+        min-height: unset !important;
+        padding: 1rem !important;
+      }
+      #mapa {
+        min-height: 200px !important;
+        height: 40vh !important;
+      }
+    }
+    #mapa {
+      width: 100%;
+      height: 60vh;
+      min-height: 300px;
+      max-height: 600px;
+    }
+  </style>
+{% endblock%}
 {% block content %}
   {% if messages %}
     <ul class="messages list-unstyled">
@@ -15,8 +43,9 @@
     </ul>
   {% endif %}
   <div class="row">
-    <div class="col-md-9">
-      <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <!-- Main Content -->
+    <div class="col-12 col-md-9">
+      <ul class="nav nav-tabs mb-3" id="mapaEstadisticasPestana" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="registros-tab" data-bs-toggle="tab" data-bs-target="#registros" type="button" role="tab" aria-controls="registros" aria-selected="true">Registros</button>
         </li>
@@ -25,6 +54,7 @@
         </li>
       </ul>
       <div class="tab-content" id="datosPestaña">
+        <!-- Registros Tab -->
         <div class="tab-pane fade show active" id="registros" role="tabpanel" aria-labelledby="registros-tab">
           {% if registros %}
             <div class="table-responsive">
@@ -67,92 +97,204 @@
             <p>No hay registros para mostrar</p>
           {% endif %}
         </div>
-        <div class="tab-pane fade p-3" id="estadisticas" role="tabpanel" style="position: relative;">
-          <div id="mapa" style="width: 100%; height: 100%; min-height: 500px;"></div>
+        <!-- Pestaña Estadísticas -->
+        <div class="tab-pane fade p-3" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
+          <div class="row g-3 h-100">
+            <!-- Especies, Razas y Barrios -->
+            <div class="col-12 col-md-4 d-flex flex-column">
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill mb-3">
+                <h5 class="text-center">Distribución Especies</h5>
+                <canvas id="graficoEspecie"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill">
+                <h5 class="text-center">Distribución Razas</h5>
+                <canvas id="graficoRaza"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill mb-3">
+                <h5 class="text-center">Distribución Barrios</h5>
+                <canvas id="graficoBarrios"></canvas>
+              </div>
+            </div>
+            <!-- Género, Parroquias y Porcentajes Esterilización -->
+            <div class="col-12 col-md-4 d-flex flex-column">
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill mb-3">
+                <h5 class="text-center">Distribución Género</h5>
+                <canvas id="graficoGenero"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill">
+                <h5 class="text-center">Distribución Parroquias</h5>
+                <canvas id="graficoParroquia"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill">
+                <h4 class="text-center">Estadísticas Tenencia</h4>
+                <p><strong>Porcentajes Esterilización:</strong> {{datos_mascotas_hogar.porcentaje_esterilizacion}} % </br>
+                <strong>Promedio Mascotas Hogar:</strong> {{datos_mascotas_hogar.promedio_hogar}} mascotas</p>
+              </div>
+            </div>
+            <!-- Mapa -->
+            <div class="col-12 col-md-4">
+              <div class="bg-light p-3 rounded shadow-sm h-100">
+                <div id="mapa" style="width: 100%; height: 60vh; min-height: 300px; max-height: 600px;"></div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-3 d-none d-md-block bg-white border-start min-vh-100 p-4">
+    <!-- Filtro Sidebar -->
+    <div class="col-12 col-md-3 bg-white border-start min-vh-100 p-4">
       {% include 'filtro.html' %}
     </div>
   </div>
   {% if registros %}
     {% include 'pagination.html' with page=registros %}
   {% endif %}
-  <!-- <script src="{% static 'js/chart.min.js' %}"></script> -->
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <!-- Make sure you put this AFTER Leaflet's CSS -->
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+{% endblock %}
 
-  <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-  <script>
+{% block extra_body %}
+  <!-- Chart.js & Leaflet -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+
+<script>
   $(function () {
-    let mapInitialized = false;
+    // Restore tab from URL hash or localStorage
+    let hashTab = window.location.hash;
+    let lastTab = localStorage.getItem('selectedTab');
+    let initialTab = hashTab || lastTab || '#registros';
 
-    // When the statistics tab is shown
-    $('#estadisticas-tab').on('shown.bs.tab', function () {
+    $('#mapaEstadisticasPestana button[data-bs-target="' + initialTab + '"]').tab('show');
+
+    // Save tab selection and update URL hash
+    $('#mapaEstadisticasPestana button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+      const tabTarget = $(e.target).data('bs-target');
+      localStorage.setItem('selectedTab', tabTarget);
+      window.location.hash = tabTarget;
+    });
+
+    $(window).on('hashchange', function () {
+      const hash = window.location.hash;
+      if (hash) {
+        $('#mapaEstadisticasPestana button[data-bs-target="' + hash + '"]').tab('show');
+      }
+    });
+
+    let mapInitialized = false;
+    let chartsInitialized = false;
+
+    function loadEstadisticas() {
+      // Mapa
       if (!mapInitialized) {
         mapInitialized = true;
-        var HappyPawsIcon = L.icon({
-            iconUrl: "{% static 'images/happypaws.ico' %}",
-            shadowUrl: "{% static 'images/happypaws.ico' %}",
-
-            iconSize:     [30, 30], // size of the icon
-            shadowSize:   [30, 30], // size of the shadow
-            iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-            shadowAnchor: [4, 62],  // the same for the shadow
-            popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-        });
-        $.getJSON("{% static 'assets/locaciones.json' %}", function( data ) {
-          // Init map
-          const map = L.map('mapa').setView([-1.1690711,-78.5168839], 13);
+        $.getJSON("{% static 'assets/locaciones.json' %}", function(data) {
+          const map = L.map('mapa').setView([-1.1690711,-78.5168839], 11);
           L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
             attribution: '&copy; OpenStreetMap contributors'
           }).addTo(map);
 
-          // City stats from Django
           const locaciones = {{ mascotas_ubicacion|safe }};
-    
-
-          $.each(locaciones, function( index, locacion ){
-            const canton = locacion[0];
-            const parroquia = locacion[1];
-            const barrio = locacion[2];
-            const conteo = locacion[3];
+          $.each(locaciones, function(_, locacion) {
+            const [canton, parroquia, barrio, conteo] = locacion;
             let lat = null, lon = null;
             if (data[canton] && data[canton][parroquia] && data[canton][parroquia][barrio]) {
-              const lat_lon = data[canton][parroquia][barrio];
-              lat = lat_lon[0];
-              lon = lat_lon[1];
+              [lat, lon] = data[canton][parroquia][barrio];
             }
-            else 
-              console.log(`${lat}, ${lon}, ${canton}, ${parroquia}, ${barrio}`);
-            if (lat && lon){
+            if (lat && lon) {
               L.marker([lat, lon]).addTo(map)
-                .bindPopup(`${canton} | ${parroquia} | ${barrio}: ${conteo}`);
+                .bindPopup(`${barrio}: ${conteo}`);
             }
           });
-          
-          // Force map to resize to fit its container
-          setTimeout(function() {
-            map.invalidateSize();
-          }, 100);
+          setTimeout(function() { map.invalidateSize(); }, 100);
         });
       }
-    });
+
+      // Gráficos
+      if (!chartsInitialized) {
+        chartsInitialized = true;
+        const estadisticasEspecie = {{ estadisticas_especie|safe }};
+        const genderStats = {{ estadisticas_genero|safe }};
+        const razaStats = {{ estadisticas_raza|safe }};
+        const parroquiaStats = {{ estadisticas_parroquia|safe }};
+        const barrioStats = {{ estadisticas_barrio|safe }};
+
+        // Especies
+        new Chart($('#graficoEspecie'), {
+          type: 'doughnut',
+          data: {
+            labels: estadisticasEspecie.map(s => s.especie),
+            datasets: [{
+              data: estadisticasEspecie.map(s => s.total),
+              backgroundColor: ['#36A2EB', '#FF6384', '#FF9F40', '#4BC0C0', '#9966FF', '#FFCD56', '#C9CBCF']
+            }]
+          }
+        });
+
+        // Género
+        new Chart($('#graficoGenero'), {
+          type: 'doughnut',
+          data: {
+            labels: genderStats.map(g => g.sexo),
+            datasets: [{
+              data: genderStats.map(g => g.total),
+              backgroundColor: ['#4BC0C0', '#FFCE56', '#36A2EB']
+            }]
+          }
+        });
+
+        // Parroquias
+        new Chart($('#graficoParroquia'), {
+          type: 'doughnut',
+          data: {
+            labels: parroquiaStats.map(g => g.parroquia_tutor),
+            datasets: [{
+              data: parroquiaStats.map(g => g.total),
+              backgroundColor: ['#4BC0C0', '#FFCE56', '#36A2EB']
+            }]
+          }
+        });
+
+        // Barrios
+        new Chart($('#graficoBarrios'), {
+          type: 'doughnut',
+          data: {
+            labels: barrioStats.map(g => g.barrio_tutor),
+            datasets: [{
+              data: barrioStats.map(g => g.total),
+              backgroundColor: ['#4BC0C0', '#FFCE56', '#36A2EB']
+            }]
+          }
+        });
+
+        // Razas
+        new Chart($('#graficoRaza'), {
+          type: 'bar',
+          data: {
+            labels: razaStats.map(n => n.raza_mascota),
+            datasets: [{
+              label: 'Conteo',
+              data: razaStats.map(n => n.total),
+              backgroundColor: '#36A2EB'
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              x: { ticks: { autoSkip: false } },
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+    }
+
+    // Load graphics if #estadisticas is active on page load
+    if (initialTab === '#estadisticas') {
+      loadEstadisticas();
+    }
+
+    // Also load graphics when switching to the tab
+    $('#estadisticas-tab').on('shown.bs.tab', loadEstadisticas);
   });
 </script>
-
-  <style>
-  #estadisticas {
-    height: calc(100vh - 200px); /* Adjust this value based on your header/footer height */
-    overflow: hidden;
-  }
-  
-  @media (max-width: 768px) {
-    #estadisticas {
-      height: 400px; /* Fixed height on mobile */
-    }
-  }
-</style>
 {% endblock %}
