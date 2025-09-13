@@ -110,6 +110,6 @@ class Registro(models.Model):
 
     def get_absolute_url(self):
         return reverse(
-            "mascotas:ver",
-            args=[self.inscripcion.campana.id, self.canton_tutor, self.parroquia_tutor, self.barrio_tutor, self.id],
+            "registro:ver",
+            args=[self.inscripcion.campana.id],
         )

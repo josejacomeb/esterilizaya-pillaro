@@ -1,12 +1,12 @@
+import json
 import logging
 from typing import List
 
 from django.core.paginator import Paginator
-from django.db.models import Count, QuerySet, Sum, Avg
-from django.shortcuts import get_object_or_404, render
+from django.db.models import Avg, Count, QuerySet, Sum
+from django.shortcuts import render
 from esterilizaya.constantes import CANTONES, ESPECIE, PARROQUIAS, SEXO
 from registro.models import Registro
-import json
 
 logger = logging.getLogger(__name__)
 
@@ -85,7 +85,9 @@ def index(request):
         ],
         "promedio_hogar": round(queryset_limpio.aggregate(Avg("n_animales_hogar"))["n_animales_hogar__avg"], 2),
     }
-    datos_mascotas_hogar["porcentaje_esterilizacion"] = round(100 * datos_mascotas_hogar["hogar_esterilizadas"] / datos_mascotas_hogar["hogar"], 2)
+    datos_mascotas_hogar["porcentaje_esterilizacion"] = round(
+        100 * datos_mascotas_hogar["hogar_esterilizadas"] / datos_mascotas_hogar["hogar"], 2
+    )
     # Paginación
     paginator = Paginator(lista_registros, 25)
     registros = paginator.page(page_number)
@@ -123,8 +125,3 @@ def index(request):
         "index.html",
         context,
     )
-
-
-def ver_mascota(request, campana_id, canton_tutor, parroquia_tutor, barrio_tutor, id):
-    registro = get_object_or_404(Registro, id=id)
-    return render(request, "mascota.html", {"registro": registro})

@@ -187,3 +187,8 @@ def obtener_barrios(request):
         .distinct()
     )
     return JsonResponse(list(barrio_tutor), safe=False)
+
+
+def ver_mascota(request, id):
+    registro = get_object_or_404(Registro, id=id)
+    return render(request, "mascota.html", {"registro": registro})

@@ -15,4 +15,9 @@ urlpatterns = [
     path("registro/<int:registro_id>/generar_pdf/", views.generar_pdf, name="generar_pdf"),
     path("razas/", views.obtener_razas, name="razas"),
     path("barrios/", views.obtener_barrios, name="barrios"),
+    path(
+        "ver/<int:id>",
+        views.ver_mascota,
+        name="ver",
+    ),
 ]
