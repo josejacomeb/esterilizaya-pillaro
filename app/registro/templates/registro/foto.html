@@ -1,11 +1,11 @@
 {% load static %}
 
 {% if foto %}
-  <img src="{{ foto.url }}" alt="Foto {{ nombre }}" class="imagen-mascotas" />
+  <img src="{{ foto.url }}" alt="Foto {{ nombre }}" class="imagen-mascotas card-img-top" />
 {% else %}
   {% if especie == '🐈' %}
-    <img src="{% static 'images/mascotas/gato.png' %}" alt="Foto {{ nombre }}" class="imagen-mascotas" />
+    <img src="{% static 'images/mascotas/gato.png' %}" alt="Foto {{ nombre }}" class="imagen-mascotas card-img-top" />
   {% else %}
-    <img src="{% static 'images/mascotas/perro.png' %}" alt="Foto {{ nombre }}" class="imagen-mascotas" />
+    <img src="{% static 'images/mascotas/perro.png' %}" alt="Foto {{ nombre }}" class="imagen-mascotas card-img-top" />
   {% endif %}
 {% endif %}
