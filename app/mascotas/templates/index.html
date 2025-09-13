@@ -152,149 +152,58 @@
 {% endblock %}
 
 {% block extra_body %}
-  <!-- Chart.js & Leaflet -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
+  <script src="{% static 'js/mapa.js' %}"></script>
+  <script src="{% static 'js/graficos.js' %}"></script>
+  <script>
+    $(function () {
+      let hashTab = window.location.hash;
+      let lastTab = localStorage.getItem('selectedTab');
+      let initialTab = hashTab || lastTab || '#registros';
 
-<script>
-  $(function () {
-    // Restore tab from URL hash or localStorage
-    let hashTab = window.location.hash;
-    let lastTab = localStorage.getItem('selectedTab');
-    let initialTab = hashTab || lastTab || '#registros';
+      $('#mapaEstadisticasPestana button[data-bs-target="' + initialTab + '"]').tab('show');
 
-    $('#mapaEstadisticasPestana button[data-bs-target="' + initialTab + '"]').tab('show');
+      $('#mapaEstadisticasPestana button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const tabTarget = $(e.target).data('bs-target');
+        localStorage.setItem('selectedTab', tabTarget);
+        window.location.hash = tabTarget;
+      });
 
-    // Save tab selection and update URL hash
-    $('#mapaEstadisticasPestana button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-      const tabTarget = $(e.target).data('bs-target');
-      localStorage.setItem('selectedTab', tabTarget);
-      window.location.hash = tabTarget;
-    });
+      $(window).on('hashchange', function () {
+        const hash = window.location.hash;
+        if (hash) {
+          $('#mapaEstadisticasPestana button[data-bs-target="' + hash + '"]').tab('show');
+        }
+      });
 
-    $(window).on('hashchange', function () {
-      const hash = window.location.hash;
-      if (hash) {
-        $('#mapaEstadisticasPestana button[data-bs-target="' + hash + '"]').tab('show');
-      }
-    });
+      let mapInitialized = false;
+      let chartsInitialized = false;
 
-    let mapInitialized = false;
-    let chartsInitialized = false;
-
-    function loadEstadisticas() {
-      // Mapa
-      if (!mapInitialized) {
-        mapInitialized = true;
-        $.getJSON("{% static 'assets/locaciones.json' %}", function(data) {
-          const map = L.map('mapa').setView([-1.1690711,-78.5168839], 11);
-          L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; OpenStreetMap contributors'
-          }).addTo(map);
-
-          const locaciones = {{ mascotas_ubicacion|safe }};
-          $.each(locaciones, function(_, locacion) {
-            const [canton, parroquia, barrio, conteo] = locacion;
-            let lat = null, lon = null;
-            if (data[canton] && data[canton][parroquia] && data[canton][parroquia][barrio]) {
-              [lat, lon] = data[canton][parroquia][barrio];
-            }
-            if (lat && lon) {
-              L.marker([lat, lon]).addTo(map)
-                .bindPopup(`${barrio}: ${conteo}`);
-            }
+      function loadEstadisticas() {
+        if (!mapInitialized) {
+          mapInitialized = true;
+          inicializarMapa(
+            {{ mascotas_ubicacion|safe }},
+            "{% static 'assets/locaciones.json' %}"
+          );
+        }
+        if (!chartsInitialized) {
+          chartsInitialized = true;
+          inicializarGraficos({
+            estadisticasEspecie: {{ estadisticas_especie|safe }},
+            genderStats: {{ estadisticas_genero|safe }},
+            razaStats: {{ estadisticas_raza|safe }},
+            parroquiaStats: {{ estadisticas_parroquia|safe }},
+            barrioStats: {{ estadisticas_barrio|safe }}
           });
-          setTimeout(function() { map.invalidateSize(); }, 100);
-        });
+        }
       }
 
-      // Gráficos
-      if (!chartsInitialized) {
-        chartsInitialized = true;
-        const estadisticasEspecie = {{ estadisticas_especie|safe }};
-        const genderStats = {{ estadisticas_genero|safe }};
-        const razaStats = {{ estadisticas_raza|safe }};
-        const parroquiaStats = {{ estadisticas_parroquia|safe }};
-        const barrioStats = {{ estadisticas_barrio|safe }};
-
-        // Especies
-        new Chart($('#graficoEspecie'), {
-          type: 'doughnut',
-          data: {
-            labels: estadisticasEspecie.map(s => s.especie),
-            datasets: [{
-              data: estadisticasEspecie.map(s => s.total),
-              backgroundColor: ['#36A2EB', '#FF6384', '#FF9F40', '#4BC0C0', '#9966FF', '#FFCD56', '#C9CBCF']
-            }]
-          }
-        });
-
-        // Género
-        new Chart($('#graficoGenero'), {
-          type: 'doughnut',
-          data: {
-            labels: genderStats.map(g => g.sexo),
-            datasets: [{
-              data: genderStats.map(g => g.total),
-              backgroundColor: ['#4BC0C0', '#FFCE56', '#36A2EB']
-            }]
-          }
-        });
-
-        // Parroquias
-        new Chart($('#graficoParroquia'), {
-          type: 'doughnut',
-          data: {
-            labels: parroquiaStats.map(g => g.parroquia_tutor),
-            datasets: [{
-              data: parroquiaStats.map(g => g.total),
-              backgroundColor: ['#4BC0C0', '#FFCE56', '#36A2EB']
-            }]
-          }
-        });
-
-        // Barrios
-        new Chart($('#graficoBarrios'), {
-          type: 'doughnut',
-          data: {
-            labels: barrioStats.map(g => g.barrio_tutor),
-            datasets: [{
-              data: barrioStats.map(g => g.total),
-              backgroundColor: ['#4BC0C0', '#FFCE56', '#36A2EB']
-            }]
-          }
-        });
-
-        // Razas
-        new Chart($('#graficoRaza'), {
-          type: 'bar',
-          data: {
-            labels: razaStats.map(n => n.raza_mascota),
-            datasets: [{
-              label: 'Conteo',
-              data: razaStats.map(n => n.total),
-              backgroundColor: '#36A2EB'
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { legend: { display: false } },
-            scales: {
-              x: { ticks: { autoSkip: false } },
-              y: { beginAtZero: true }
-            }
-          }
-        });
+      if (initialTab === '#estadisticas') {
+        loadEstadisticas();
       }
-    }
-
-    // Load graphics if #estadisticas is active on page load
-    if (initialTab === '#estadisticas') {
-      loadEstadisticas();
-    }
-
-    // Also load graphics when switching to the tab
-    $('#estadisticas-tab').on('shown.bs.tab', loadEstadisticas);
-  });
-</script>
+      $('#estadisticas-tab').on('shown.bs.tab', loadEstadisticas);
+    });
+  </script>
 {% endblock %}
