@@ -35,6 +35,8 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 - [jQuery](https://jquery.com/) >= v3.x
 - [WeasyPrint](https://weasyprint.org/) >= v63.x
 - [watchfiles](https://github.com/samuelcolvin/watchfiles) >= v1.x
+- [Chart.js](https://www.chartjs.org/) >= 4.5.x
+- [Leaflet](https://leafletjs.com/) >= 1.9.x
 
 ## Instrucciones
 
@@ -68,7 +70,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       # Descarga jQuery
       JQUERY_VERSION="3.7.1"
       wget https://code.jquery.com/jquery-$JQUERY_VERSION.min.js -O app/static/js/jquery.min.js
-      # Descargar Chart.js 
+      # Descargar Chart.js
       CHART_JS_VERSION="4.5.0"
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js -O app/static/js/chart.umd.min.js
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.js.map -O app/static/js/chart.umd.js.map

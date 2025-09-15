@@ -11,6 +11,8 @@ export default [
         // Enable jQuery globals so ESLint doesn’t complain
         $: "readonly",
         jQuery: "readonly",
+        Chart: "readonly",
+        L: "readonly"
       },
     },
     rules: {
