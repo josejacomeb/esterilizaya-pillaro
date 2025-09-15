@@ -48,7 +48,7 @@
       <!-- Foto de la mascota en Card -->
       <div class="col-12 col-md-4 d-flex align-items-center justify-content-center p-3">
         <div class="card w-100 h-100 shadow-sm">
-          {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
+          {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='card-img-top' %}
           <div class="card-body">
             <h5 class="card-title">{{ registro }}</h5>
             <p class="card-text">

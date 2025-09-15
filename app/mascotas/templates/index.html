@@ -81,7 +81,7 @@
                       <td>{{ registro.sexo }}</td>
                       <td>{{ registro.raza_mascota }}</td>
                       <td>
-                        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
+                        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase="imagen-mascotas" %}
                       </td>
                       <td>{{ registro.inscripcion.campana }}</td>
                     </tr>

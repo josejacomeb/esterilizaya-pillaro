@@ -37,7 +37,7 @@
             <td>{{ registro.id }}</td>
             <td>{{ registro.numero_turno }}</td>
             <td>
-              {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie %}
+              {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='imagen-mascotas' %}
             </td>
 
             <td>{{ registro.nombre }}</td>
