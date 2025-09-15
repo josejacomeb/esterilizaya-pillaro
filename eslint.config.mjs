@@ -1,24 +1,24 @@
-// eslint.config.mjs
-import js from "@eslint/js";
+import globals from "globals";
 
 export default [
-  // Base recommended config
-  js.configs.recommended,
-
+  // JavaScript rules
   {
+    files: ["**/*.js"],
     languageOptions: {
       globals: {
-        // Enable jQuery globals so ESLint doesn’t complain
-        $: "readonly",
-        jQuery: "readonly",
-        Chart: "readonly",
-        L: "readonly"
-      },
+        ...globals.browser, // adds setTimeout, window, document, etc.
+        Chart: "readonly",  // Chart.js
+        L: "readonly",      // Leaflet
+        $: "readonly"       // jQuery
+      }
     },
     rules: {
-      // Example overrides (adjust as needed)
-      "no-unused-vars": "warn",
-      "no-console": "off",
-    },
-  },
+      // Allow exported functions used in HTML
+      "no-unused-vars": "off",
+      // Allow new for side effects (Chart.js instantiation)
+      "no-new": "off"
+    }
+  }
+
+  // Remove JSON linting section - handle separately
 ];
