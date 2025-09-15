@@ -92,6 +92,9 @@
           {% else %}
             <p>No hay registros para mostrar</p>
           {% endif %}
+          {% if registros %}
+            {% bootstrap_pagination registros %}
+          {% endif %}
         </div>
         <!-- Pestaña Estadísticas -->
         <div class="tab-pane fade p-3" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
@@ -143,9 +146,7 @@
       {% include 'filtro.html' %}
     </div>
   </div>
-  {% if registros %}
-    {% bootstrap_pagination registros %}
-  {% endif %}
+
 {% endblock %}
 
 {% block extra_body %}
