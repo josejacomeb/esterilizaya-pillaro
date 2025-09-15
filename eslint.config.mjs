@@ -12,7 +12,8 @@ export default [
         $: "readonly",
         jQuery: "readonly",
         Chart: "readonly",
-        L: "readonly"
+        L: "readonly",
+        setTimeout: "readonly"
       },
     },
     rules: {
