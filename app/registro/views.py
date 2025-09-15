@@ -4,7 +4,7 @@ from campana.models import Campana
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
-from django.http import JsonResponse
+from django.http import JsonResponse, response
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.generic import ListView
@@ -190,5 +190,9 @@ def obtener_barrios(request):
 
 
 def ver_mascota(request, id):
-    registro = get_object_or_404(Registro, id=id)
+    try:
+        registro = get_object_or_404(Registro, id=id)
+    except response.Http404:
+        messages.error(request, f"Error, el registro {id} no existe")
+        return redirect(request.META.get("HTTP_REFERER", "inicio:index"))
     return render(request, "mascota.html", {"registro": registro})
