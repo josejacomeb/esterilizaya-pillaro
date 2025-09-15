@@ -12,6 +12,8 @@
   {% include 'selector-dinamico.html' with texto='Especie' valores=especies elemento='especie' actual=especie_actual %}
   <!-- Género -->
   {% include 'selector-dinamico.html' with texto='Género' valores=generos elemento='genero' actual=genero_actual %}
+  <!-- Género -->
+  {% include 'selector-dinamico.html' with texto='Razas' valores=razas elemento='raza' actual=raza_actual %}
   <!-- Cantones -->
   {% include 'selector-dinamico.html' with texto='Cantón' valores=cantones elemento='canton' actual=canton_actual %}
   <!-- Parroquias -->
@@ -28,8 +30,7 @@
 <script>
   $(function () {
     // Auto-submit when select changes
-    $('#campana-id, #especie-id, #genero-id, #canton-id, #parroquia-id, #barrio-id').on('change', function () {
-      console.log($('#filterForm'))
+    $('#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id').on('change', function () {
       $('#filterForm').submit()
     })
   

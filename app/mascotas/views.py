@@ -20,11 +20,16 @@ def contar_datos_por_key(lista_registros: QuerySet, key: str):
     return lista_registros.values(key).order_by(key).annotate(total=Count(key))
 
 
+def obtener_valores_selector(lista_registros: QuerySet, key: str):
+    return lista_registros.order_by(key).distinct().values_list(key, flat=True)
+
+
 def index(request):
     lista_registros = Registro.objects.all().order_by("id")
     campana_actual = request.GET.get("campana", "")
     especie_actual = request.GET.get("especie", "")
     genero_actual = request.GET.get("genero", "")
+    raza_actual = request.GET.get("raza", "")
     nombre_actual = request.GET.get("nombre", "")
     canton_actual = request.GET.get("canton", "")
     parroquia_actual = request.GET.get("parroquia", "")
@@ -44,25 +49,28 @@ def index(request):
             lista_registros = lista_registros.filter(nombre__iregex=nombre_actual)
     if campana_actual:
         lista_registros = lista_registros.filter(inscripcion__campana=campana_actual)
-    especies_codigos = lista_registros.order_by("especie").distinct().values_list("especie", flat=True)
+    especies_codigos = obtener_valores_selector(lista_registros, "especie")
     especies = devolver_tupla_codigo_territorio(especies_codigos, ESPECIE)
     if especie_actual:
         lista_registros = lista_registros.filter(especie=especie_actual)
-    genero_codigos = lista_registros.order_by("sexo").distinct().values_list("sexo", flat=True)
+    genero_codigos = obtener_valores_selector(lista_registros, "sexo")
     generos = devolver_tupla_codigo_territorio(genero_codigos, SEXO)
     if genero_actual:
         lista_registros = lista_registros.filter(sexo=genero_actual)
-    cantones_codigos = lista_registros.order_by("canton_tutor").distinct().values_list("canton_tutor", flat=True)
+    raza_codigos = obtener_valores_selector(lista_registros, "raza_mascota")
+    razas = [(cod, cod) for cod in raza_codigos]
+    if raza_actual:
+        lista_registros = lista_registros.filter(raza_mascota=raza_actual)
+
+    cantones_codigos = obtener_valores_selector(lista_registros, "canton_tutor")
     cantones = devolver_tupla_codigo_territorio(cantones_codigos, CANTONES)
     if canton_actual:
         lista_registros = lista_registros.filter(canton_tutor=canton_actual)
-    parroquias_codigos = (
-        lista_registros.order_by("parroquia_tutor").distinct().values_list("parroquia_tutor", flat=True)
-    )
+    parroquias_codigos = obtener_valores_selector(lista_registros, "parroquia_tutor")
     parroquias = devolver_tupla_codigo_territorio(parroquias_codigos, PARROQUIAS)
     if parroquia_actual:
         lista_registros = lista_registros.filter(parroquia_tutor=parroquia_actual)
-    barrios_codigos = lista_registros.order_by("barrio_tutor").distinct().values_list("barrio_tutor", flat=True)
+    barrios_codigos = obtener_valores_selector(lista_registros, "barrio_tutor")
     barrios = [(cod, cod) for cod in barrios_codigos]
     if barrio_actual:
         lista_registros = lista_registros.filter(barrio_tutor=barrio_actual)
@@ -77,16 +85,28 @@ def index(request):
     estadisticas_raza = contar_datos_por_key(lista_registros, "raza_mascota")
     estadisticas_parroquia = contar_datos_por_key(lista_registros, "parroquia_tutor")
     estadisticas_barrio = contar_datos_por_key(lista_registros, "barrio_tutor")
-    queryset_limpio = lista_registros.exclude(n_animales_hogar__lte=0)
-    datos_mascotas_hogar = {
-        "hogar": queryset_limpio.aggregate(total_value=Sum("n_animales_hogar"))["total_value"],
-        "hogar_esterilizadas": queryset_limpio.aggregate(total_value=Sum("n_animales_hogar_esterilizadas"))[
+    queryset_limpio = lista_registros.exclude(n_animales_hogar__lte=0).order_by("inscripcion__id").distinct()
+    n_hogar = 0
+    n_hogar_esterilizadas = 0
+    promedio_hogar = 0
+    n_muestras = 0
+    if queryset_limpio:
+        n_hogar = queryset_limpio.aggregate(total_value=Sum("n_animales_hogar"))["total_value"]
+        n_hogar_esterilizadas = queryset_limpio.aggregate(total_value=Sum("n_animales_hogar_esterilizadas"))[
             "total_value"
-        ],
-        "promedio_hogar": round(queryset_limpio.aggregate(Avg("n_animales_hogar"))["n_animales_hogar__avg"], 2),
+        ]
+        promedio_hogar = round(queryset_limpio.aggregate(Avg("n_animales_hogar"))["n_animales_hogar__avg"], 2)
+        n_muestras = len(queryset_limpio)
+    datos_mascotas_hogar = {
+        "hogar": n_hogar,
+        "hogar_esterilizadas": n_hogar_esterilizadas,
+        "promedio_hogar": promedio_hogar,
+        "n_muestras": n_muestras,
     }
-    datos_mascotas_hogar["porcentaje_esterilizacion"] = round(
-        100 * datos_mascotas_hogar["hogar_esterilizadas"] / datos_mascotas_hogar["hogar"], 2
+    datos_mascotas_hogar["porcentaje_esterilizacion"] = (
+        round(100 * datos_mascotas_hogar["hogar_esterilizadas"] / datos_mascotas_hogar["hogar"], 2)
+        if datos_mascotas_hogar["hogar"]
+        else 0
     )
     # Paginación
     paginator = Paginator(lista_registros, 25)
@@ -96,6 +116,7 @@ def index(request):
     if "page" in query_dict:
         query_dict.pop("page")
     query_string = query_dict.urlencode()
+    logger.info(f"Raza actual: {raza_actual}")
     context = {
         "registros": registros,
         "campanas": campanas,
@@ -104,10 +125,12 @@ def index(request):
         "barrios": barrios,
         "especies": especies,
         "generos": generos,
+        "razas": razas,
         "nombre_actual": nombre_actual,
         "campana_actual": campana_actual,
         "especie_actual": especie_actual,
         "genero_actual": genero_actual,
+        "raza_actual": raza_actual,
         "canton_actual": canton_actual,
         "parroquia_actual": parroquia_actual,
         "barrio_actual": barrio_actual,
