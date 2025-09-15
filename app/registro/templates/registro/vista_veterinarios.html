@@ -10,6 +10,7 @@
     <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
     {% bootstrap_css %}
     {% bootstrap_javascript %}
+    <script src="{% static 'js/jquery.min.js' %}"></script>
     <link href="{% static 'css/base.css' %}" rel="stylesheet" />
   </head>
   <body>
@@ -41,7 +42,6 @@
           </tbody>
         </table>
       </div>
-    <script src="{% static 'js/jquery.min.js' %}"></script>
     <script>
       function getDefaultPhoto(especie) {
         const defaultPhotos = {
