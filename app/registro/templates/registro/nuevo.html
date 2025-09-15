@@ -6,13 +6,6 @@
 {% endblock %}
 
 {% block content %}
-  {% if messages %}
-    <ul class="messages list-unstyled">
-      {% for message in messages %}
-        <li class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
   <form method="post" enctype="multipart/form-data" class="mb-3">
     {% csrf_token %}
     {% bootstrap_form form %}
