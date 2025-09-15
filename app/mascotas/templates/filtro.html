@@ -25,24 +25,3 @@
     <a href="{% url 'mascotas:index' %}" class="btn btn-outline-secondary w-100">Resetear</a>
   </div>
 </form>
-
-<script src="{% static 'js/jquery.min.js' %}"></script>
-<script>
-  $(function () {
-    // Auto-submit when select changes
-    $('#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id').on('change', function () {
-      $('#filterForm').submit()
-    })
-  
-    // Auto-submit when user types in the nombre field and pauses
-    let typingTimer
-    const typingDelay = 500 // ms
-  
-    $('#nombre-id').on('keyup', function () {
-      clearTimeout(typingTimer)
-      typingTimer = setTimeout(function () {
-        $('#filterForm').submit()
-      }, typingDelay)
-    })
-  })
-</script>

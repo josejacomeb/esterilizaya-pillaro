@@ -7,7 +7,10 @@
 {% endblock %}
 
 {% block extra_head %}
+  <script src="{% static 'js/jquery.min.js' %}"></script>
   <script src="{% static 'js/chart.umd.min.js' %}"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <style>
     .chart-container {
       position: relative;
@@ -35,13 +38,6 @@
   </style>
 {% endblock%}
 {% block content %}
-  {% if messages %}
-    <ul class="messages list-unstyled">
-      {% for message in messages %}
-        <li class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
   <div class="row">
     <!-- Main Content -->
     <div class="col-12 col-md-9">
@@ -54,7 +50,7 @@
         </li>
       </ul>
       <div class="tab-content" id="datosPestaña">
-        <!-- Registros Tab -->
+        <!-- Registros Pestaña -->
         <div class="tab-pane fade show active" id="registros" role="tabpanel" aria-labelledby="registros-tab">
           {% if registros %}
             <div class="table-responsive">
@@ -153,10 +149,27 @@
 {% endblock %}
 
 {% block extra_body %}
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="{% static 'js/mapa.js' %}"></script>
   <script src="{% static 'js/graficos.js' %}"></script>
+  <script>
+    $(function () {
+      // Auto-submit when select changes
+      $('#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id').on('change', function () {
+        $('#filterForm').submit()
+      })
+    
+      // Auto-submit when user types in the nombre field and pauses
+      let typingTimer
+      const typingDelay = 500 // ms
+    
+      $('#nombre-id').on('keyup', function () {
+        clearTimeout(typingTimer)
+        typingTimer = setTimeout(function () {
+          $('#filterForm').submit()
+        }, typingDelay)
+      })
+    })
+  </script>
   <script>
     $(function () {
       let hashTab = window.location.hash;
