@@ -11,112 +11,122 @@ from registro.models import Registro
 logger = logging.getLogger(__name__)
 
 
-def devolver_tupla_codigo_territorio(lista_codigo_territorio: list, lista_valores_tupla: List):
-    valor_dict = dict(lista_valores_tupla)
-    return [(codigo, valor_dict.get(codigo, codigo)) for codigo in lista_codigo_territorio]
+def devolver_tupla_codigo_territorio(codigos: list, tuplas: List):
+    """Devuelve una lista de tuplas (codigo, display) usando un diccionario de tuplas."""
+    valor_dict = dict(tuplas)
+    return [(codigo, valor_dict.get(codigo, codigo)) for codigo in codigos]
 
 
-def contar_datos_por_key(lista_registros: QuerySet, key: str):
-    return lista_registros.values(key).order_by(key).annotate(total=Count(key))
+def contar_datos_por_key(queryset: QuerySet, key: str):
+    """Cuenta y agrupa por el campo key."""
+    return queryset.values(key).order_by(key).annotate(total=Count(key))
 
 
-def obtener_valores_selector(lista_registros: QuerySet, key: str):
-    return lista_registros.order_by(key).distinct().values_list(key, flat=True)
+def obtener_valores_selector(queryset: QuerySet, key: str):
+    """Obtiene los valores únicos de un campo."""
+    return queryset.order_by(key).distinct().values_list(key, flat=True)
 
 
 def index(request):
     lista_registros = Registro.objects.all().order_by("id")
-    campana_actual = request.GET.get("campana", "")
-    especie_actual = request.GET.get("especie", "")
-    genero_actual = request.GET.get("genero", "")
-    raza_actual = request.GET.get("raza", "")
-    nombre_actual = request.GET.get("nombre", "")
-    canton_actual = request.GET.get("canton", "")
-    parroquia_actual = request.GET.get("parroquia", "")
-    barrio_actual = request.GET.get("barrio", "")
+    filtros = {
+        "campana": request.GET.get("campana", ""),
+        "especie": request.GET.get("especie", ""),
+        "genero": request.GET.get("genero", ""),
+        "raza": request.GET.get("raza", ""),
+        "nombre": request.GET.get("nombre", ""),
+        "canton": request.GET.get("canton", ""),
+        "parroquia": request.GET.get("parroquia", ""),
+        "barrio": request.GET.get("barrio", ""),
+    }
     page_number = request.GET.get("page", 1)
+
+    # Campañas
     campanas = (
         lista_registros.order_by("inscripcion__campana")
         .distinct()
         .values_list("inscripcion__campana", "inscripcion__campana__nombre")
     )
-    # Comparar solo strings en los selectores
     campanas = [(str(id), nombre) for id, nombre in campanas]
-    if nombre_actual:
-        if nombre_actual.isnumeric():
-            lista_registros = lista_registros.filter(id__startswith=nombre_actual)
+
+    # Filtros dinámicos
+    if filtros["nombre"]:
+        if filtros["nombre"].isnumeric():
+            lista_registros = lista_registros.filter(id__startswith=filtros["nombre"])
         else:
-            lista_registros = lista_registros.filter(nombre__iregex=nombre_actual)
-    if campana_actual:
-        lista_registros = lista_registros.filter(inscripcion__campana=campana_actual)
+            lista_registros = lista_registros.filter(nombre__iregex=filtros["nombre"])
+    if filtros["campana"]:
+        lista_registros = lista_registros.filter(inscripcion__campana=filtros["campana"])
+
     especies_codigos = obtener_valores_selector(lista_registros, "especie")
     especies = devolver_tupla_codigo_territorio(especies_codigos, ESPECIE)
-    if especie_actual:
-        lista_registros = lista_registros.filter(especie=especie_actual)
+    if filtros["especie"]:
+        lista_registros = lista_registros.filter(especie=filtros["especie"])
+
     genero_codigos = obtener_valores_selector(lista_registros, "sexo")
     generos = devolver_tupla_codigo_territorio(genero_codigos, SEXO)
-    if genero_actual:
-        lista_registros = lista_registros.filter(sexo=genero_actual)
+    if filtros["genero"]:
+        lista_registros = lista_registros.filter(sexo=filtros["genero"])
+
     raza_codigos = obtener_valores_selector(lista_registros, "raza_mascota")
     razas = [(cod, cod) for cod in raza_codigos]
-    if raza_actual:
-        lista_registros = lista_registros.filter(raza_mascota=raza_actual)
+    if filtros["raza"]:
+        lista_registros = lista_registros.filter(raza_mascota=filtros["raza"])
 
     cantones_codigos = obtener_valores_selector(lista_registros, "canton_tutor")
     cantones = devolver_tupla_codigo_territorio(cantones_codigos, CANTONES)
-    if canton_actual:
-        lista_registros = lista_registros.filter(canton_tutor=canton_actual)
+    if filtros["canton"]:
+        lista_registros = lista_registros.filter(canton_tutor=filtros["canton"])
+
     parroquias_codigos = obtener_valores_selector(lista_registros, "parroquia_tutor")
     parroquias = devolver_tupla_codigo_territorio(parroquias_codigos, PARROQUIAS)
-    if parroquia_actual:
-        lista_registros = lista_registros.filter(parroquia_tutor=parroquia_actual)
+    if filtros["parroquia"]:
+        lista_registros = lista_registros.filter(parroquia_tutor=filtros["parroquia"])
+
     barrios_codigos = obtener_valores_selector(lista_registros, "barrio_tutor")
     barrios = [(cod, cod) for cod in barrios_codigos]
-    if barrio_actual:
-        lista_registros = lista_registros.filter(barrio_tutor=barrio_actual)
+    if filtros["barrio"]:
+        lista_registros = lista_registros.filter(barrio_tutor=filtros["barrio"])
+
     # Estadísticas
     mascotas_locaciones = (
         lista_registros.values_list("canton_tutor", "parroquia_tutor", "barrio_tutor")
         .annotate(count=Count("barrio_tutor"))
         .order_by("barrio_tutor")
     )
-    estadisticas_genero = contar_datos_por_key(lista_registros, "sexo")
-    estadisticas_especie = contar_datos_por_key(lista_registros, "especie")
-    estadisticas_raza = contar_datos_por_key(lista_registros, "raza_mascota")
-    estadisticas_parroquia = contar_datos_por_key(lista_registros, "parroquia_tutor")
-    estadisticas_barrio = contar_datos_por_key(lista_registros, "barrio_tutor")
+    estadisticas_genero = list(contar_datos_por_key(lista_registros, "sexo"))
+    estadisticas_especie = list(contar_datos_por_key(lista_registros, "especie"))
+    estadisticas_raza = list(contar_datos_por_key(lista_registros, "raza_mascota"))
+    estadisticas_parroquia = list(contar_datos_por_key(lista_registros, "parroquia_tutor"))
+    estadisticas_barrio = list(contar_datos_por_key(lista_registros, "barrio_tutor"))
+
+    # Estadísticas de hogar
     queryset_limpio = lista_registros.exclude(n_animales_hogar__lte=0).order_by("inscripcion__id").distinct()
-    n_hogar = 0
-    n_hogar_esterilizadas = 0
-    promedio_hogar = 0
-    n_muestras = 0
-    if queryset_limpio:
-        n_hogar = queryset_limpio.aggregate(total_value=Sum("n_animales_hogar"))["total_value"]
-        n_hogar_esterilizadas = queryset_limpio.aggregate(total_value=Sum("n_animales_hogar_esterilizadas"))[
-            "total_value"
-        ]
-        promedio_hogar = round(queryset_limpio.aggregate(Avg("n_animales_hogar"))["n_animales_hogar__avg"], 2)
-        n_muestras = len(queryset_limpio)
+    n_hogar = queryset_limpio.aggregate(total=Sum("n_animales_hogar"))["total"] or 0
+    n_hogar_esterilizadas = queryset_limpio.aggregate(total=Sum("n_animales_hogar_esterilizadas"))["total"] or 0
+    promedio_hogar = round(queryset_limpio.aggregate(avg=Avg("n_animales_hogar"))["avg"] or 0, 2)
+    n_muestras = queryset_limpio.count()
+    porcentaje_esterilizacion = round(100 * n_hogar_esterilizadas / n_hogar, 2) if n_hogar else 0
+
     datos_mascotas_hogar = {
         "hogar": n_hogar,
         "hogar_esterilizadas": n_hogar_esterilizadas,
         "promedio_hogar": promedio_hogar,
         "n_muestras": n_muestras,
+        "porcentaje_esterilizacion": porcentaje_esterilizacion,
     }
-    datos_mascotas_hogar["porcentaje_esterilizacion"] = (
-        round(100 * datos_mascotas_hogar["hogar_esterilizadas"] / datos_mascotas_hogar["hogar"], 2)
-        if datos_mascotas_hogar["hogar"]
-        else 0
-    )
+
     # Paginación
     paginator = Paginator(lista_registros, 25)
-    registros = paginator.page(page_number)
+    registros = paginator.get_page(page_number)
+
     # Mantener la URL sin el número de página
     query_dict = request.GET.copy()
-    if "page" in query_dict:
-        query_dict.pop("page")
+    query_dict.pop("page", None)
     query_string = query_dict.urlencode()
-    logger.info(f"Raza actual: {raza_actual}")
+
+    logger.info(f"Raza actual: {filtros['raza']}")
+
     context = {
         "registros": registros,
         "campanas": campanas,
@@ -126,25 +136,21 @@ def index(request):
         "especies": especies,
         "generos": generos,
         "razas": razas,
-        "nombre_actual": nombre_actual,
-        "campana_actual": campana_actual,
-        "especie_actual": especie_actual,
-        "genero_actual": genero_actual,
-        "raza_actual": raza_actual,
-        "canton_actual": canton_actual,
-        "parroquia_actual": parroquia_actual,
-        "barrio_actual": barrio_actual,
+        "nombre_actual": filtros["nombre"],
+        "campana_actual": filtros["campana"],
+        "especie_actual": filtros["especie"],
+        "genero_actual": filtros["genero"],
+        "raza_actual": filtros["raza"],
+        "canton_actual": filtros["canton"],
+        "parroquia_actual": filtros["parroquia"],
+        "barrio_actual": filtros["barrio"],
         "query_string": query_string,
         "mascotas_ubicacion": json.dumps(list(mascotas_locaciones)),
-        "estadisticas_genero": list(estadisticas_genero),
-        "estadisticas_especie": list(estadisticas_especie),
-        "estadisticas_raza": list(estadisticas_raza),
-        "estadisticas_parroquia": list(estadisticas_parroquia),
-        "estadisticas_barrio": list(estadisticas_barrio),
+        "estadisticas_genero": estadisticas_genero,
+        "estadisticas_especie": estadisticas_especie,
+        "estadisticas_raza": estadisticas_raza,
+        "estadisticas_parroquia": estadisticas_parroquia,
+        "estadisticas_barrio": estadisticas_barrio,
         "datos_mascotas_hogar": datos_mascotas_hogar,
     }
-    return render(
-        request,
-        "index.html",
-        context,
-    )
+    return render(request, "index.html", context)

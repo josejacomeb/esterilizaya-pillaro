@@ -7,6 +7,8 @@
 {% endblock %}
 {% block extra_head %}
   <script src="{% static 'js/jquery.min.js' %}"></script>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <style>
     .mascota-layout-row {
       min-height: 60vh;
@@ -50,8 +52,8 @@
           <div class="card-body">
             <h5 class="card-title">{{ registro }}</h5>
             <p class="card-text">
-              <strong>ID:</strong> {{ registro.id }}<br>
-              <strong>Esterilizado en:</strong> {{ registro.inscripcion.campana.nombre }}<br>
+              <strong>ID:</strong> {{ registro.id }}<br />
+              <strong>Esterilizado en:</strong> {{ registro.inscripcion.campana.nombre }}<br />
               <small class="text-muted">Registrada: {{ registro.fecha_registro }}</small>
             </p>
           </div>
@@ -95,20 +97,15 @@
   </div>
 {% endblock %}
 {% block extra_body %}
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin=""></script>
   <script src="{% static 'js/mapa.js' %}"></script>
   <script>
     $(function () {
-      let mapInitialized = false;
-      const locaciones = [["{{registro.canton_tutor}}", "{{registro.parroquia_tutor}}", "{{registro.barrio_tutor}}", 1]];
+      let mapInitialized = false
+      const locaciones = [['{{registro.canton_tutor}}', '{{registro.parroquia_tutor}}', '{{registro.barrio_tutor}}', 1]]
       if (!mapInitialized) {
-        mapInitialized = true;
-        inicializarMapa(
-          locaciones,
-          "{% static 'assets/locaciones.json' %}"
-        );
+        mapInitialized = true
+        inicializarMapa(locaciones, "{% static 'assets/locaciones.json' %}")
       }
-    });
+    })
   </script>
 {% endblock %}
