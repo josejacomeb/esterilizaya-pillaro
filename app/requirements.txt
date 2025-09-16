@@ -3,4 +3,4 @@ django==5.*
 mysqlclient==2.*
 pillow==11.*
 uwsgi==2.*
-weasyprint==63.*
+weasyprint==66.*
