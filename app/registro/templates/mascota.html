@@ -99,12 +99,13 @@
 {% block extra_body %}
   <script src="{% static 'js/mapa.js' %}"></script>
   <script>
+    {% include "icono.html" %}
     $(function () {
       let mapInitialized = false
       const locaciones = [['{{registro.canton_tutor}}', '{{registro.parroquia_tutor}}', '{{registro.barrio_tutor}}', 1]]
       if (!mapInitialized) {
         mapInitialized = true
-        inicializarMapa(locaciones, "{% static 'assets/locaciones.json' %}")
+        inicializarMapa(locaciones, "{% static 'assets/locaciones.json' %}", icono)
       }
     })
   </script>

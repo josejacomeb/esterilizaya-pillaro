@@ -194,13 +194,14 @@
 
       let mapInitialized = false;
       let chartsInitialized = false;
-
+      {% include "icono.html" %}
       function loadEstadisticas() {
         if (!mapInitialized) {
           mapInitialized = true;
           inicializarMapa(
             {{ mascotas_ubicacion|safe }},
-            "{% static 'assets/locaciones.json' %}"
+            "{% static 'assets/locaciones.json' %}",
+            icono
           );
         }
         if (!chartsInitialized) {
