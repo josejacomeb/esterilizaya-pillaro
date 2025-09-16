@@ -1,4 +1,6 @@
 {% load static %}
+{% load django_bootstrap5 %}
+{% url 'mascotas:index' as reset_url %}
 
 <form method="get" id="filterForm" class="d-flex flex-column gap-3">
   <!-- Nombre -->
@@ -21,7 +23,5 @@
   <!-- Barrio -->
   {% include 'selector-dinamico.html' with texto='Barrio' valores=barrios elemento='barrio' actual=barrio_actual %}
   <!-- Botón Reset -->
-  <div>
-    <a href="{% url 'mascotas:index' %}" class="btn btn-outline-secondary w-100">Resetear</a>
-  </div>
+  {% bootstrap_button "Resetear" button_type="link" button_class="btn-primary" href=reset_url %}
 </form>
