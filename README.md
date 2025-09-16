@@ -35,6 +35,8 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 - [jQuery](https://jquery.com/) >= v3.x
 - [WeasyPrint](https://weasyprint.org/) >= v63.x
 - [watchfiles](https://github.com/samuelcolvin/watchfiles) >= v1.x
+- [Chart.js](https://www.chartjs.org/) >= 4.5.x
+- [Leaflet](https://leafletjs.com/) >= 1.9.x
 
 ## Instrucciones
 
@@ -68,6 +70,14 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       # Descarga jQuery
       JQUERY_VERSION="3.7.1"
       wget https://code.jquery.com/jquery-$JQUERY_VERSION.min.js -O app/static/js/jquery.min.js
+      # Descargar Chart.js
+      CHART_JS_VERSION="4.5.0"
+      wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js -O app/static/js/chart.umd.min.js
+      wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.js.map -O app/static/js/chart.umd.js.map
+      # Descargar Leaflet 
+      LEAFLET_VERSION="1.9.4"
+      wget -P app/static/css https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.css
+      wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.

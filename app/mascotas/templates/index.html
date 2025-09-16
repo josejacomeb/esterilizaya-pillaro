@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+
+{% block title %}
+  Mostrar registros de todas las mascotas
+{% endblock %}
+
+{% block extra_head %}
+  <script src="{% static 'js/jquery.min.js' %}"></script>
+  <script src="{% static 'js/chart.umd.min.js' %}"></script>
+  <link rel="stylesheet" href="{% static 'css/leaflet.css' %}"/>
+  <script src="{% static 'js/leaflet.js' %}"></script>
+  <style>
+    .chart-container {
+      position: relative;
+      height: 250px;
+    }
+    @media (max-width: 768px) {
+      .chart-container {
+        height: 200px;
+      }
+      .col-md-3 {
+        min-height: unset !important;
+        padding: 1rem !important;
+      }
+      #mapa {
+        min-height: 200px !important;
+        height: 40vh !important;
+      }
+    }
+    #mapa {
+      width: 100%;
+      height: 60vh;
+      min-height: 300px;
+      max-height: 600px;
+    }
+  </style>
+{% endblock%}
+{% block content %}
+  <div class="row">
+    <!-- Main Content -->
+    <div class="col-12 col-md-9">
+      <ul class="nav nav-tabs mb-3" id="mapaEstadisticasPestana" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="registros-tab" data-bs-toggle="tab" data-bs-target="#registros" type="button" role="tab" aria-controls="registros" aria-selected="true">Registros</button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="estadisticas-tab" data-bs-toggle="tab" data-bs-target="#estadisticas" type="button" role="tab" aria-controls="estadisticas" aria-selected="false">Estadísticas</button>
+        </li>
+      </ul>
+      <div class="tab-content" id="datosPestaña">
+        <!-- Registros Pestaña -->
+        <div class="tab-pane fade show active" id="registros" role="tabpanel" aria-labelledby="registros-tab">
+          {% if registros %}
+            <div class="table-responsive">
+              <table class="table table-bordered text-center mb-1 border-1px-dark">
+                <thead class="table-light">
+                  <tr>
+                    <th>ID</th>
+                    <th>Nº</th>
+                    <th>Nombre</th>
+                    <th>Tutor</th>
+                    <th>Especie</th>
+                    <th>Género</th>
+                    <th>Raza</th>
+                    <th>Foto</th>
+                    <th>Campaña</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {% for registro in registros %}
+                    <tr>
+                      <td>{{ registro.id }}</td>
+                      <td>{{ forloop.counter }}</td>
+                      <td>
+                        <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
+                      </td>
+                      <td>{{ registro.nombres_tutor }}</td>
+                      <td>{{ registro.especie }}</td>
+                      <td>{{ registro.sexo }}</td>
+                      <td>{{ registro.raza_mascota }}</td>
+                      <td>
+                        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase="imagen-mascotas" %}
+                      </td>
+                      <td>{{ registro.inscripcion.campana }}</td>
+                    </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+            </div>
+          {% else %}
+            <p>No hay registros para mostrar</p>
+          {% endif %}
+          {% if registros %}
+            {% bootstrap_pagination registros %}
+          {% endif %}
+        </div>
+        <!-- Pestaña Estadísticas -->
+        <div class="tab-pane fade p-3" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
+          <div class="row g-3 h-100">
+            <!-- Especies, Razas y Barrios -->
+            <div class="col-12 col-md-4 d-flex flex-column">
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill mb-3">
+                <h5 class="text-center">Distribución Especies</h5>
+                <canvas id="graficoEspecie"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill">
+                <h5 class="text-center">Distribución Razas</h5>
+                <canvas id="graficoRaza"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill mb-3">
+                <h5 class="text-center">Distribución Barrios</h5>
+                <canvas id="graficoBarrios"></canvas>
+              </div>
+            </div>
+            <!-- Género, Parroquias y Porcentajes Esterilización -->
+            <div class="col-12 col-md-4 d-flex flex-column">
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill mb-3">
+                <h5 class="text-center">Distribución Género</h5>
+                <canvas id="graficoGenero"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill">
+                <h5 class="text-center">Distribución Parroquias</h5>
+                <canvas id="graficoParroquia"></canvas>
+              </div>
+              <div class="chart-container bg-light p-3 rounded shadow-sm flex-fill">
+                <h4 class="text-center">Estadísticas Tenencia</h4>
+                <small class="text-body-secondary"><i>Número Muestras:</i> {{datos_mascotas_hogar.n_muestras}}</small>
+                <p><strong>Porcentajes Esterilización:</strong> {{datos_mascotas_hogar.porcentaje_esterilizacion}} % </br>
+                <strong>Promedio Mascotas Hogar:</strong> {{datos_mascotas_hogar.promedio_hogar}} mascotas</p>
+              </div>
+            </div>
+            <!-- Mapa -->
+            <div class="col-12 col-md-4">
+              <div class="bg-light p-3 rounded shadow-sm h-100">
+                <div id="mapa" style="width: 100%; height: 60vh; min-height: 300px; max-height: 600px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Filtro Sidebar -->
+    <div class="col-12 col-md-3 bg-white border-start min-vh-100 p-4">
+      {% include 'filtro.html' %}
+    </div>
+  </div>
+
+{% endblock %}
+
+{% block extra_body %}
+  <script src="{% static 'js/mapa.js' %}"></script>
+  <script src="{% static 'js/graficos.js' %}"></script>
+  <script>
+    $(function () {
+      // Auto-submit when select changes
+      $('#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id').on('change', function () {
+        $('#filterForm').submit()
+      })
+    
+      // Auto-submit when user types in the nombre field and pauses
+      let typingTimer
+      const typingDelay = 500 // ms
+    
+      $('#nombre-id').on('keyup', function () {
+        clearTimeout(typingTimer)
+        typingTimer = setTimeout(function () {
+          $('#filterForm').submit()
+        }, typingDelay)
+      })
+    })
+  </script>
+  <script>
+    $(function () {
+      let hashTab = window.location.hash;
+      let lastTab = localStorage.getItem('selectedTab');
+      let initialTab = hashTab || lastTab || '#registros';
+
+      $('#mapaEstadisticasPestana button[data-bs-target="' + initialTab + '"]').tab('show');
+
+      $('#mapaEstadisticasPestana button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+        const tabTarget = $(e.target).data('bs-target');
+        localStorage.setItem('selectedTab', tabTarget);
+        window.location.hash = tabTarget;
+      });
+
+      $(window).on('hashchange', function () {
+        const hash = window.location.hash;
+        if (hash) {
+          $('#mapaEstadisticasPestana button[data-bs-target="' + hash + '"]').tab('show');
+        }
+      });
+
+      let mapInitialized = false;
+      let chartsInitialized = false;
+
+      function loadEstadisticas() {
+        if (!mapInitialized) {
+          mapInitialized = true;
+          inicializarMapa(
+            {{ mascotas_ubicacion|safe }},
+            "{% static 'assets/locaciones.json' %}"
+          );
+        }
+        if (!chartsInitialized) {
+          chartsInitialized = true;
+          inicializarGraficos({
+            estadisticasEspecie: {{ estadisticas_especie|safe }},
+            genderStats: {{ estadisticas_genero|safe }},
+            razaStats: {{ estadisticas_raza|safe }},
+            parroquiaStats: {{ estadisticas_parroquia|safe }},
+            barrioStats: {{ estadisticas_barrio|safe }}
+          });
+        }
+      }
+
+      if (initialTab === '#estadisticas') {
+        loadEstadisticas();
+      }
+      $('#estadisticas-tab').on('shown.bs.tab', loadEstadisticas);
+    });
+  </script>
+{% endblock %}

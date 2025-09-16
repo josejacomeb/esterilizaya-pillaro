@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     "inicio.apps.InicioConfig",
     "registro.apps.RegistroConfig",
     "reportes.apps.ReportesConfig",
+    "mascotas.apps.MascotasConfig",
     "django_bootstrap5",
     "django.contrib.admin",
     "django.contrib.auth",
@@ -116,7 +117,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = "es-ec"
 
-TIME_ZONE = "UTC"
+TIME_ZONE = "America/Guayaquil"
 
 USE_I18N = True
 

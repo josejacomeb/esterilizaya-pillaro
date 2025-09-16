@@ -6,13 +6,6 @@
 {% endblock %}
 
 {% block content %}
-  {% if messages %}
-    <ul class="messages list-unstyled">
-      {% for message in messages %}
-        <li class="alert alert-{{ message.tags|default:'info' }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
   <h1 class="h4 mb-4">Registrar nueva inscripción</h1>
 
   <form method="post" class="needs-validation" novalidate>
