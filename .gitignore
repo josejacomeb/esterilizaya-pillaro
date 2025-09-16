@@ -187,6 +187,7 @@ app/static/js/leaflet.js
 
 # Archivos iniciales
 app/static/images/marker*
+app/static/css/fonts/
 
 # Archivos de impresión 
 pdfs/*
