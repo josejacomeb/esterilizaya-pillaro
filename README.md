@@ -74,6 +74,10 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       CHART_JS_VERSION="4.5.0"
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js -O app/static/js/chart.umd.min.js
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.js.map -O app/static/js/chart.umd.js.map
+      # Descargar Leaflet 
+      LEAFLET_VERSION="1.9.4"
+      wget -P app/static/css https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.css
+      wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.
