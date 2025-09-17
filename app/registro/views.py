@@ -71,7 +71,6 @@ def registrar(request, campana_id, inscripcion_id):
         )
         initial_data = {}
         if registro_anterior:
-            logger.info(registro_anterior)
             initial_data = {
                 "cedula_identidad": registro_anterior.cedula_identidad,
                 "n_animales_hogar": registro_anterior.n_animales_hogar,

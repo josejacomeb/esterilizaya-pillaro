@@ -125,8 +125,6 @@ def index(request):
     query_dict.pop("page", None)
     query_string = query_dict.urlencode()
 
-    logger.info(f"Raza actual: {filtros['raza']}")
-
     context = {
         "registros": registros,
         "campanas": campanas,
