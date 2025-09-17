@@ -5,33 +5,23 @@
   Ver todos los inscritos
 {% endblock %}
 
-{% block content %}
-  <div class="mb-4">
-    <h1 class="h4">Registro de inscripciones para {{ campana.nombre }}</h1>
-    <p>
-      <strong>Total inscritos:</strong> {{ total_inscritos }}
-    </p>
-    <a href="{% url 'inscripcion:create' campana.id %}" class="btn btn-primary btn-sm mt-2">Crear una nueva inscripción</a>
-  </div>
-
-  <h2 class="h5 mt-4">Inscripciones pendientes de registrar</h2>
-  {% include "inscripcion/tabla_inscripciones.html" with inscripciones=pendientes pendientes=True titulo="Inscripciones pendientes de registrar" %}
-  <h2 class="h5 mt-4">Inscripciones registradas</h2>
-  {% include "inscripcion/tabla_inscripciones.html" with inscripciones=registrados pendientes=False titulo="Inscripciones registradas" %}
-
+{% block extra_head %}
   <style>
     @media (max-width: 767.98px) {
       .table-responsive {
         font-size: 0.95em;
       }
-      .table th, .table td {
+      .table th,
+      .table td {
         white-space: nowrap;
         padding: 0.4rem 0.3rem;
       }
-      h1.h4, h2.h5 {
+      h1.h4,
+      h2.h5 {
         font-size: 1.1rem;
       }
-      .btn, .btn-sm {
+      .btn,
+      .btn-sm {
         font-size: 0.95em;
         padding: 0.3em 0.7em;
       }
@@ -41,4 +31,17 @@
       -webkit-overflow-scrolling: touch;
     }
   </style>
+{% endblock %}
+
+{% block content %}
+  <div class="mb-4">
+    <h2>Registro de inscripciones para {{ campana.nombre }}</h2>
+    {% url 'inscripcion:create' campana.id as url_inscripcion %}
+    {% bootstrap_button 'Nueva Inscripción' button_type='link' href=url_inscripcion %}
+  </div>
+
+  <h3 class="mt-2">Inscripciones pendientes de registrar</h3>
+  {% include 'inscripcion/tabla_inscripciones.html' with inscripciones=pendientes pendientes=True titulo='Inscripciones pendientes de registrar' %}
+  <h3 class="mt-2">Inscripciones registradas</h3>
+  {% include 'inscripcion/tabla_inscripciones.html' with inscripciones=registrados pendientes=False titulo='Inscripciones registradas' %}
 {% endblock %}
