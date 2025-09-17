@@ -1,46 +1,55 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block title %}
   Todas las campañas
 {% endblock %}
 
 {% block content %}
-  <h1>Datos Campaña</h1>
-  <ul>
-    <li>
-      <strong>Nombre Campaña:</strong> {{ campana.nombre }}
+  <h3>Datos Campaña</h3>
+  <ul class="list-group list-group-flush">
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <span class="badge {% if campana.estado == 'AC' %}
+           text-bg-success
+        {% else %}
+           text-bg-warning
+        {% endif %}">
+        {{ campana.get_estado_display }}
+      </span>
+      {{ campana.nombre }}
     </li>
-    <li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       <strong>Parroquia:</strong> {{ campana.get_parroquia_display }}
     </li>
-    <li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       <strong>Barrio:</strong> {{ campana.barrio }}
     </li>
-    <li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       <strong>Fecha:</strong> {{ campana.fecha }}
     </li>
-    <li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       <strong>Nº animales:</strong> {{ campana.n_animales }}
     </li>
-    <li>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
       <strong>Estado:</strong> {{ campana.get_estado_display }}
     </li>
-    <li>
-      <strong>Número Registrados:</strong> {{ n_registrados }}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <i>Creado por:</i> {{ campana.usuario }}
     </li>
-
-    <li>Creado por: {{ campana.usuario }}</li>
     {% if request.user.is_authenticated %}
       {% if campana.estado == 'AC' %}
-        <li>
-          <a href="{% url 'inscripcion:create' campana.id %}">Añadir una nueva inscripcion</a>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+          {% url 'inscripcion:create' campana.id as url_nueva %}
+          {% bootstrap_button 'Nueva inscripción' button_type='link' button_class='btn-info' href=url_nueva %}
         </li>
       {% endif %}
     {% endif %}
-    <li>
-      <a href="{% url 'inscripcion:index' campana.id %}">Ver todas las inscripciones</a>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="{% url 'inscripcion:index' campana.id %}">Nuevo Registro</a>
+      <span class="badge bg-primary rounded-pill">{{ n_inscritos }}</span>
     </li>
-    <li>
-      <a href="{% url 'registro:lista' campana.id %}">Ver todas los registros</a>
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+      <a href="{% url 'registro:lista' campana.id %}">Todos los registros</a>
+      <span class="badge bg-primary rounded-pill">{{ n_registrados }}</span>
     </li>
   </ul>
 {% endblock %}
