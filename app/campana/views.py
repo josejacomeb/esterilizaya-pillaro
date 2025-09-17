@@ -14,6 +14,10 @@ from .models import Campana
 logger = logging.getLogger(__name__)
 
 
+def campanas_activas(request):
+    return {"campanas_activas": Campana.activas.all()}
+
+
 @login_required(login_url="cuenta:login")
 def index(request):
     if request.method == "POST":
@@ -34,7 +38,8 @@ def index(request):
 
 
 def mostrar(request, anio, parroquia, mes, dia):
-    campana = get_object_or_404(Campana, creada__year=anio, parroquia=parroquia, creada__month=mes, creada__day=dia)
+    logger.info(f"Anio: {anio}, parroquia: {parroquia}, mes: {mes}, dia: {dia}, {Campana.objects.all()}")
+    campana = get_object_or_404(Campana, fecha__year=anio, parroquia=parroquia, fecha__month=mes, fecha__day=dia)
     n_registrados = Inscripcion.objects.filter(campana_id=campana.id).count()
     return render(request, "campana/campana.html", {"campana": campana, "n_registrados": n_registrados})
 

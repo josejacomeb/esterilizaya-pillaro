@@ -7,7 +7,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>
-      {% block title %}{% endblock %}
+      {% block title %}
+
+      {% endblock %}
     </title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
     <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet" />
@@ -42,22 +44,36 @@
         }
       }
     </style>
-    {% block extra_head %}{% endblock %}
+    {% block extra_head %}
+
+    {% endblock %}
   </head>
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
       <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'inicio:index' %}">Esteriliza-ya</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'inicio:index' %}">Inicio</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'inicio:index' %}">Campañas</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{% url 'inicio:index' %}" role="button" aria-expanded="false">Campañas</a>
+              <ul class="dropdown-menu">
+                {% for campana in campanas_activas %}
+                  <li>
+                    <a class="dropdown-item" href="{{ campana.get_absolute_url }}">{{ campana.nombre }}</a>
+                  </li>
+                {% empty %}
+                  <li>
+                    <span class="dropdown-item text-muted">No hay campañas activas</span>
+                  </li>
+                {% endfor %}
+                <li>
+                  <hr class="dropdown-divider" />
+                </li>
+                <li>
+                  <a class="dropdown-item" href="{% url 'inicio:index' %}">Todas</a>
+                </li>
+              </ul>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="{% url 'mascotas:index' %}">Todas Mascotas</a>
@@ -66,17 +82,13 @@
           <ul class="navbar-nav ms-auto">
             <li class="nav-item">
               {% if request.user.is_authenticated %}
-                <span class="navbar-text me-2">
-                  Hola {{ request.user.first_name|default:request.user.username }},
-                </span>
+                <span class="navbar-text me-2">Hola {{ request.user.first_name|default:request.user.username }},</span>
                 <form action="{% url 'cuenta:logout' %}" method="post" class="d-inline">
                   {% csrf_token %}
                   <button type="submit" class="btn btn-sm btn-outline-danger">Salir</button>
                 </form>
               {% else %}
-                <a class="nav-link" href="{% url 'cuenta:login' %}">
-                  <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
-                </a>
+                <a class="nav-link" href="{% url 'cuenta:login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
               {% endif %}
             </li>
           </ul>
@@ -87,7 +99,9 @@
       {% bootstrap_messages %}
       <div class="row content justify-content-center">
         <div id="content" class="col-12">
-          {% block content %}{% endblock %}
+          {% block content %}
+
+          {% endblock %}
         </div>
       </div>
     </div>
@@ -97,6 +111,8 @@
         <a href="https://www.facebook.com/profile.php?id=61550626997105">Happy Paws Píllaro</a>
       </p>
     </footer>
-    {% block extra_body %}{% endblock %}
+    {% block extra_body %}
+
+    {% endblock %}
   </body>
 </html>
