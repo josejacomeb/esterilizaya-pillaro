@@ -4,6 +4,7 @@ from campana.models import Campana
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.core.paginator import Paginator
 from django.http import JsonResponse, response
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
@@ -25,14 +26,18 @@ def index(request):
 
 
 def lista(request, campana_id):
-    registros = Registro.objects.filter(inscripcion__campana=campana_id)
+    page_number = request.GET.get("page", 1)
+    todos_registros = Registro.objects.filter(inscripcion__campana=campana_id)
     # Dato del primer resultado
     nombre_campana = Campana.objects.filter(id=campana_id).first().nombre
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]
     if query:
-        registros = registros.filter(nombres_tutor__iregex=query)
+        todos_registros = todos_registros.filter(nombres_tutor__iregex=query)
+    # Paginación
+    paginator = Paginator(todos_registros, 15)
+    registros = paginator.get_page(page_number)
     return render(
         request,
         "registro/lista.html",
@@ -81,11 +86,6 @@ def registrar(request, campana_id, inscripcion_id):
 
 
 def ver_ficha(request, campana_id, registro_id):
-    registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
-    return render(request, "registro/ficha.html", {"registro": registro})
-
-
-def imprimir_ficha(request, campana_id, registro_id):
     registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
     return render(request, "registro/ficha.html", {"registro": registro})
 
@@ -155,10 +155,10 @@ def generar_pdf(request, registro_id):
             string=html_string,
             base_url=request.build_absolute_uri(),
         ).write_pdf(ruta_ficha_pdf)
-        logging.info(f"PDF guardado en: {ruta_ficha_pdf}")
+        logger.info(f"PDF guardado en: {ruta_ficha_pdf}")
         messages.success(request, "PDF generado y guardado exitosamente.")
     except Exception as e:
-        logging.error(f"Error al guardar el PDF: {e}")
+        logger.error(f"Error al guardar el PDF: {e}")
         messages.error(request, "Error al generar el PDF. Por favor, inténtelo de nuevo más tarde.")
         return redirect("registro:ver_ficha", campana_id=registro.inscripcion.campana.id, registro_id=registro_id)
     return redirect("registro:lista", campana_id=registro.inscripcion.campana.id)
