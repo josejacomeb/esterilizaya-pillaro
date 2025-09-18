@@ -10,7 +10,8 @@
   <h2>Todos los registros</h2>
   <h3>{{ nombre_campana }}</h3>
   <div>
-    <a href="{% url 'inscripcion:index' campana_id %}" class="btn btn-primary" role="button">Registrar un nuevo Tutor</a>
+      {% url 'inscripcion:index' campana_id as url_mascota %}
+      {% bootstrap_button 'Registrar Mascota' button_type='link' href=url_mascota %}
   </div>
   <h1>Buscar participantes</h1>
   <form method="get" action="{% url 'registro:lista' campana_id %}">
@@ -55,16 +56,6 @@
       </table>
     </div>
   {% else %}
-    <h1>No hay mascotas registradas, por favor registre una en:</h1>
-    <a href="{% url 'inscripcion:create' campana_id %}">Registrar nueva mascota</a>
+    <h3>No hay mascotas registradas, por favor registre una</h3>
   {% endif %}
-  <p>
-    <a href="{% url 'registro:vista_veterinarios' campana_id %}" class="button">👩🏻‍⚕️Vista Veterinarios🐕‍🦺</a>
-  </p>
-  <p>
-    <a href="{% url 'registro:ver_certificados' campana_id %}" class="button">Imprimir Certificados</a>
-  </p>
-  <p>
-    <a href="{% url 'registro:ver_recetas' campana_id %}" class="button">Imprimir Recetas</a>
-  </p>
 {% endblock %}

@@ -27,7 +27,7 @@ def index(request):
 def lista(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
     # Dato del primer resultado
-    nombre_campana = registros[0].inscripcion.campana.nombre
+    nombre_campana = Campana.objects.filter(id=campana_id).first().nombre
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]

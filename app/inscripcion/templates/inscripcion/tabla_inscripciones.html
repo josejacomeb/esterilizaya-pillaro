@@ -6,13 +6,13 @@
       <tr>
         <th>Nº</th>
         <th>Nombre Tutor</th>
+        <th>Registrar</th>
         <th>Barrio</th>
         <th>Parroquia</th>
         <th>Teléfono</th>
         <th>Whatsapp</th>
         <th>Horario</th>
         <th>Inscrito por</th>
-        <th>Registrar</th>
       </tr>
     </thead>
     <tbody>
@@ -20,6 +20,21 @@
         <tr>
           <td>{{ forloop.counter }}</td>
           <td>{{ inscripcion.nombres_tutor }}</td>
+          <td>
+            <div class="btn-group-vertical btn-group-sm" role="group" aria-label="Vertical button group">
+              {% for n_cupo in cupos %}
+                {% if pendientes and n_cupo > inscripcion.cupos_registrados %}
+                  {% if inscripcion.campana.estado == 'AC' %}
+                    <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="btn btn-outline-primary">Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}</a>
+                  {% else%}
+                    <span class="text-warning">No activo</span>
+                  {% endif%}
+                {% else %}
+                  <span class="text-success">Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}</span>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </td>
           <td>{{ inscripcion.barrio_tutor }}</td>
           <td>{{ inscripcion.get_parroquia_tutor_display }}</td>
           <td>{{ inscripcion.numero_telefono_tutor|stringformat:'010d' }}</td>
@@ -32,23 +47,10 @@
           </td>
           <td>{{ inscripcion.get_horario_display }}</td>
           <td>{{ inscripcion.usuario.username }}</td>
-          <td>
-            <ol class="ps-3 mb-0">
-              {% for n_cupo in cupos %}
-                <li>
-                  {% if pendientes and n_cupo > inscripcion.cupos_registrados %}
-                    <a href="{% url 'registro:nuevo' inscripcion.campana.id inscripcion.id %}" class="btn btn-outline-primary btn-sm">Registrar {{ n_cupo }} / {{ inscripcion.cupos_totales }}</a>
-                  {% else %}
-                    <span class="text-success">Registrado {{ n_cupo }} / {{ inscripcion.cupos_totales }}</span>
-                  {% endif %}
-                </li>
-              {% endfor %}
-            </ol>
-          </td>
         </tr>
       {% empty %}
         <tr>
-          <td colspan="9" class="text-center">No hay inscripciones {{ titulo|lower }}.</td>
+          <td colspan="9" class="text-center">No hay {{ titulo|lower }}.</td>
         </tr>
       {% endfor %}
     </tbody>
