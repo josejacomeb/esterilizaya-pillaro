@@ -85,6 +85,7 @@ def registrar(request, campana_id, inscripcion_id):
     return render(request, "registro/nuevo.html", {"form": forma})
 
 
+@login_required(login_url="cuenta:login")
 def ver_ficha(request, campana_id, registro_id):
     registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
     return render(request, "registro/ficha.html", {"registro": registro})
@@ -140,6 +141,7 @@ class RegistradoListView(ListView):
         return super().get(request, *args, **kwargs)
 
 
+@login_required(login_url="cuenta:login")
 def generar_pdf(request, registro_id):
     # TODO: Eliminar esto cuando el SSL sea global
     import ssl

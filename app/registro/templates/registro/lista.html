@@ -16,7 +16,7 @@
   <h3>Buscar participantes</h3>
   <form class="row row-cols-lg-auto g-3 align-items-center" method="get" action="{% url 'registro:lista' campana_id %}">
     <div class="col-12">
-      <input type="text" name="query" placeholder="Buscar por tutor" class="form-control"/>
+      <input type="text" name="query" placeholder="Buscar por tutor" class="form-control" />
     </div>
     <div class="col-12">
       {% bootstrap_button 'Buscar' %}
@@ -35,8 +35,10 @@
             <th>Nombre Tutor</th>
             <th>Especie</th>
             <th>Género</th>
-            <th>Ver Ficha</th>
-            <th>Imprimir ficha</th>
+            {% if request.user.is_authenticated %}
+              <th>Ver Ficha</th>
+              <th>Imprimir ficha</th>
+            {% endif %}
           </tr>
         </thead>
         <tbody>
@@ -51,6 +53,7 @@
               <td>{{ registro.nombres_tutor }}</td>
               <td>{{ registro.especie }}</td>
               <td>{{ registro.sexo }}</td>
+            {% if request.user.is_authenticated %}
               <td>
                 {% url 'registro:ver_ficha' registro.inscripcion.campana.id registro.id as url_ficha %}
                 {% bootstrap_button '<i class="bi bi-eye"></i> Ver Ficha' button_type='link' href=url_ficha size='sm' %}
@@ -59,6 +62,7 @@
                 {% url 'registro:generar_pdf' registro.id as url_imprimir %}
                 {% bootstrap_button '<i class="bi bi-printer"></i> Imprimir ficha' button_type='link' href=url_imprimir size='sm' %}
               </td>
+              {% endif %}
             </tr>
           {% endfor %}
         </tbody>
