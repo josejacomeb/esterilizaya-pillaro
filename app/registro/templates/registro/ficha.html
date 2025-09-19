@@ -122,7 +122,14 @@
               <tr>
                 <td>{{ registro.get_especie_display }}</td>
                 <td>{{ registro.get_sexo_display }}</td>
-                <td>{{ registro.edad_anos }} años {{ registro.edad_meses }} meses</td>
+                <td>
+                  {% if registro.edad_anos %}
+                    {{ registro.edad_anos }} año{% if registro.edad_anos > 1 %}s{% endif %}
+                  {% endif %}
+                  {% if registro.edad_meses %}
+                    {{ registro.edad_meses }} mes{% if registro.edad_meses > 1 %}es{% endif %}
+                  {% endif %}
+                </td>
                 <td>{{ registro.raza_mascota }}</td>
                 <td>{{ registro.get_carnet_display }}</td>
               </tr>
