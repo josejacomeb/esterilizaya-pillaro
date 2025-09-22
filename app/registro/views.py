@@ -9,6 +9,7 @@ from django.http import JsonResponse, response
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.generic import ListView
+from easy_thumbnails.files import get_thumbnailer
 from esterilizaya.constantes import RUTA_PDFS
 from inscripcion.models import Inscripcion
 from registro.models import Registro
@@ -136,7 +137,9 @@ class RegistradoListView(ListView):
                     "nombres_tutor",
                 )
             )
-
+            # Añadir ruta del miniatura
+            for reg in registros:
+                reg["miniatura"] = get_thumbnailer(reg["foto"]).get_thumbnail({"size": (300, 300), "crop": "smart"}).url
             return JsonResponse({"registros": registros})
         return super().get(request, *args, **kwargs)
 
