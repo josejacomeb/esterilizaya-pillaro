@@ -1,3 +1,19 @@
+:root {
+  /* Brand palette */
+  --primary: #e87722;        /* main orange */
+  --primary-dark: #cc5f10;   /* darker orange */
+  --primary-light: #f0a14a;  /* softer orange for success/info */
+  --secondary: #993d0f;      /* deep brown-orange for footer */
+  --accent: #ffeede;         /* soft cream for contrast */
+  --background-light: #fff8f2; /* light orange background */
+  
+  /* Neutral palette */
+  --text-dark: #333;
+  --text-light: #fff;
+  --text-muted: #aaa;
+  --border-light: #bbb;
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -9,13 +25,13 @@ p {
 }
 
 a {
-  color: #12c064;
+  color: var(--primary);
   text-decoration: none;
   transition: color 0.2s;
 }
 
 a:hover {
-  color: #00a74f;
+  color: var(--primary-dark);
 }
 
 h1,
@@ -29,7 +45,7 @@ h6 {
 }
 
 h1 {
-  border-bottom: 1px solid #bbb;
+  border-bottom: 1px solid var(--border-light);
   padding-bottom: 10px;
   margin: 10px 0 20px;
 }
@@ -45,16 +61,16 @@ ol {
 #header {
   padding: 10px 100px;
   font-size: 14px;
-  background: #12c064;
-  color: #fff;
-  border-bottom: 4px solid #1cdf78;
+  background: var(--primary);
+  color: var(--text-light);
+  border-bottom: 4px solid var(--primary-dark);
   overflow: auto;
 }
 
 #header .logo {
   font-family: Arial, sans-serif;
   float: left;
-  color: #f3f7cc;
+  color: var(--accent);
   font-size: 20px;
   margin-right: 10%;
 }
@@ -72,7 +88,7 @@ ol {
 }
 
 ul.messages li.success a {
-  color: #0ac33e;
+  color: var(--primary);
 }
 
 ul.messages li.error a {
@@ -88,16 +104,16 @@ ul.messages li.warning a {
 }
 
 #header a {
-  color: #f3f7cc;
+  color: var(--accent);
 }
 
 #header a:hover {
-  color: #fff;
+  color: var(--text-light);
 }
 
 #header ul.menu li.selected a,
 #header ul.menu li.selected a:hover {
-  color: #1b6d32;
+  color: var(--secondary);
   font-weight: bold;
 }
 
@@ -118,7 +134,7 @@ form {
 
 #header .user button {
   background: none;
-  color: #f3f7cc;
+  color: var(--accent);
   border: none;
   cursor: pointer;
   float: left;
@@ -137,7 +153,7 @@ form p {
 label {
   float: left;
   clear: both;
-  color: #333;
+  color: var(--text-dark);
   margin-bottom: 4px;
 }
 
@@ -146,7 +162,7 @@ textarea {
   clear: both;
   float: left;
   margin: 0 0 10px;
-  background: #efefef;
+  background: #f5f5f5;
   border: 0;
   padding: 6px 10px;
   font-size: 14px;
@@ -155,8 +171,8 @@ textarea {
 input[type="submit"],
 a.button {
   font-weight: bold;
-  background: #12c064;
-  color: #fff;
+  background: var(--primary);
+  color: var(--text-light);
   padding: 10px 20px;
   font-size: 14px;
   text-transform: uppercase;
@@ -167,7 +183,7 @@ a.button {
 
 input[type="submit"]:hover,
 a.button:hover {
-  background: #0fa055;
+  background: var(--primary-dark);
 }
 
 .errorlist {
@@ -179,7 +195,7 @@ a.button:hover {
 
 .helptext {
   margin-bottom: 20px;
-  color: #aaa;
+  color: var(--text-muted);
   clear: both;
   float: left;
   font-size: 13px;
@@ -199,11 +215,11 @@ ul.messages li.info {
   margin: 0;
   padding: 14px 20px;
   list-style: none;
-  color: #fff;
+  color: var(--text-light);
 }
 
 ul.messages li.success {
-  background: #81ce81;
+  background: var(--primary-light);
 }
 
 ul.messages li.error {
@@ -251,8 +267,8 @@ ul.messages li a.close {
 }
 
 .count {
-  color: #aaa;
-  border: 3px solid #bbb;
+  color: var(--text-muted);
+  border: 3px solid var(--border-light);
   border-radius: 26px;
   padding: 10px 20px;
   margin: 20px 10px 0;
@@ -273,7 +289,7 @@ a.follow {
   width: 220px;
   height: 300px;
   margin: 0 10px 10px;
-  border-top: 8px solid #12c064;
+  border-top: 8px solid var(--primary);
   background: #eee;
 }
 
@@ -304,4 +320,36 @@ a.follow {
   margin: 0 auto;
   border-radius: 8px;
   box-shadow: 0 2px 8px rgb(0 0 0 / 8%);
+}
+
+.navbar {
+  margin-bottom: 0;
+  border-radius: 0;
+}
+
+.row.content {
+  min-height: 450px;
+}
+
+.sidenav {
+  padding-top: 20px;
+  background-color: var(--background-light);
+  height: 100%;
+}
+
+footer {
+  background-color: var(--secondary);
+  color: var(--text-light);
+  padding: 15px;
+}
+
+@media screen and (max-width: 767px) {
+  .sidenav {
+    height: auto;
+    padding: 15px;
+  }
+
+  .row.content {
+    min-height: unset;
+  }
 }

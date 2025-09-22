@@ -16,42 +16,14 @@
     {% bootstrap_css %}
     {% bootstrap_javascript %}
     <link href="{% static 'css/base.css' %}" rel="stylesheet" />
-    <style>
-      .navbar {
-        margin-bottom: 0;
-        border-radius: 0;
-      }
-      .row.content {
-        min-height: 450px;
-      }
-      .sidenav {
-        padding-top: 20px;
-        background-color: #f1f1f1;
-        height: 100%;
-      }
-      footer {
-        background-color: #555;
-        color: white;
-        padding: 15px;
-      }
-      @media screen and (max-width: 767px) {
-        .sidenav {
-          height: auto;
-          padding: 15px;
-        }
-        .row.content {
-          min-height: unset;
-        }
-      }
-    </style>
     {% block extra_head %}
 
     {% endblock %}
   </head>
   <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: var(--primary);">
       <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'inicio:index' %}">Esteriliza-ya</a>
+        <a class="navbar-brand" href="{% url 'inicio:home' %}">Esteriliza-ya</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#myNavbar" aria-controls="myNavbar" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -99,9 +71,9 @@
       {% bootstrap_messages %}
       <div class="row content justify-content-center">
         <div id="content" class="col-12">
-          {% block content %}
+        {% block content %}
 
-          {% endblock %}
+        {% endblock %}
         </div>
       </div>
     </div>
