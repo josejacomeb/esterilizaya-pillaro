@@ -37,6 +37,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 - [watchfiles](https://github.com/samuelcolvin/watchfiles) >= v1.x
 - [Chart.js](https://www.chartjs.org/) >= 4.5.x
 - [Leaflet](https://leafletjs.com/) >= 1.9.x
+- [easy-thumbnails](https://github.com/SmileyChris/easy-thumbnails) >=2.x
 
 ## Instrucciones
 

@@ -172,7 +172,7 @@ LOGGING = {
 }
 
 # Redirecciones
-LOGIN_REDIRECT_URL = "campana:index"
+LOGIN_REDIRECT_URL = "inicio:home"
 LOGIN_URL = "cuenta:login"
 LOGOUT_URL = "cuenta:logout"
 

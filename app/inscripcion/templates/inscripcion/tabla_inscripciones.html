@@ -1,4 +1,5 @@
 {% load custom_filters %}
+{% load django_bootstrap5 %}
 
 <div class="table-responsive mb-2">
   <table class="table table-bordered table-striped table-hover align-middle text-nowrap">
@@ -40,7 +41,7 @@
           <td>{{ inscripcion.numero_telefono_tutor|stringformat:'010d' }}</td>
           <td>
             {% if inscripcion.numero_telefono_tutor and inscripcion.numero_telefono_tutor|es_numero_con_whatsapp %}
-              <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank" class="btn btn-success btn-sm">Mensajear</a>
+              <a href="https://wa.me/593{{ inscripcion.numero_telefono_tutor }}" target="_blank" class="btn btn-success btn-sm"><i class="bi bi-whatsapp"></i> Mensajear</a>
             {% else %}
               <span class="text-muted">No tiene Whatsapp</span>
             {% endif %}
