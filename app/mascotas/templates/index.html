@@ -93,7 +93,7 @@
             <p>No hay registros para mostrar</p>
           {% endif %}
           {% if registros %}
-            {% bootstrap_pagination registros %}
+            {% bootstrap_pagination registros extra=query_string %}
           {% endif %}
         </div>
         <!-- Pestaña Estadísticas -->
