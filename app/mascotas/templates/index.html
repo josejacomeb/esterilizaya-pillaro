@@ -71,7 +71,7 @@
                 <tbody>
                   {% for registro in registros %}
                     <tr>
-                      <td>{{ registro.id }}</td>
+                      <td><span class="badge text-bg-warning">{{ registro.id }}</span></td>
                       <td>{{ forloop.counter }}</td>
                       <td>
                         <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
@@ -92,7 +92,7 @@
           {% else %}
             <p>No hay registros para mostrar</p>
           {% endif %}
-          {% if registros %}
+          {% if registros.has_next %}
             {% bootstrap_pagination registros extra=query_string %}
           {% endif %}
         </div>

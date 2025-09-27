@@ -3,8 +3,9 @@
 {% load static %}
 
 {% block title %}
-  Todas las mascotas
+  Ficha de Mascota
 {% endblock %}
+
 {% block extra_head %}
   <script src="{% static 'js/jquery.min.js' %}"></script>
   <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
@@ -17,20 +18,26 @@
       flex-wrap: wrap;
     }
     .mascota-card-img {
-      height: 220px;
-      width: 220px;
+      height: 600px;
+      width: 600px;
       object-fit: cover;
       margin: auto;
       display: block;
+      border-radius: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
     }
     @media (max-width: 768px) {
       .mascota-layout-row {
         flex-direction: column;
         min-height: unset;
+        gap: 0.5rem;
       }
       .mascota-card-img {
         height: 160px;
         width: 160px;
+      }
+      .mascota-section {
+        margin-bottom: 1rem;
       }
     }
     #mapa {
@@ -39,80 +46,103 @@
       min-height: 200px;
       max-height: 400px;
       display: block;
+      border-radius: 1rem;
+    }
+    .card-title {
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+    .list-group-item strong {
+      min-width: 100px;
+      display: inline-block;
     }
   </style>
 {% endblock %}
+
 {% block content %}
   <div class="container-fluid px-0">
     <div class="row mascota-layout-row gx-0">
       <!-- Foto de la mascota en Card -->
-      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center p-3">
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center mascota-section">
         <div class="card w-100 h-100 shadow-sm">
-          {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='card-img-top' %}
+          {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='card-img-top mascota-card-img' %}
           <div class="card-body">
-            <h5 class="card-title">{{ registro }}</h5>
-            <p class="card-text">
-              <strong>ID:</strong> {{ registro.id }}<br />
-              <strong>Esterilizado en:</strong> {{ registro.inscripcion.campana.nombre }}<br />
+            <h5 class="card-title text-center">{{ registro.nombre }}</h5>
+            <p class="card-text text-center mb-0">
+              <span class="badge text-bg-warning mb-2"><strong>ID:</strong> {{ registro.id }}</span><br>
+              <strong>Esterilizado en:</strong> {{ registro.inscripcion.campana.nombre }}<br>
               <small class="text-muted">Registrada: {{ registro.fecha_registro }}</small>
             </p>
           </div>
         </div>
       </div>
       <!-- Información de la mascota -->
-      <div class="col-12 col-md-4 justify-content-center p-3">
-        <ul class="list-group list-group-flush">
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <strong>Cantón:</strong> {{ registro.get_canton_tutor_display }}
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <strong>Parroquia:</strong> {{ registro.get_parroquia_tutor_display }}
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <strong>Barrio:</strong> {{ registro.barrio_tutor }}
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <strong>Nº Turno:</strong> {{ registro.numero_turno }}
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <strong>Especie:</strong> {{ registro.get_especie_display }}
-          </li>
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <strong>Género:</strong> {{ registro.get_sexo_display }}
-          </li>
-          {% if registro.color_principal %}
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center mascota-section">
+        <div class="w-100">
+          <ul class="list-group list-group-flush shadow-sm rounded">
             <li class="list-group-item d-flex justify-content-between align-items-center">
-              <strong>Color:</strong> {{ registro.get_color_principal_display }}
-              {% if registro.color_secundario %}
-                | {{ registro.get_color_secundario_display }}
-              {% endif %}
+              <strong>Cantón:</strong> <span>{{ registro.get_canton_tutor_display }}</span>
             </li>
-          {% endif %}
-          <li class="list-group-item d-flex justify-content-between align-items-center">
-            <strong>Raza:</strong> {{ registro.raza_mascota }}
-          </li>
-        </ul>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Parroquia:</strong> <span>{{ registro.get_parroquia_tutor_display }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Barrio:</strong> <span>{{ registro.barrio_tutor }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Nº Turno:</strong> <span>{{ registro.numero_turno }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Especie:</strong> <span>{{ registro.get_especie_display }}</span>
+            </li>
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Género:</strong> <span>{{ registro.get_sexo_display }}</span>
+            </li>
+            {% if registro.color_principal %}
+              <li class="list-group-item d-flex justify-content-between align-items-center">
+                <strong>Color:</strong>
+                <span>
+                  {{ registro.get_color_principal_display }}
+                  {% if registro.color_secundario %}
+                    | {{ registro.get_color_secundario_display }}
+                  {% endif %}
+                </span>
+              </li>
+            {% endif %}
+            <li class="list-group-item d-flex justify-content-between align-items-center">
+              <strong>Raza:</strong> <span>{{ registro.raza_mascota }}</span>
+            </li>
+          </ul>
+        </div>
       </div>
-      <!-- Mapa -->
-      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center p-3">
+      <!-- Mapa (now beside the info card on desktop) -->
+      <div class="col-12 col-md-4 d-flex align-items-center justify-content-center mascota-section">
         <div class="w-100 h-100 bg-light p-3 rounded shadow-sm">
           <div id="mapa"></div>
         </div>
       </div>
     </div>
+    <div class="row mt-4">
+      <div class="col text-center">
+        <a href="{% url 'mascotas:index' %}" class="btn btn-outline-primary">
+          <i class="bi bi-arrow-left"></i> Volver a la lista
+        </a>
+      </div>
+    </div>
   </div>
 {% endblock %}
+
 {% block extra_body %}
   <script src="{% static 'js/mapa.js' %}"></script>
   <script>
     {% include "icono.html" %}
     $(function () {
-      let mapInitialized = false
-      const locaciones = [['{{registro.canton_tutor}}', '{{registro.parroquia_tutor}}', '{{registro.barrio_tutor}}', 1]]
+      let mapInitialized = false;
+      const locaciones = [['{{registro.canton_tutor}}', '{{registro.parroquia_tutor}}', '{{registro.barrio_tutor}}', 1]];
       if (!mapInitialized) {
-        mapInitialized = true
-        inicializarMapa(locaciones, "{% static 'assets/locaciones.json' %}", icono)
+        mapInitialized = true;
+        inicializarMapa(locaciones, "{% static 'assets/locaciones.json' %}", icono);
       }
-    })
+    });
   </script>
 {% endblock %}
