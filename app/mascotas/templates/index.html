@@ -60,11 +60,11 @@
                     <th>ID</th>
                     <th>Nº</th>
                     <th>Nombre</th>
+                    <th>Foto</th>
                     <th>Tutor</th>
                     <th>Especie</th>
                     <th>Género</th>
                     <th>Raza</th>
-                    <th>Foto</th>
                     <th>Campaña</th>
                   </tr>
                 </thead>
@@ -76,13 +76,13 @@
                       <td>
                         <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
                       </td>
+                      <td>
+                        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase="imagen-mascotas" thumbnail=True %}
+                      </td>
                       <td>{{ registro.nombres_tutor }}</td>
                       <td>{{ registro.especie }}</td>
                       <td>{{ registro.sexo }}</td>
                       <td>{{ registro.raza_mascota }}</td>
-                      <td>
-                        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase="imagen-mascotas" thumbnail=True %}
-                      </td>
                       <td>{{ registro.inscripcion.campana }}</td>
                     </tr>
                   {% endfor %}
@@ -92,7 +92,7 @@
           {% else %}
             <p>No hay registros para mostrar</p>
           {% endif %}
-          {% if registros.has_next %}
+          {% if registros.has_other_pages %}
             {% bootstrap_pagination registros extra=query_string %}
           {% endif %}
         </div>
