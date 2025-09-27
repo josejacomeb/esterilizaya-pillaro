@@ -86,7 +86,7 @@
             </tbody>
           </table>
         </div>
-        {% if registros.has_next %}
+        {% if registros.has_other_pages %}
           {% bootstrap_pagination registros %}
         {% endif %}
       {% else %}
