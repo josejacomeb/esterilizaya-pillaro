@@ -4,6 +4,7 @@ from campana.models import Campana
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.staticfiles import finders
 from django.core.paginator import Paginator
 from django.http import JsonResponse, response
 from django.shortcuts import get_object_or_404, redirect, render
@@ -159,7 +160,7 @@ def generar_pdf(request, registro_id):
         HTML(
             string=html_string,
             base_url=request.build_absolute_uri(),
-        ).write_pdf(ruta_ficha_pdf)
+        ).write_pdf(ruta_ficha_pdf, stylesheets=[finders.find("css/bootstrap.min.css")])
         logger.info(f"PDF guardado en: {ruta_ficha_pdf}")
         messages.success(request, "PDF generado y guardado exitosamente.")
     except Exception as e:
