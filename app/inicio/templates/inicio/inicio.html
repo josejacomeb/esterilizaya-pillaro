@@ -1,24 +1,19 @@
 {% extends 'base.html' %}
+{% load django_bootstrap5 %}
 {% block title %}
-  Página de inicio
+  Todas las Campañas
 {% endblock %}
 {% block content %}
-  <h2>Campañas de esterilización activas</h2>
-  <ul>
-    {% for act in activas %}
-      <li>
-        <a href="{{ act.get_absolute_url }}">{{ act.nombre }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-  <h2>Campañas de esterilización pasadas</h2>
-  <ul>
-    {% for pas in pasadas %}
-      <li>
-        <a href="{{ pas.get_absolute_url }}">{{ pas.nombre }} - {{ pas.fecha }}</a>
-      </li>
-    {% endfor %}
-  </ul>
-  <h2>Nueva</h2>
-  <a href="{% url 'campana:index' %}">Registrar una nueva campaña</a>
+  <div>
+    {% url 'campana:index' as url_campana %}
+    {% bootstrap_button '<i class="bi bi-plus-circle"></i> Nueva Campaña' button_type='link' href=url_campana size='sm' %}
+    {% if activas %}
+      <h3>Campañas de esterilización activas</h3>
+      {% include 'inicio/campanas-lista.html' with campanas=activas %}
+    {% endif %}
+    {% if pasadas %}
+      <h3>Campañas de esterilización pasadas</h3>
+      {% include 'inicio/campanas-lista.html' with campanas=pasadas clase='text-muted' %}
+    {% endif %}
+  </div>
 {% endblock %}

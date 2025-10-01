@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% load static %}
 {% load django_bootstrap5 %}
+{% load thumbnail %}
 
 <html lang="es">
   <head>
@@ -14,70 +15,70 @@
     <link href="{% static 'css/base.css' %}" rel="stylesheet" />
   </head>
   <body>
-      <h2 class="text-center mb-4">Lista de Mascotas Registradas</h2>
-      <div class="table-responsive">
-        <table class="table table-bordered table-hover table-striped table-sm">
-          <thead class="table-light">
-            <tr>
-              <th>No.</th>
-              <th>Fecha</th>
-              <th>Origen</th>
-              <th>Foto</th>
-              <th>Nombre Tutor</th>
-              <th>Especie</th>
-              <th>Peso(Kg)</th>
-              <th>ID</th>
-              <th>Vulnerable</th>
-              <th>Sexo</th>
-              <th>Edad</th>
-              <th>Observaciones</th>
-              <th>Estado fisiológico</th>
-              <th>Premed</th>
-              <th>Anes</th>
-              <th>Entregado</th>
-            </tr>
-          </thead>
-          <tbody id="pets-table-body">
-            <!-- Rows will be dynamically updated -->
-          </tbody>
-        </table>
-      </div>
+    <h2 class="text-center mb-4">Lista de Mascotas Registradas</h2>
+    <div class="table-responsive">
+      <table class="table table-bordered table-hover table-striped table-sm">
+        <thead class="table-light">
+          <tr>
+            <th>No.</th>
+            <th>Fecha</th>
+            <th>Origen</th>
+            <th>Foto</th>
+            <th>Nombre Tutor</th>
+            <th>Especie</th>
+            <th>Peso(Kg)</th>
+            <th>ID</th>
+            <th>Vulnerable</th>
+            <th>Sexo</th>
+            <th>Edad</th>
+            <th>Observaciones</th>
+            <th>Estado fisiológico</th>
+            <th>Premed</th>
+            <th>Anes</th>
+            <th>Entregado</th>
+          </tr>
+        </thead>
+        <tbody id="mascotas-table-body">
+          <!-- Rows will be dynamically updated -->
+        </tbody>
+      </table>
+    </div>
     <script>
-      function getDefaultPhoto(especie) {
+      function obtenerFotoDefecto(especie) {
         const defaultPhotos = {
           '🐈': '/static/images/mascotas/gato.png',
           '🐕': '/static/images/mascotas/perro.png'
         }
         return defaultPhotos[especie.toLowerCase()]
       }
-      function fetchPets() {
+      function obtenerMascotas() {
         $.ajax({
           url: window.location.href,
           dataType: 'json'
         }).done(function (data) {
-          const $tableBody = $('#pets-table-body')
+          const $tableBody = $('#mascotas-table-body')
           $tableBody.empty()
-          $.each(data.registros, function (_, pet) {
+          $.each(data.registros, function (_, mascota) {
             const $row = $('<tr>')
-            if (pet.sexo === '♂️') $row.addClass('table-info')
-            const date = new Date(pet.fecha_registro)
+            if (mascota.sexo === '♂️') $row.addClass('table-info')
+            const date = new Date(mascota.fecha_registro)
             const formattedDate = [String(date.getDate()).padStart(2, '0'), String(date.getMonth() + 1).padStart(2, '0'), date.getFullYear()].join('/')
-            $row.append($('<td>').text(pet.numero_turno))
+            $row.append($('<td>').text(mascota.numero_turno))
             $row.append($('<td>').text(formattedDate))
             $row.append($('<td>').text('C'))
             const $img = $('<img>')
-              .attr('src', pet.foto === '' ? getDefaultPhoto(pet.especie) : `/../../media/${pet.foto}`)
-              .attr('alt', `Foto de ${pet.nombre}`)
+              .attr('src', mascota.foto === '' ? obtenerFotoDefecto(mascota.especie) : mascota.miniatura)
+              .attr('alt', `Foto de ${mascota.nombre}`)
               .addClass('imagen-mascotas')
             $row.append($('<td>').append($img))
-            $row.append($('<td>').text(pet.nombres_tutor))
-            $row.append($('<td>').text(pet.especie === '🐈' ? 'Felino' : 'Canino'))
-            $row.append($('<td>').text(pet.peso))
-            $row.append($('<td>').text(pet.nombre))
-            $row.append($('<td>').text(pet.vulnerable === true ? '✅' : ''))
-            $row.append($('<td>').text(pet.sexo))
-            $row.append($('<td>').text(`${pet.edad_anos}a ${pet.edad_meses}m`))
-            $row.append($('<td>').text(pet.observaciones))
+            $row.append($('<td>').text(mascota.nombres_tutor))
+            $row.append($('<td>').text(mascota.especie === '🐈' ? 'Felino' : 'Canino'))
+            $row.append($('<td>').text(mascota.peso))
+            $row.append($('<td>').text(mascota.nombre))
+            $row.append($('<td>').text(mascota.vulnerable === true ? '✅' : ''))
+            $row.append($('<td>').text(mascota.sexo))
+            $row.append($('<td>').text(`${mascota.edad_anos}a ${mascota.edad_meses}m`))
+            $row.append($('<td>').text(mascota.observaciones))
             $row.append($('<td>').text(''))
             $row.append($('<td>').text(''))
             $row.append($('<td>').text(''))
@@ -86,9 +87,9 @@
           })
         })
       }
-      setInterval(fetchPets, 5000)
+      setInterval(obtenerMascotas, 5000)
       $(document).ready(function () {
-        fetchPets()
+        obtenerMascotas()
       })
     </script>
   </body>
