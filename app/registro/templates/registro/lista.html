@@ -65,11 +65,12 @@
                   <td>{{ registro.especie }} {{ registro.get_especie_display }}</td>
                   <td>
                     <i class="bi {% if registro.sexo == '♀️' %}
-                        bi-gender-female text-pink"
+                      bi-gender-female text-pink
                       {% else %}
-                        bi-gender-male text-primary" 
-                      {% endif %} fs-5" {% if registro.sexo == '♀️' %}style="color:hotpink;"{%endif%}>
+                      bi-gender-male text-primary 
+                      {% endif %} fs-5" {% if registro.sexo == '♀️' %} style="color:hotpink;" {% endif %}>
                     </i>
+                    {{ registro.get_sexo_display }}
                   </td>
                   {% if request.user.is_authenticated %}
                     <td>
