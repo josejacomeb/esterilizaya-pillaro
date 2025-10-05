@@ -18,72 +18,13 @@
     <link href="{% static 'css/base.css' %}" rel="stylesheet" />
     <script src="{% static 'js/bootstrap.bundle.min.js' %}" defer></script>
     <script src="{% static 'js/jquery.min.js' %}"></script>
-
-    <style>
-      /* Content wrapper for ultrawide screens */
-      .content-wrapper {
-        max-width: 1800px;
-        margin: 0 auto;
-        padding: 1rem;
-      }
-      
-      @media (min-width: 2560px) {
-        .content-wrapper {
-          max-width: 2000px;
-        }
-      }
-      
-      /* Mobile optimizations */
-      @media (max-width: 768px) {
-        .content-wrapper {
-          padding: 0.5rem;
-        }
-      }
-      
-      /* Base layout */
-      body {
-        min-height: 100vh;
-        display: flex;
-        flex-direction: column;
-        background-color: var(--background-light);
-      }
-      
-      main {
-        flex: 1 0 auto;
-      }
-      
-      footer {
-        flex-shrink: 0;
-        background-color: var(--secondary);
-        color: var(--text-light);
-      }
-      
-      footer a {
-        color: var(--accent);
-      }
-      
-      footer a:hover {
-        color: var(--text-light);
-      }      
-      .navbar-brand {
-        color: var(--accent) !important;
-      }
-      
-      .nav-link:hover {
-        color: var(--text-light) !important;
-      }
-      
-      .btn-outline-light:hover {
-        background-color: var(--primary-dark);
-      }
-    </style>
     {% block extra_head %}
     {% endblock %}
   </head>
 
   <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="content-wrapper w-100">
+      <div class="container-fluid">
         <a class="navbar-brand" href="{% url 'inicio:home' %}">
           <img src="{% static 'images/happypaws.png' %}" alt="Logo" height="30" class="d-inline-block align-text-top" />
           Esteriliza-ya
@@ -91,9 +32,6 @@
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav me-auto">
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'inicio:index' %}">Inicio</a>
-            </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Campañas</a>
               <ul class="dropdown-menu">
