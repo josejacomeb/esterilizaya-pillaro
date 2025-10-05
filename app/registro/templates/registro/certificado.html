@@ -78,7 +78,7 @@
         </div>
         <div class="row">
           <div class="col">
-            <b>Raza:</b> {{ registro.raza_mascota }} &nbsp;&nbsp; <b>Edad:</b> {{ registro.edad_anos }} años {{ registro.edad_meses }} meses
+            <b>Raza:</b> {{ registro.raza_mascota }} &nbsp;&nbsp; <b>Edad:</b> {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses %}
           </div>
         </div>
       </div>
