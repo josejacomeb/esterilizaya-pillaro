@@ -2,26 +2,40 @@
 {% load django_bootstrap5 %}
 {% url 'mascotas:index' as reset_url %}
 
-<form method="get" id="filterForm" class="d-flex flex-column gap-3">
-  <!-- Nombre -->
-  <div>
-    <label for="nombre" class="form-label">Nombre</label>
-    <input type="text" name="nombre" id="nombre-id" class="form-control" placeholder="Buscar por nombre o id" value="{{ nombre_actual }}" />
+<div class="filter-wrapper">
+  <!-- Botón collapsible (visible en móviles) -->
+  <button class="btn btn-primary d-md-none w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+    <i class="bi bi-funnel"></i> Filtros
+    <i class="bi bi-chevron-down ms-2"></i>
+  </button>
+
+  <!-- Forma Filtro Collapsable -->
+  <div class="collapse d-md-block" id="filterCollapse">
+    <form method="get" id="filterForm" class="d-flex flex-column gap-3">
+      <!-- Nombre -->
+      <div>
+        <label for="nombre" class="form-label">Nombre</label>
+        <input type="text" name="nombre" id="nombre-id" class="form-control" placeholder="Buscar por nombre o id" value="{{ nombre_actual }}" />
+      </div>
+      <!-- Campana -->
+      {% include 'selector-dinamico.html' with texto='Campaña' valores=campanas elemento='campana' actual=campana_actual %}
+      <!-- Especie -->
+      {% include 'selector-dinamico.html' with texto='Especie' valores=especies elemento='especie' actual=especie_actual %}
+      <!-- Género -->
+      {% include 'selector-dinamico.html' with texto='Género' valores=generos elemento='genero' actual=genero_actual %}
+      <!-- Razas -->
+      {% include 'selector-dinamico.html' with texto='Razas' valores=razas elemento='raza' actual=raza_actual %}
+      <!-- Cantones -->
+      {% include 'selector-dinamico.html' with texto='Cantón' valores=cantones elemento='canton' actual=canton_actual %}
+      <!-- Parroquias -->
+      {% include 'selector-dinamico.html' with texto='Parroquia' valores=parroquias elemento='parroquia' actual=parroquia_actual %}
+      <!-- Barrio -->
+      {% include 'selector-dinamico.html' with texto='Barrio' valores=barrios elemento='barrio' actual=barrio_actual %}
+      <!-- Botones -->
+      <div class="d-flex gap-2">
+        {% bootstrap_button 'Resetear' button_type='link' button_class='btn-primary flex-grow-1' href=reset_url %}
+        <button type="button" class="btn btn-secondary d-md-none" data-bs-toggle="collapse" data-bs-target="#filterCollapse">Cerrar</button>
+      </div>
+    </form>
   </div>
-  <!-- Campana -->
-  {% include 'selector-dinamico.html' with texto='Campaña' valores=campanas elemento='campana' actual=campana_actual %}
-  <!-- Especie -->
-  {% include 'selector-dinamico.html' with texto='Especie' valores=especies elemento='especie' actual=especie_actual %}
-  <!-- Género -->
-  {% include 'selector-dinamico.html' with texto='Género' valores=generos elemento='genero' actual=genero_actual %}
-  <!-- Género -->
-  {% include 'selector-dinamico.html' with texto='Razas' valores=razas elemento='raza' actual=raza_actual %}
-  <!-- Cantones -->
-  {% include 'selector-dinamico.html' with texto='Cantón' valores=cantones elemento='canton' actual=canton_actual %}
-  <!-- Parroquias -->
-  {% include 'selector-dinamico.html' with texto='Parroquia' valores=parroquias elemento='parroquia' actual=parroquia_actual %}
-  <!-- Barrio -->
-  {% include 'selector-dinamico.html' with texto='Barrio' valores=barrios elemento='barrio' actual=barrio_actual %}
-  <!-- Botón Reset -->
-  {% bootstrap_button "Resetear" button_type="link" button_class="btn-primary" href=reset_url %}
-</form>
+</div>
