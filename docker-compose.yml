@@ -12,6 +12,7 @@ services:
     volumes:
       - media-volume:/home/esterilizaya/code/media
       - ./app:/home/esterilizaya/code
+      - ./pdfs:/tmp/pdfs
     environment:
       - DB_DATABASE=${DB_DATABASE}
       - DB_PASSWORD_FILE=${DB_PASSWORD_FILE}
