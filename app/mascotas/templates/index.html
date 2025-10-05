@@ -73,11 +73,11 @@
 {% block content %}
   <div class="row">
     <!-- Filtro Sidebar -->
-    <div class="col-12 col-md-3 bg-white border-start min-vh-100 p-4">
+    <div class="col-12 col-md-2 bg-white border-start min-vh-100 p-4">
       {% include 'filtro.html' %}
     </div>
     <!-- Main Content -->
-    <div class="col-12 col-md-9">
+    <div class="col-12 col-md-10">
       <ul class="nav nav-tabs mb-3" id="mapaEstadisticasPestana" role="tablist">
         <li class="nav-item" role="presentation">
           <button class="nav-link active" id="registros-tab" data-bs-toggle="tab" data-bs-target="#registros" type="button" role="tab" aria-controls="registros" aria-selected="true">Registros</button>
@@ -122,8 +122,10 @@
                         {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='imagen-mascotas' thumbnail=True %}
                       </td>
                       <td>{{ registro.nombres_tutor }}</td>
-                      <td>{{ registro.especie }}</td>
-                      <td>{{ registro.sexo }}</td>
+                      <td>{{ registro.especie }} {{ registro.get_especie_display }}</td>
+                      <td>
+                        {% include 'registro/genero.html' with sexo=registro.sexo get_sexo_display=registro.get_sexo_display %}
+                      </td>
                       <td>{{ registro.raza_mascota }}</td>
                       <td>{{ registro.inscripcion.campana }}</td>
                     </tr>

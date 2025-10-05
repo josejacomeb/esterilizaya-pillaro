@@ -1,0 +1,6 @@
+{% if edad_anos %}
+  {{ edad_anos }} año{{ edad_anos|pluralize }}
+{% endif %}
+{% if edad_meses %}
+  {{ edad_meses }} mes{{ edad_meses|pluralize:'es' }}
+{% endif %}
