@@ -38,6 +38,7 @@ def index(request):
         "canton": request.GET.get("canton", ""),
         "parroquia": request.GET.get("parroquia", ""),
         "barrio": request.GET.get("barrio", ""),
+        "origen": request.GET.get("origen", ""),
     }
     page_number = request.GET.get("page", 1)
 
@@ -87,6 +88,9 @@ def index(request):
     barrios = [(cod, cod) for cod in barrios_codigos]
     if filtros["barrio"]:
         lista_registros = lista_registros.filter(barrio_tutor=filtros["barrio"])
+    origen = [("0", "Doméstico"), ("1", "Vulnerable")]
+    if filtros["origen"]:
+        lista_registros = lista_registros.filter(vulnerable=filtros["origen"])
 
     # Estadísticas
     mascotas_locaciones = (
@@ -134,6 +138,7 @@ def index(request):
         "especies": especies,
         "generos": generos,
         "razas": razas,
+        "origen": origen,
         "nombre_actual": filtros["nombre"],
         "campana_actual": filtros["campana"],
         "especie_actual": filtros["especie"],
@@ -142,6 +147,7 @@ def index(request):
         "canton_actual": filtros["canton"],
         "parroquia_actual": filtros["parroquia"],
         "barrio_actual": filtros["barrio"],
+        "origen_actual": filtros["origen"],
         "query_string": query_string,
         "mascotas_ubicacion": json.dumps(list(mascotas_locaciones)),
         "estadisticas_genero": estadisticas_genero,

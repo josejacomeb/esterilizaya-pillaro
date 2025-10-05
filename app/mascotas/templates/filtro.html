@@ -31,6 +31,8 @@
       {% include 'selector-dinamico.html' with texto='Parroquia' valores=parroquias elemento='parroquia' actual=parroquia_actual %}
       <!-- Barrio -->
       {% include 'selector-dinamico.html' with texto='Barrio' valores=barrios elemento='barrio' actual=barrio_actual %}
+      <!-- Vulnerable -->
+      {% include 'selector-dinamico.html' with texto='Origen' valores=origen elemento='origen' actual=origen_actual %}
       <!-- Botones -->
       <div class="d-flex gap-2">
         {% bootstrap_button 'Resetear' button_type='link' button_class='btn-primary flex-grow-1' href=reset_url %}
