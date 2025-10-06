@@ -5,3 +5,6 @@ from .utils import retornar_urls
 DEBUG = True
 
 ALLOWED_HOSTS = [retornar_urls()[-1], "localhost"]
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
+]
