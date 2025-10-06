@@ -95,9 +95,14 @@
         <div class="card h-100 shadow-sm">
           {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='mascota-card-img' %}
           <div class="card-body">
-            <h5 class="card-title text-center">{{ registro.nombre }}</h5>
+            <h5 class="card-title text-center">
+              {{ registro.nombre }}
+              {% if registro.vulnerable %}
+                <span class="badge bg-warning rounded-pill">Vulnerable</span>
+              {% endif %}
+            </h5>
             <p class="card-text text-center mb-0">
-              <span class="badge text-bg-warning mb-2"><strong>ID:</strong> {{ registro.id }}</span><br />
+              <span class="badge bg-primary mb-2"><strong>ID:</strong> {{ registro.id }}</span><br />
               <strong>Esterilizado en:</strong> {{ registro.inscripcion.campana.nombre }}<br />
               <small class="text-muted">Registrada: {{ registro.fecha_registro }} por {{ registro.usuario }}</small>
             </p>
@@ -147,7 +152,7 @@
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <strong>Raza:</strong> <span>{{ registro.raza_mascota }}</span>
               </li>
-              {% if registro.n_animales_hogar %}
+              {% if registro.n_animales_hogar > 0 %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">
                   <strong>Comparte hogar con:</strong>
                   <span>
