@@ -34,7 +34,12 @@ p {
   line-height: 1.8;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   font-family: Arial, sans-serif;
   font-weight: normal;
 }
@@ -58,6 +63,14 @@ a {
   color: var(--primary);
   text-decoration: none;
   transition: color 0.2s;
+}
+
+footer a {
+  color: var(--accent);
+}
+
+footer a:hover {
+  color: var(--text-light);
 }
 
 a:hover {
@@ -101,7 +114,8 @@ label {
   margin-bottom: 4px;
 }
 
-input, textarea {
+input,
+textarea {
   clear: both;
   float: left;
   margin: 0 0 10px;
@@ -111,7 +125,7 @@ input, textarea {
   font-size: 14px;
 }
 
-input[type="submit"], 
+input[type="submit"],
 a.button {
   font-weight: bold;
   background: var(--primary);
@@ -183,26 +197,18 @@ footer {
   padding: 15px;
 }
 
-footer a {
-  color: var(--accent);
-}
-
-footer a:hover {
-  color: var(--text-light);
-}
-
 /* Media Queries */
-@media (min-width: 2560px) {
+@media (width >= 2560px) {
   .content-wrapper {
     max-width: 2000px;
   }
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .content-wrapper {
     padding: 0.5rem;
   }
-  
+
   .sidenav {
     height: auto;
     padding: 15px;

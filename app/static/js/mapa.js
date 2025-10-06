@@ -18,7 +18,9 @@ function inicializarMapa(locaciones, locacionesDataUrl, icono) {
         [lat, lon] = data[canton][parroquia][barrio];
       }
       if (lat && lon) {
-        L.marker([lat, lon], { 'icon': icono }).addTo(map).bindPopup(`${barrio}: ${conteo}`);
+        L.marker([lat, lon], { icon: icono })
+          .addTo(map)
+          .bindPopup(`${barrio}: ${conteo}`);
       }
     });
     setTimeout(function () {
