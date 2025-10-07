@@ -37,7 +37,7 @@
   <div class="mb-2">
     <h2>Registro de inscripciones para {{ campana.nombre }}</h2>
     {% url 'inscripcion:create' campana.id as url_inscripcion %}
-    {% bootstrap_button 'Nueva Inscripción' button_type='link' href=url_inscripcion %}
+    {% bootstrap_button '<i class="bi bi-plus-circle"></i> Nueva Inscripción' button_type='link' href=url_inscripcion size='lg' %}
   </div>
   <h3 class="mt-2">Inscripciones pendientes de registrar</h3>
   {% include 'inscripcion/tabla_inscripciones.html' with inscripciones=pendientes pendientes=True titulo='Inscripciones pendientes de registrar' %}

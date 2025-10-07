@@ -140,7 +140,11 @@ class RegistradoListView(ListView):
             )
             # Añadir ruta del miniatura
             for reg in registros:
-                reg["miniatura"] = get_thumbnailer(reg["foto"]).get_thumbnail({"size": (300, 300), "crop": "smart"}).url
+                reg["miniatura"] = (
+                    get_thumbnailer(reg["foto"]).get_thumbnail({"size": (300, 300), "crop": "smart"}).url
+                    if reg["foto"]
+                    else ""
+                )
             return JsonResponse({"registros": registros})
         return super().get(request, *args, **kwargs)
 

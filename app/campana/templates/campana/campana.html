@@ -35,13 +35,14 @@
     {% if request.user.is_authenticated %}
       {% if campana.estado == 'AC' %}
         <li class="list-group-item d-flex justify-content-between align-items-center">
-          {% url 'inscripcion:create' campana.id as url_nueva %}
-          {% bootstrap_button 'Nueva inscripción' button_type='link' button_class='btn-info' href=url_nueva %}
+          {% url 'inscripcion:create' campana.id as url_inscripcion %}
+          {% bootstrap_button 'Nueva Inscripción' button_type='link' button_class='btn-success' href=url_inscripcion %}
         </li>
       {% endif %}
     {% endif %}
     <li class="list-group-item d-flex justify-content-between align-items-center">
-      <a href="{% url 'inscripcion:index' campana.id %}">Nuevo Registro</a>
+      {% url 'inscripcion:index' campana.id as url_registro %}
+      {% bootstrap_button 'Nueva Registro' button_type='link' button_class='btn-primary' href=url_registro %}
       <span class="badge bg-primary rounded-pill">{{ n_inscritos }}</span>
     </li>
     <li class="list-group-item d-flex justify-content-between align-items-center">

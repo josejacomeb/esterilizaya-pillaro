@@ -65,12 +65,12 @@ a {
   transition: color 0.2s;
 }
 
-a:hover {
-  color: var(--primary-dark);
-}
-
 footer a {
   color: var(--accent);
+}
+
+a:hover {
+  color: var(--primary-dark);
 }
 
 footer a:hover {
