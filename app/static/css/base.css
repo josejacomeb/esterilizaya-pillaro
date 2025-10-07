@@ -65,16 +65,16 @@ a {
   transition: color 0.2s;
 }
 
+a:hover {
+  color: var(--primary-dark);
+}
+
 footer a {
   color: var(--accent);
 }
 
 footer a:hover {
   color: var(--text-light);
-}
-
-a:hover {
-  color: var(--primary-dark);
 }
 
 /* Navigation */
