@@ -6,14 +6,14 @@ from django.shortcuts import render
 from registro.models import Registro
 
 
-def index(request):
+def ver_campanas(request):
     activas = Campana.activas.all()
     pasadas = Campana.pasadas.all().order_by("-fecha")
 
-    return render(request, "inicio/inicio.html", {"activas": activas, "pasadas": pasadas})
+    return render(request, "inicio/todas_campanas.html", {"activas": activas, "pasadas": pasadas})
 
 
-def home(request):
+def index(request):
     ahora = datetime.now()
     registros = Registro.objects.all()
     total = {
@@ -36,7 +36,7 @@ def home(request):
 
     return render(
         request,
-        "inicio/home.html",
+        "inicio/index.html",
         {
             "total": total,
             "hoy": hoy,
