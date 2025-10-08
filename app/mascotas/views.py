@@ -10,10 +10,12 @@ from registro.models import Registro
 
 logger = logging.getLogger(__name__)
 
-sexo_dict = dict(SEXO)
-especie_dict = dict(ESPECIE)
-cantones_dict = dict(CANTONES)
-parroquias_dict = dict(PARROQUIAS)
+DICCIONARIOS_MODELOS = {
+    "sexo": dict(SEXO),
+    "especie": dict(ESPECIE),
+    "cantones": dict(CANTONES),
+    "parroquias": dict(PARROQUIAS),
+}
 
 
 def convertir_estadisticas_valor(
@@ -126,12 +128,12 @@ def index(request):
         lista_registros = lista_registros.filter(inscripcion__campana=filtros["campana"])
 
     especies_codigos = obtener_valores_selector(lista_registros, "especie")
-    especies = devolver_tupla_codigo_territorio(especies_codigos, especie_dict)
+    especies = devolver_tupla_codigo_territorio(especies_codigos, DICCIONARIOS_MODELOS["especie"])
     if filtros["especie"]:
         lista_registros = lista_registros.filter(especie=filtros["especie"])
 
     genero_codigos = obtener_valores_selector(lista_registros, "sexo")
-    generos = devolver_tupla_codigo_territorio(genero_codigos, sexo_dict)
+    generos = devolver_tupla_codigo_territorio(genero_codigos, DICCIONARIOS_MODELOS["sexo"])
     if filtros["genero"]:
         lista_registros = lista_registros.filter(sexo=filtros["genero"])
 
@@ -141,12 +143,12 @@ def index(request):
         lista_registros = lista_registros.filter(raza_mascota=filtros["raza"])
 
     cantones_codigos = obtener_valores_selector(lista_registros, "canton_tutor")
-    cantones = devolver_tupla_codigo_territorio(cantones_codigos, cantones_dict)
+    cantones = devolver_tupla_codigo_territorio(cantones_codigos, DICCIONARIOS_MODELOS["cantones"])
     if filtros["canton"]:
         lista_registros = lista_registros.filter(canton_tutor=filtros["canton"])
 
     parroquias_codigos = obtener_valores_selector(lista_registros, "parroquia_tutor")
-    parroquias = devolver_tupla_codigo_territorio(parroquias_codigos, parroquias_dict)
+    parroquias = devolver_tupla_codigo_territorio(parroquias_codigos, DICCIONARIOS_MODELOS["parroquias"])
     if filtros["parroquia"]:
         lista_registros = lista_registros.filter(parroquia_tutor=filtros["parroquia"])
 
@@ -165,14 +167,15 @@ def index(request):
         .order_by("barrio_tutor")
     )
     estadisticas_genero = convertir_estadisticas_valor(
-        contar_datos_por_key(lista_registros, "sexo"), "sexo", sexo_dict, True
+        contar_datos_por_key(lista_registros, "sexo"), "sexo", DICCIONARIOS_MODELOS["sexo"], True
     )
     estadisticas_especie = convertir_estadisticas_valor(
-        contar_datos_por_key(lista_registros, "especie"), "especie", especie_dict, True
+        contar_datos_por_key(lista_registros, "especie"), "especie", DICCIONARIOS_MODELOS["especie"], True
     )
-    estadisticas_raza = list(contar_datos_por_key(lista_registros, "raza_mascota"))
+    # Ordenar descendentemente por el conteo y obtener el Top 5
+    estadisticas_raza = list(contar_datos_por_key(lista_registros, "raza_mascota").order_by("-total")[:5])
     estadisticas_parroquia = convertir_estadisticas_valor(
-        contar_datos_por_key(lista_registros, "parroquia_tutor"), "parroquia_tutor", parroquias_dict
+        contar_datos_por_key(lista_registros, "parroquia_tutor"), "parroquia_tutor", DICCIONARIOS_MODELOS["parroquias"]
     )
     estadisticas_barrio = [
         {**dato, "barrio_tutor": f"{dato['barrio_tutor']}/{dato['parroquia_tutor']}"}
