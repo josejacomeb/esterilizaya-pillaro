@@ -31,7 +31,7 @@ def lista(request, campana_id):
     page_number = request.GET.get("page", 1)
     todos_registros = Registro.objects.filter(inscripcion__campana=campana_id)
     # Dato del primer resultado
-    nombre_campana = Campana.objects.filter(id=campana_id).first().nombre
+    campana = Campana.objects.filter(id=campana_id).first()
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]
@@ -40,10 +40,12 @@ def lista(request, campana_id):
     # Paginación
     paginator = Paginator(todos_registros, 15)
     registros = paginator.get_page(page_number)
+    breadcrumbs = [
+        {"titulo": campana.nombre, "url": campana.get_absolute_url()},
+        {"titulo": "Todos Registros", "url": None},
+    ]
     return render(
-        request,
-        "registro/lista.html",
-        {"registros": registros, "campana_id": campana_id, "nombre_campana": nombre_campana},
+        request, "registro/lista.html", {"registros": registros, "campana": campana, "breadcrumbs": breadcrumbs}
     )
 
 
@@ -84,7 +86,11 @@ def registrar(request, campana_id, inscripcion_id):
                 "n_animales_hogar_esterilizadas": registro_anterior.n_animales_hogar_esterilizadas,
             }
         forma = RegistroForm(instance=inscripcion, inscripcion_campana_id=campana_id, initial=initial_data)
-    return render(request, "registro/nuevo.html", {"form": forma})
+        breadcrumbs = [
+            {"titulo": inscripcion.campana.nombre, "url": inscripcion.campana.get_absolute_url()},
+            {"titulo": "Registro", "url": None},
+        ]
+    return render(request, "registro/nuevo.html", {"form": forma, "breadcrumbs": breadcrumbs})
 
 
 @login_required(login_url="cuenta:login")

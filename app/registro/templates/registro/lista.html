@@ -5,20 +5,23 @@
 {% block title %}
   Ver todos los registrados
 {% endblock %}
+{% block breadcrumb %}
+  {% include 'campana/breadcrumb.html' %}
+{% endblock %}
 
 {% block content %}
-  <div class="container my-5">
-    <h1 class="text-center mb-3">Todos los registros</h1>
-    <h4 class="text-center text-muted mb-4">{{ nombre_campana }}</h4>
+  <div class="container my-2">
+    <h3 class="text-center mb-2">Todos los registros</h3>
+    <h4 class="text-center text-muted mb-4">{{ campana.nombre }}</h4>
     <div class="text-center mb-4">
-      {% url 'inscripcion:index' campana_id as url_mascota %}
+      {% url 'inscripcion:index' campana.id as url_mascota %}
       {% bootstrap_button '<i class="bi bi-plus-circle"></i> Registrar Mascota' button_type='link' href=url_mascota size='lg' %}
     </div>
 
     <div class="card shadow-sm mb-5">
       <div class="card-body">
         <h5 class="card-title mb-3">Buscar participantes</h5>
-        <form class="row g-2" method="get" action="{% url 'registro:lista' campana_id %}">
+        <form class="row g-2" method="get" action="{% url 'registro:lista' campana.id %}">
           <div class="col-md-6">
             <input type="text" name="query" placeholder="Buscar por tutor" class="form-control" />
           </div>

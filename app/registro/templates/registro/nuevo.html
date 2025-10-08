@@ -4,7 +4,9 @@
 {% block title %}
   Ingresar un nuevo registro
 {% endblock %}
-
+{% block breadcrumb %}
+  {% include 'campana/breadcrumb.html' %}
+{% endblock %}
 {% block content %}
   <form method="post" enctype="multipart/form-data" class="mb-3">
     {% csrf_token %}

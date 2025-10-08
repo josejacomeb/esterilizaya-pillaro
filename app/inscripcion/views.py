@@ -33,9 +33,14 @@ def index(request, campana_id):
             pendientes.append((n_cupos, inscripcion, cupos))
         else:
             registrados.append((n_cupos, inscripcion, cupos))
-
+    breadcrumbs = [
+        {"titulo": campana.nombre, "url": campana.get_absolute_url()},
+        {"titulo": "Todas inscripciones", "url": None},
+    ]
     return render(
-        request, "inscripcion/todos.html", {"pendientes": pendientes, "registrados": registrados, "campana": campana}
+        request,
+        "inscripcion/todos.html",
+        {"pendientes": pendientes, "registrados": registrados, "campana": campana, "breadcrumbs": breadcrumbs},
     )
 
 
@@ -57,5 +62,8 @@ def crear(request, campana_id):
             forma.clean()
     else:
         forma = InscripcionForm(campana=campana)
-    campanas = Campana.objects.all()
-    return render(request, "inscripcion/nueva.html", {"form": forma, "campanas": campanas})
+    breadcrumbs = [
+        {"titulo": campana.nombre, "url": campana.get_absolute_url()},
+        {"titulo": "Inscripciones", "url": f"{campana.get_absolute_url()}inscripciones/"},
+    ]
+    return render(request, "inscripcion/nueva.html", {"form": forma, "campana": campana, "breadcrumbs": breadcrumbs})

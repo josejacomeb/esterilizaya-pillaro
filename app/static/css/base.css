@@ -218,3 +218,19 @@ footer {
     min-height: unset;
   }
 }
+
+/* Breadcrumb styles */
+.breadcrumb {
+  font-size: 0.875rem;
+  background: transparent;
+}
+
+.breadcrumb-item + .breadcrumb-item::before {
+  color: var(--primary);
+}
+
+@media (max-width: 768px) {
+  .breadcrumb {
+    font-size: 0.75rem;
+  }
+}

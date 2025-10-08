@@ -32,10 +32,12 @@
     }
   </style>
 {% endblock %}
-
+{% block breadcrumb %}
+  {% include 'campana/breadcrumb.html' %}
+{% endblock %}
 {% block content %}
   <div class="mb-2">
-    <h2>Registro de inscripciones para {{ campana.nombre }}</h2>
+    <h3>Registro de inscripciones para {{ campana.nombre }}</h3>
     {% url 'inscripcion:create' campana.id as url_inscripcion %}
     {% bootstrap_button '<i class="bi bi-plus-circle"></i> Nueva Inscripción' button_type='link' href=url_inscripcion size='lg' %}
   </div>
