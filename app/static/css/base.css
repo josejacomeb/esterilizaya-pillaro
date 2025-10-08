@@ -229,7 +229,7 @@ footer {
   color: var(--primary);
 }
 
-@media (max-width: 768px) {
+@media (width <= 768px) {
   .breadcrumb {
     font-size: 0.75rem;
   }
