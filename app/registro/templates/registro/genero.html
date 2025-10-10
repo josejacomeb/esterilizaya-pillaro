@@ -1,0 +1,7 @@
+<i class="bi {% if sexo == '♀️' %}
+    bi-gender-female text-pink
+    {% else %}
+    bi-gender-male text-primary 
+    {% endif %} fs-5" {% if sexo == '♀️' %} style="color:hotpink;" {% endif %}>
+</i>
+{{ get_sexo_display }}

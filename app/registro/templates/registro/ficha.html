@@ -4,57 +4,121 @@
 
 <html lang="es">
   <head>
-    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
     <meta charset="UTF-8" />
-    <title>Formulario de Consentimiento</title>
+    <title>Formulario de Consentimiento - {{ registro.nombre }}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
+
     {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}" />
     <style>
       @page {
         size: A4;
         margin: 10mm;
       }
       
-      .border-1px-dark th,
-      .border-1px-dark td {
-        border: 1px solid #212529 !important;
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.3;
+        font-size: 12pt;
+      }
+      
+      .form-header {
+        border: 2px solid #212529;
+        background: #fff;
+        margin-bottom: 1rem;
+        break-inside: avoid;
+      }
+      
+      .logos {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 2rem;
+      }
+      
+      .logos img {
+        height: 70px;
+        /* Remove margin to prevent overlap */
+        margin: 0;
+        /* Ensure images don't overlap */
+        display: block;
+      }
+      
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+        break-inside: avoid;
+      }
+      
+      th,
+      td {
+        border: 1px solid #212529;
+        padding: 0.5rem;
+        text-align: center;
+      }
+      
+      th {
+        background-color: #f8f9fa;
+        font-weight: bold;
+      }
+      
+      .form-section {
+        break-inside: avoid;
+        margin-bottom: 1rem;
+      }
+      
+      .form-footer {
+        break-inside: avoid;
+        margin-top: 2rem;
+      }
+      
+      .signature-box {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 2rem;
+        break-inside: avoid;
+      }
+      
+      .signature-section {
+        width: 45%;
+        text-align: center;
+      }
+      
+      .signature-line {
+        border-top: 1px solid #212529;
+        margin-top: 2rem;
+        padding-top: 0.5rem;
+      }
+      
+      h5,
+      h6 {
+        margin: 0.5rem 0;
+        font-weight: bold;
+      }
+      
+      ol {
+        padding-left: 1.2rem;
+        margin: 0.5rem 0;
+      }
+      
+      ol li {
+        margin-bottom: 0.3rem;
+        line-height: 1.2;
       }
       
       @media print {
         .no-print {
-          display: none !important;
-        }
-      
-        body {
-          -webkit-print-color-adjust: exact !important;
-          print-color-adjust: exact !important;
-        }
-      
-        /* Mantener Bootstrap, solo evitar saltos de página en secciones importantes */
-        .form-section,
-        .form-header,
-        .form-footer {
-          page-break-inside: avoid;
-        }
-      
-        .form-header {
-          border: 2px solid #212529 !important;
-          background: #fff !important;
-        }
-      
-        .form-header .border-dark {
-          border-color: #212529 !important;
+          display: none;
         }
       }
     </style>
   </head>
 
   <body>
-    <div class="container-fluid px-2 px-md-5 mt-4">
-      <div class="row text-center mb-3 no-print justify-content-center gx-2 gy-1">
-        {% if not pdf_mode %}
+    <div class="container-fluid">
+      <!-- No-print buttons -->
+      {% if not pdf_mode %}
+        <div class="row text-center mb-3 no-print">
           <div class="col-12 col-md-auto mb-1 mb-md-0">
             <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm w-100 w-md-auto">Registrar otro Tutor</a>
           </div>
@@ -64,48 +128,42 @@
           <div class="col-12 col-md-auto">
             <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm w-100 w-md-auto">Ver todos los registros</a>
           </div>
-        {% endif %}
-      </div>
+        </div>
+      {% endif %}
 
-      <div class="row mb-2 align-items-center border border-dark p-2 form-header gx-2 gy-1">
-        <div class="col-12 d-flex justify-content-between align-items-center flex-wrap">
-          <div class="text-center" style="min-width: 120px;">
-            <h4 class="mb-1"><strong>Nº Ficha</strong></h4>
+      <!-- Header with logos -->
+      <div class="form-header">
+        <div class="row align-items-center p-2">
+          <div class="col-3 text-center">
+            <h4><strong>Nº Ficha</strong></h4>
             <h3>{{ registro.numero_turno }}</h3>
           </div>
-          <div class="d-flex justify-content-center align-items-center flex-wrap mx-2" style="flex: 1 1 0;">
-            <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 70px;" class="mx-2 mb-1 mb-md-0" />
-            <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" style="height: 70px;" class="mx-2 mb-1 mb-md-0" />
+          <div class="col-6 logos">
+            <img src="{% static 'images/animalzoo.png' %}" class="float-left" alt="Animal Zoo" />
+            <img src="{% static 'images/happypaws.png' %}" class="float-left" alt="Happy Paws" />
           </div>
-          <div class="text-center" style="min-width: 120px;">
-            <h4 class="mb-1"><strong>Peso (Kg)</strong></h4>
+          <div class="col-3 text-center">
+            <h4><strong>Peso (Kg)</strong></h4>
             <h3>{{ registro.peso }}</h3>
           </div>
         </div>
       </div>
 
-      <div class="mb-2">
-        <h5 class="text-center fw-bold">Jornadas de Esterilización a Bajo Costo</h5>
-        <h6 class="text-center fw-bold">Formulario de Consentimiento para Procedimientos Quirúrgicos</h6>
+      <!-- Title Section -->
+      <div class="form-section text-center">
+        <h5>Jornadas de Esterilización a Bajo Costo</h5>
+        <h6>Formulario de Consentimiento para Procedimientos Quirúrgicos</h6>
+      </div>
 
+      <!-- Location and Date -->
+      <div class="form-section">
         <p>
-          <strong>Lugar:</strong> {{ registro.inscripcion.campana.barrio }}, {{ registro.inscripcion.campana.get_parroquia_display }} de Pillaro, Ecuador
-          <br />
+          <strong>Lugar:</strong> {{ registro.inscripcion.campana.barrio }}, {{ registro.inscripcion.campana.get_parroquia_display }} de Pillaro, Ecuador<br />
           <strong>Fecha:</strong> {{ registro.inscripcion.campana.fecha|date:'l, d F Y' }}
-        </p>
-        <h5 class="fw-bold">Datos del Animal de Compañía</h5>
-        <p>
-          <i>Nombre:</i> {{ registro.nombre }},
-          <i>Color Primario:</i> {{ registro.get_color_principal_display }}
-          {% if registro.color_secundario %}
-            | <i>Secundario:</i> {{ registro.get_color_secundario_display }}
-          {% endif %}
-          {% if registro.observaciones %}
-            <i>Observaciones:</i> {{ registro.observaciones }}
-          {% endif %}
         </p>
       </div>
 
+      <!-- Pet Information -->
       <div class="col-12 py-2">
         <div class="table-responsive">
           <table class="table table-bordered text-center mb-1 border-1px-dark">
@@ -122,7 +180,9 @@
               <tr>
                 <td>{{ registro.get_especie_display }}</td>
                 <td>{{ registro.get_sexo_display }}</td>
-                <td>{{ registro.edad_anos }} años {{ registro.edad_meses }} meses</td>
+                <td>
+                  {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses %}
+                </td>
                 <td>{{ registro.raza_mascota }}</td>
                 <td>{{ registro.get_carnet_display }}</td>
               </tr>
@@ -130,7 +190,7 @@
           </table>
         </div>
       </div>
-      <h5 class="fw-bold">Datos de Tutor</h5>
+      <!-- Owner Information -->
       <div class="form-section mb-2">
         <p>
           <i>Nombre Tutor:</i> {{ registro.nombres_tutor }},
@@ -141,37 +201,39 @@
           <i>Razón Tenencia:</i> {{ registro.get_razon_tenencia_display }}
           <br />
         </p>
-        <h5 class="fw-bold">Admito que:</h5>
-        <ol style="padding-left: 18px; margin-bottom: 0;">
-          <li style="margin-bottom: 0; line-height: 1.1;">Mi mascota está en perfectas condiciones de salud ya que he sido responsable en asistir con ella a un médico veterinario para sus controles rutinarios</li>
-          <li style="margin-bottom: 0; line-height: 1.1;">Comprendo perfectamente en que consiste el procedimiento de esterilización que se le realizará a mi mascota</li>
-          <li style="margin-bottom: 0; line-height: 1.1;">Tengo conocimiento sobre los riesgos que puedan existir al momento de la inducción al anestésico o en el proceso de cirugía. Este riesgo puede conllevar a la muerte.</li>
-          <li style="margin-bottom: 0; line-height: 1.1;">Doy mi consentimiento informado para que se realice la cirugía descrita anteriormente, y los procedimientos complementarios que sean necesarios y convenientes durante la intervención a juicio de los profesionales que lo llevan a cabo.</li>
-          <li style="margin-bottom: 0; line-height: 1.1;">Se tomen fotografías o filmaciones de la cirugía para estudio médico.</li>
-          <li style="margin-bottom: 0; line-height: 1.1;">Proveer mis datos personales y de mi mascota con fines únicamente estadísticos y de identificación</li>
-          <li style="margin-bottom: 0; line-height: 1.1;">Acepto tener responsabilidad en la recuperación de mi mascota, suministrándole la medicina descrita por el médico tratante y ayudándole con los cuidados postoperatorios indicados.</li>
+      </div>
+
+      <!-- Terms and Conditions -->
+      <div class="form-section">
+        <h5>Admito que:</h5>
+        <ol style="padding-left: 18px">
+          <li>Mi mascota está en perfectas condiciones de salud ya que he sido responsable en asistir con ella a un médico veterinario para sus controles rutinarios</li>
+          <li>Comprendo perfectamente en que consiste el procedimiento de esterilización que se le realizará a mi mascota</li>
+          <li>Tengo conocimiento sobre los riesgos que puedan existir al momento de la inducción al anestésico o en el proceso de cirugía. Este riesgo puede conllevar a la muerte.</li>
+          <li>Doy mi consentimiento informado para que se realice la cirugía descrita anteriormente, y los procedimientos complementarios que sean necesarios y convenientes durante la intervención a juicio de los profesionales que lo llevan a cabo.</li>
+          <li>Se tomen fotografías o filmaciones de la cirugía para estudio médico.</li>
+          <li>Proveer mis datos personales y de mi mascota con fines únicamente estadísticos y de identificación</li>
+          <li>Acepto tener responsabilidad en la recuperación de mi mascota, suministrándole la medicina descrita por el médico tratante y ayudándole con los cuidados postoperatorios indicados.</li>
         </ol>
       </div>
 
-      <div class="form-footer text-center mt-2">
-        <p>
+      <!-- Signature Section -->
+      <div class="form-footer">
+        <p class="text-center">
           <strong>Por todo lo antes señalado, acepto mi responsabilidad firmando este documento</strong>
         </p>
-        <br />
-        <div class="row signature-box px-2 px-md-4 gy-2">
-          <div class="col-6 col-md-6 mb-2 mb-md-0">
-            <p>
-              ________________________ <br />
-              Nombre: {{ registro.nombres_tutor }} <br />
+        <div class="signature-box">
+          <div class="signature-section">
+            <div class="signature-line">
+              {{ registro.nombres_tutor }}<br />
               CI: {{ registro.cedula_identidad|stringformat:'010d' }}
-            </p>
+            </div>
           </div>
-          <div class="col-6 col-md-6">
-            <p>
-              ________________________
-              <br />
-              Centro Médico Veterinario <strong>AnimalZoo</strong>
-            </p>
+          <div class="signature-section">
+            <div class="signature-line">
+              Centro Médico Veterinario<br />
+              <strong>AnimalZoo</strong>
+            </div>
           </div>
         </div>
       </div>

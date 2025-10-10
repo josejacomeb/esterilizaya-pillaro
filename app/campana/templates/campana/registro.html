@@ -10,5 +10,7 @@
     {% bootstrap_form form %}
     {% bootstrap_button button_type='submit' content='Registrar Campaña' %}
   </form>
+{% endblock %}
+{% block extra_body %}
   {% include 'selector-cascada.html' with id_parroquia='id_parroquia' id_canton='id_canton' %}
 {% endblock %}

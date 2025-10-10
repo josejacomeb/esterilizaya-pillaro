@@ -4,7 +4,9 @@
 {% block title %}
   Nueva inscripción
 {% endblock %}
-
+{% block breadcrumb %}
+  {% include 'campana/breadcrumb.html' %}
+{% endblock %}
 {% block content %}
   <h1 class="h4 mb-4">Registrar nueva inscripción</h1>
 
@@ -13,6 +15,8 @@
     {% bootstrap_form form layout='vertical' %}
     <button type="submit" class="btn btn-primary">Subir</button>
   </form>
+{% endblock %}
+{% block extra_body %}
   {% include 'selector-cascada.html' with id_parroquia='id_parroquia_tutor' id_canton='id_canton_tutor' %}
   {% include 'autocompletar-barrios.html' %}
 {% endblock %}

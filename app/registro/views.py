@@ -4,10 +4,13 @@ from campana.models import Campana
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib.staticfiles import finders
+from django.core.paginator import Paginator
 from django.http import JsonResponse, response
 from django.shortcuts import get_object_or_404, redirect, render
 from django.template.loader import render_to_string
 from django.views.generic import ListView
+from easy_thumbnails.files import get_thumbnailer
 from esterilizaya.constantes import RUTA_PDFS
 from inscripcion.models import Inscripcion
 from registro.models import Registro
@@ -25,18 +28,24 @@ def index(request):
 
 
 def lista(request, campana_id):
-    registros = Registro.objects.filter(inscripcion__campana=campana_id)
+    page_number = request.GET.get("page", 1)
+    todos_registros = Registro.objects.filter(inscripcion__campana=campana_id)
     # Dato del primer resultado
-    nombre_campana = registros[0].inscripcion.campana.nombre
+    campana = Campana.objects.filter(id=campana_id).first()
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]
     if query:
-        registros = registros.filter(nombres_tutor__iregex=query)
+        todos_registros = todos_registros.filter(nombres_tutor__iregex=query)
+    # Paginación
+    paginator = Paginator(todos_registros, 15)
+    registros = paginator.get_page(page_number)
+    breadcrumbs = [
+        {"titulo": campana.nombre, "url": campana.get_absolute_url()},
+        {"titulo": "Todos Registros", "url": None},
+    ]
     return render(
-        request,
-        "registro/lista.html",
-        {"registros": registros, "campana_id": campana_id, "nombre_campana": nombre_campana},
+        request, "registro/lista.html", {"registros": registros, "campana": campana, "breadcrumbs": breadcrumbs}
     )
 
 
@@ -71,22 +80,21 @@ def registrar(request, campana_id, inscripcion_id):
         )
         initial_data = {}
         if registro_anterior:
-            logger.info(registro_anterior)
             initial_data = {
                 "cedula_identidad": registro_anterior.cedula_identidad,
                 "n_animales_hogar": registro_anterior.n_animales_hogar,
                 "n_animales_hogar_esterilizadas": registro_anterior.n_animales_hogar_esterilizadas,
             }
         forma = RegistroForm(instance=inscripcion, inscripcion_campana_id=campana_id, initial=initial_data)
-    return render(request, "registro/nuevo.html", {"form": forma})
+        breadcrumbs = [
+            {"titulo": inscripcion.campana.nombre, "url": inscripcion.campana.get_absolute_url()},
+            {"titulo": "Registro", "url": None},
+        ]
+    return render(request, "registro/nuevo.html", {"form": forma, "breadcrumbs": breadcrumbs})
 
 
+@login_required(login_url="cuenta:login")
 def ver_ficha(request, campana_id, registro_id):
-    registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
-    return render(request, "registro/ficha.html", {"registro": registro})
-
-
-def imprimir_ficha(request, campana_id, registro_id):
     registro = get_object_or_404(Registro, id=registro_id, inscripcion__campana=campana_id)
     return render(request, "registro/ficha.html", {"registro": registro})
 
@@ -136,11 +144,18 @@ class RegistradoListView(ListView):
                     "nombres_tutor",
                 )
             )
-
+            # Añadir ruta del miniatura
+            for reg in registros:
+                reg["miniatura"] = (
+                    get_thumbnailer(reg["foto"]).get_thumbnail({"size": (300, 300), "crop": "smart"}).url
+                    if reg["foto"]
+                    else ""
+                )
             return JsonResponse({"registros": registros})
         return super().get(request, *args, **kwargs)
 
 
+@login_required(login_url="cuenta:login")
 def generar_pdf(request, registro_id):
     # TODO: Eliminar esto cuando el SSL sea global
     import ssl
@@ -155,11 +170,11 @@ def generar_pdf(request, registro_id):
         HTML(
             string=html_string,
             base_url=request.build_absolute_uri(),
-        ).write_pdf(ruta_ficha_pdf)
-        logging.info(f"PDF guardado en: {ruta_ficha_pdf}")
+        ).write_pdf(ruta_ficha_pdf, stylesheets=[finders.find("css/bootstrap.min.css")])
+        logger.info(f"PDF guardado en: {ruta_ficha_pdf}")
         messages.success(request, "PDF generado y guardado exitosamente.")
     except Exception as e:
-        logging.error(f"Error al guardar el PDF: {e}")
+        logger.error(f"Error al guardar el PDF: {e}")
         messages.error(request, "Error al generar el PDF. Por favor, inténtelo de nuevo más tarde.")
         return redirect("registro:ver_ficha", campana_id=registro.inscripcion.campana.id, registro_id=registro_id)
     return redirect("registro:lista", campana_id=registro.inscripcion.campana.id)

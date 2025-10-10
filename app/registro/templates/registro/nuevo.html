@@ -4,7 +4,9 @@
 {% block title %}
   Ingresar un nuevo registro
 {% endblock %}
-
+{% block breadcrumb %}
+  {% include 'campana/breadcrumb.html' %}
+{% endblock %}
 {% block content %}
   <form method="post" enctype="multipart/form-data" class="mb-3">
     {% csrf_token %}
@@ -12,6 +14,8 @@
     <button type="submit" class="btn btn-success">Ingresar registro</button>
   </form>
   <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Volver</a>
+{% endblock %}
+{% block extra_body %}
   {% include 'selector-cascada.html' with id_parroquia='id_parroquia_tutor' id_canton='id_canton_tutor' %}
   <script type="module">
     import Autocomplete from '/static/js/autocomplete.js'

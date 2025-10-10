@@ -1,3 +1,33 @@
+function generateColors(count) {
+  const baseColors = [
+    "#36A2EB",
+    "#FF6384",
+    "#FF9F40",
+    "#4BC0C0",
+    "#9966FF",
+    "#FFCD56",
+    "#C9CBCF",
+    "#FF8A80",
+    "#82B1FF",
+    "#B39DDB",
+    "#CCFF90",
+    "#FFE57F",
+    "#84FFFF",
+    "#F48FB1",
+    "#80CBC4",
+    "#DCE775",
+  ];
+
+  // If we need more colors than we have, generate them
+  while (baseColors.length < count) {
+    const h = Math.random() * 360;
+    const s = 25 + Math.random() * 70 + "%";
+    const l = 45 + Math.random() * 25 + "%";
+    baseColors.push(`hsl(${h}, ${s}, ${l})`);
+  }
+  return baseColors.slice(0, count);
+}
+
 /* exported inicializarGraficos */
 function inicializarGraficos(datos) {
   // Especies
@@ -8,15 +38,7 @@ function inicializarGraficos(datos) {
       datasets: [
         {
           data: datos.estadisticasEspecie.map((s) => s.total),
-          backgroundColor: [
-            "#36A2EB",
-            "#FF6384",
-            "#FF9F40",
-            "#4BC0C0",
-            "#9966FF",
-            "#FFCD56",
-            "#C9CBCF",
-          ],
+          backgroundColor: generateColors(datos.estadisticasEspecie.length),
         },
       ],
     },
@@ -30,7 +52,7 @@ function inicializarGraficos(datos) {
       datasets: [
         {
           data: datos.genderStats.map((g) => g.total),
-          backgroundColor: ["#4BC0C0", "#FFCE56", "#36A2EB"],
+          backgroundColor: generateColors(datos.genderStats.length),
         },
       ],
     },
@@ -44,7 +66,7 @@ function inicializarGraficos(datos) {
       datasets: [
         {
           data: datos.parroquiaStats.map((g) => g.total),
-          backgroundColor: ["#4BC0C0", "#FFCE56", "#36A2EB"],
+          backgroundColor: generateColors(datos.parroquiaStats.length),
         },
       ],
     },
@@ -58,7 +80,7 @@ function inicializarGraficos(datos) {
       datasets: [
         {
           data: datos.barrioStats.map((g) => g.total),
-          backgroundColor: ["#4BC0C0", "#FFCE56", "#36A2EB"],
+          backgroundColor: generateColors(datos.barrioStats.length),
         },
       ],
     },
@@ -73,7 +95,7 @@ function inicializarGraficos(datos) {
         {
           label: "Conteo",
           data: datos.razaStats.map((n) => n.total),
-          backgroundColor: "#36A2EB",
+          backgroundColor: generateColors(datos.razaStats.length),
         },
       ],
     },

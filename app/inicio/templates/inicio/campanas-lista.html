@@ -1,0 +1,20 @@
+<ol class="list-group list-group-numbered">
+    {% for campana in campanas %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                    <a {% if clase %}class="{{clase}}" {% endif %} href="{{ campana.get_absolute_url }}">{{ campana.barrio }}  -  {{ campana.get_parroquia_display}}</a>
+                </div> 
+                {{ campana.fecha }}
+            </div>
+        </li>
+    {% empty %}
+        <li class="list-group-item d-flex justify-content-between align-items-start">
+            <div class="ms-2 me-auto">
+                <div class="fw-bold">
+                    No hay campañas activas en este momento.
+                </div> Por favor, vuelva más tarde.
+            </div>
+        </li>
+    {% endfor %}
+</ol>

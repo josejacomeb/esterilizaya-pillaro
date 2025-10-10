@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "easy_thumbnails",
 ]
 
 MIDDLEWARE = [
@@ -61,6 +62,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                "campana.views.campanas_activas",
             ],
         },
     },
@@ -170,7 +172,7 @@ LOGGING = {
 }
 
 # Redirecciones
-LOGIN_REDIRECT_URL = "campana:index"
+LOGIN_REDIRECT_URL = "inicio:index"
 LOGIN_URL = "cuenta:login"
 LOGOUT_URL = "cuenta:logout"
 

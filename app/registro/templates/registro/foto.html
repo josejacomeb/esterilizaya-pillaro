@@ -1,7 +1,13 @@
 {% load static %}
 
 {% if foto %}
-  <img src="{{ foto.url }}" alt="Foto {{ nombre }}" class="{{ clase }}" />
+  {% if thumbnail %}
+    {% load thumbnail %}
+    {% thumbnail foto 300x300 crop="smart" as im %}
+    <img src="{{ im.url }}" alt="Foto {{ nombre }}" class="{{ clase }}" />
+  {% else %}
+    <img src="{{ foto.url }}" alt="Foto {{ nombre }}" class="{{ clase }}" />
+  {% endif %}
 {% else %}
   {% if especie == '🐈' %}
     <img src="{% static 'images/mascotas/gato.png' %}" alt="Foto {{ nombre }}" class="{{ clase }}" />

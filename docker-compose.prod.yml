@@ -1,7 +1,5 @@
 services:
   web:
-    volumes:
-      - ./pdfs:/tmp/pdfs
     environment:
       - DEBUG=False
       - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod

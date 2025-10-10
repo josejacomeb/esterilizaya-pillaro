@@ -37,6 +37,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 - [watchfiles](https://github.com/samuelcolvin/watchfiles) >= v1.x
 - [Chart.js](https://www.chartjs.org/) >= 4.5.x
 - [Leaflet](https://leafletjs.com/) >= 1.9.x
+- [easy-thumbnails](https://github.com/SmileyChris/easy-thumbnails) >=2.x
 
 ## Instrucciones
 
@@ -57,14 +58,19 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 
    ```bash
       # Descarga Bootstrap
-      BOOSTRAP_VERSION="5.3.7"
-      wget -P app/static https://github.com/twbs/bootstrap/releases/download/v$BOOSTRAP_VERSION/bootstrap-$BOOSTRAP_VERSION-dist.zip
+      BOOTSTRAP_VERSION="5.3.7"
+      wget -P app/static https://github.com/twbs/bootstrap/releases/download/v$BOOTSTRAP_VERSION/bootstrap-$BOOTSTRAP_VERSION-dist.zip
       mkdir -p app/static/temp_bootstrap
-      unzip app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip -d app/static/temp_bootstrap
-      mkdir -p app/static/js && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/js/* app/static/js
-      mkdir -p app/static/css && mv app/static/temp_bootstrap/bootstrap-$BOOSTRAP_VERSION-dist/css/* app/static/css
+      unzip app/static/bootstrap-$BOOTSTRAP_VERSION-dist.zip -d app/static/temp_bootstrap
+      mkdir -p app/static/js && mv app/static/temp_bootstrap/bootstrap-$BOOTSTRAP_VERSION-dist/js/* app/static/js
+      mkdir -p app/static/css && mv app/static/temp_bootstrap/bootstrap-$BOOTSTRAP_VERSION-dist/css/* app/static/css
       rm -rf app/static/temp_bootstrap
-      rm app/static/bootstrap-$BOOSTRAP_VERSION-dist.zip
+      rm app/static/bootstrap-$BOOTSTRAP_VERSION-dist.zip
+      # Descarga Bootstrap Icons
+      BOOTSTRAP_ICONS_VERSION="1.13.1"
+      wget -P app/static/css https://cdn.jsdelivr.net/npm/bootstrap-icons@$BOOTSTRAP_ICONS_VERSION/font/bootstrap-icons.min.css
+      wget -P app/static/css/fonts https://cdn.jsdelivr.net/npm/bootstrap-icons@$BOOTSTRAP_ICONS_VERSION/font/fonts/bootstrap-icons.woff
+      wget -P app/static/css/fonts https://cdn.jsdelivr.net/npm/bootstrap-icons@$BOOTSTRAP_ICONS_VERSION/font/fonts/bootstrap-icons.woff2
       # Descarga boostrap-autocomplete
       wget -P app/static/js/ https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-autocomplete@master/autocomplete.js
       # Descarga jQuery
@@ -78,6 +84,8 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
       LEAFLET_VERSION="1.9.4"
       wget -P app/static/css https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.css
       wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js
+      wget -P app/static/images https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/images/marker-icon.png
+      wget -P app/static/images https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/images/marker-shadow.png
    ```
 
 4. Descargue los contenedores con el siguiente comando: `docker compose build`.

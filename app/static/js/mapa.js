@@ -1,5 +1,5 @@
 /* exported inicializarMapa */
-function inicializarMapa(locaciones, locacionesDataUrl) {
+function inicializarMapa(locaciones, locacionesDataUrl, icono) {
   $.getJSON(locacionesDataUrl, function (data) {
     const map = L.map("mapa").setView([-1.1690711, -78.5168839], 11);
     L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
@@ -18,7 +18,9 @@ function inicializarMapa(locaciones, locacionesDataUrl) {
         [lat, lon] = data[canton][parroquia][barrio];
       }
       if (lat && lon) {
-        L.marker([lat, lon]).addTo(map).bindPopup(`${barrio}: ${conteo}`);
+        L.marker([lat, lon], { icon: icono })
+          .addTo(map)
+          .bindPopup(`${barrio}: ${conteo}`);
       }
     });
     setTimeout(function () {
