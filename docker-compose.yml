@@ -1,5 +1,6 @@
 services:
   web:
+    image: web:latest
     build:
       context: .
       dockerfile: app/Dockerfile
@@ -11,7 +12,6 @@ services:
       - "8000:8000"
     volumes:
       - media-volume:/home/esterilizaya/code/media
-      - ./app:/home/esterilizaya/code
       - ./pdfs:/tmp/pdfs
     environment:
       - DB_DATABASE=${DB_DATABASE}

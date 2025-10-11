@@ -1,6 +1,6 @@
 # upstream for uWSGI
 upstream uwsgi_app {
-    server unix:/home/esterilizaya/code/uwsgi_app.sock;
+    server unix:/home/esterilizaya/code/uwsgi/uwsgi_app.sock;
 }
 server {
     listen              80;
