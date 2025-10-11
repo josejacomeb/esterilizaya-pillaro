@@ -3,7 +3,7 @@ from .utils import retornar_urls
 
 DEBUG = False
 ADMINS = [("José Jácome", "josejacomeb@gmail.com")]
-ALLOWED_HOSTS = [*retornar_urls(), "localhost"]
+ALLOWED_HOSTS = [*retornar_urls(), "localhost", "nginx"]
 STATIC_ROOT = BASE_DIR / "static"
 # Configuraciones de seguridad
 CSRF_COOKIE_SECURE = True

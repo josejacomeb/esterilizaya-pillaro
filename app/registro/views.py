@@ -1,6 +1,7 @@
 import logging
 
 from campana.models import Campana
+from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -56,6 +57,7 @@ def registrar(request, campana_id, inscripcion_id):
     if inscripcion.cupos_registrados >= inscripcion.cupos_totales:
         messages.error(request, f"Lo siento, ya no hay más cupos disponibles para {inscripcion.nombres_tutor}")
         return redirect("inscripcion:index", campana_id=inscripcion.campana.id)
+    breadcrumbs = []
     if request.method == "POST":
         forma = RegistroForm(request.POST, request.FILES, inscripcion_campana_id=campana_id)
         if forma.is_valid():
@@ -167,10 +169,14 @@ def generar_pdf(request, registro_id):
         RUTA_PDFS.mkdir(parents=True, exist_ok=True)
     ruta_ficha_pdf = RUTA_PDFS / f"ficha_{registro.numero_turno}_{registro.nombre}_{registro_id}.pdf"
     try:
-        HTML(
-            string=html_string,
-            base_url=request.build_absolute_uri(),
-        ).write_pdf(ruta_ficha_pdf, stylesheets=[finders.find("css/bootstrap.min.css")])
+        extra_html = {}
+        extra_css = {}
+        if settings.DEBUG:
+            extra_css["stylesheets"] = [finders.find("css/bootstrap.min.css")]
+            extra_html["base_url"] = request.build_absolute_uri()
+        else:
+            extra_html["base_url"] = "https://nginx"
+        HTML(string=html_string, **extra_html).write_pdf(ruta_ficha_pdf, **extra_css)
         logger.info(f"PDF guardado en: {ruta_ficha_pdf}")
         messages.success(request, "PDF generado y guardado exitosamente.")
     except Exception as e:
