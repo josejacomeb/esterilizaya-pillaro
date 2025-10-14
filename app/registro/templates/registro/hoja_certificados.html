@@ -1,71 +1,93 @@
 {% load static %}
 {% load django_bootstrap5 %}
 
-{# Load CSS and JavaScript #}
-{% bootstrap_css %}
-{% bootstrap_javascript %}
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Certificados Esterilización</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet" />
     <style>
       @page {
         size: A4;
         margin: 0;
       }
+      
       .certificado {
+        position: relative; /* enables positioning context for ::before */
         width: 92mm;
         height: 60mm;
-        border: 2px solid black;
+        border: 2px solid #212529;
         border-radius: 10px;
-        padding: 10px;
+        padding: 0.625rem;
         font-family: Arial, sans-serif;
-        margin: 10px auto;
+        margin: 0.625rem auto;
         page-break-inside: avoid;
-        /* Avoid splitting certificates across pages */
+        background-color: transparent;
+        overflow: hidden; /* ensure ::before doesn’t spill outside */
+      }
+
+      .certificado::before {
+        content: "";
+        position: absolute; /* position within .certificado */
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%); /* perfectly center the background */
+        width: 90%;
+        height: 90%;
+        background-image: url({% static 'images/happypaws.png' %});
+        background-size: contain; /* keep proportions of the logo */
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.25; /* slightly more transparent to make text readable */
+        z-index: 0;
       }
       
-      .header {
-        text-align: center;
+      .certificado > * {
+        position: relative;
+        z-index: 1;
       }
-      
-      .header img {
-        height: 12mm;
-        margin: 0 3px;
-      }
-      
-      .title {
+
+      .certificado-title {
         font-size: 22px;
         font-weight: bold;
         text-align: center;
         margin: 5px 0;
       }
-      
-      .details {
-        font-size: 12px;
-        line-height: 1.4;
-      }
-      
       .checkbox-group {
         display: flex;
         justify-content: space-between;
         font-size: 12px;
       }
-      
-      .responsable {
-        display: flex;
-        justify-content: space-between;
-        margin-top: 10px;
+      .certificado-details {
+        font-size: 14px;
+        line-height: 1.8;
+      }
+      .redes-sociales {
         font-size: 12px;
+        line-height: 1;
       }
       
       @media print {
+        body {
+          background-color: white;
+        }
+      
+        .container-fluid {
+          padding: 0;
+        }
+      
         .row {
           margin: 0;
+          break-inside: avoid;
+        }
+      
+        .col-md-6 {
+          padding: 0.3125rem;
         }
       }
     </style>
@@ -73,7 +95,7 @@
 
   <body>
     <div class="container-fluid p-4">
-      <div class="row">
+      <div class="row g-2">
         {% for registro in registros %}
           <div class="col-md-6">
             {% include 'registro/certificado.html' %}
