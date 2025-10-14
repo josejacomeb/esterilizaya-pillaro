@@ -136,7 +136,7 @@
               </li>
               <li class="list-group-item d-flex justify-content-between align-items-center">
                 <strong>Edad al esterilizar:</strong>
-                <span>{% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses %}</span>
+                <span>{% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses completo=True %}</span>
               </li>
               {% if registro.color_principal %}
                 <li class="list-group-item d-flex justify-content-between align-items-center">

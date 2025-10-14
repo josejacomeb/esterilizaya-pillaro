@@ -181,7 +181,7 @@
                 <td>{{ registro.get_especie_display }}</td>
                 <td>{{ registro.get_sexo_display }}</td>
                 <td>
-                  {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses %}
+                  {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses completo=True %}
                 </td>
                 <td>{{ registro.raza_mascota }}</td>
                 <td>{{ registro.get_carnet_display }}</td>
