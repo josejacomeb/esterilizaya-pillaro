@@ -9,6 +9,7 @@
     <title>Recetas Veterinarias</title>
     {% bootstrap_css %}
     <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
+    <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet" />
     <style>
         @page {
             size: A4;
@@ -129,11 +130,7 @@
 </head>
 <body>
     <div class="container-fluid p-4">
-        <!-- Print button -->
-        <div class="no-print mb-3">
-            <button onclick="window.print()" class="btn btn-primary">Imprimir Recetas</button>
-        </div>
-
+        {% include "registro/imprimir.html" %}
         <!-- Recipes -->
         {% for registro in registros %}
             {% include 'registro/recetas/receta.html' with registro=registro %}

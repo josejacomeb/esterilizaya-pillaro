@@ -152,12 +152,16 @@
           print-color-adjust: exact !important;
           forced-color-adjust: none !important;
         }
+        .no-print {
+          display: none;
+        }
       }
     </style>
   </head>
 
   <body>
     <div class="container-fluid">
+      {% include "registro/imprimir.html" %}
       <div class="row g-2">
         {% for registro in registros %}
           <div class="col-md-6">
