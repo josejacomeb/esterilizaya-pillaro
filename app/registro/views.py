@@ -104,7 +104,7 @@ def ver_ficha(request, campana_id, registro_id):
 # TODO: Simplificar todos los registros
 def ver_certificados(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
-    return render(request, "registro/hoja_certificados.html", {"registros": registros})
+    return render(request, "registro/certificados/hoja_certificados.html", {"registros": registros})
 
 
 def ver_recetas(request, campana_id):
