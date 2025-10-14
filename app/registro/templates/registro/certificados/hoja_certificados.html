@@ -17,8 +17,14 @@
         margin: 0;
       }
       
+      body {
+        background-color: white;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      
       .certificado {
-        position: relative; /* enables positioning context for ::before */
+        position: relative;
         width: 92mm;
         height: 60mm;
         border: 2px solid #212529;
@@ -27,24 +33,29 @@
         font-family: Arial, sans-serif;
         margin: 0.625rem auto;
         page-break-inside: avoid;
-        background-color: transparent;
-        overflow: hidden; /* ensure ::before doesn’t spill outside */
+        background-color: white;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
 
       .certificado::before {
         content: "";
-        position: absolute; /* position within .certificado */
+        position: absolute;
         top: 50%;
         left: 50%;
-        transform: translate(-50%, -50%); /* perfectly center the background */
+        transform: translate(-50%, -50%);
         width: 95%;
         height: 95%;
         background-image: url({% static 'images/happypaws.png' %});
-        background-size: contain; /* keep proportions of the logo */
+        background-size: contain;
         background-position: center;
         background-repeat: no-repeat;
-        opacity: 0.25; /* slightly more transparent to make text readable */
+        opacity: 0.25;
         z-index: 0;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
       }
       
       .certificado > * {
@@ -53,48 +64,100 @@
       }
 
       .certificado-title {
-        font-size: 22px;
+        font-size: 1.375rem;
         font-weight: bold;
         text-align: center;
-        margin: 5px 0;
+        margin: 0.3125rem 0;
       }
-      .checkbox-group {
-        display: flex;
-        justify-content: space-between;
-        font-size: 12px;
-      }
+
       .certificado-details {
-        font-size: 14px;
-        line-height: 1.8;
+        font-size: 0.875rem;
+        line-height: 1.4;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0.625rem 0;
       }
+
+      .certificado-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+
+      .certificado-content .row {
+        margin-bottom: 0.3125rem;
+      }
+
+      .certificado-content .row:last-child {
+        margin-bottom: 0;
+      }
+
       .redes-sociales {
-        font-size: 12px;
-        line-height: 1;
+        font-size: 0.7rem;
+        line-height: 1.2;
+        padding-top: 0.4rem;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        margin-top: auto;
+        white-space: nowrap;
+      }
+
+      .redes-sociales .social-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .redes-sociales i {
+        font-size: 0.8rem;
       }
       
       @media print {
-        body {
-          background-color: white;
-        }
-      
-        .container-fluid {
+        html, body {
+          width: 210mm;
+          height: 297mm;
+          margin: 0;
           padding: 0;
         }
-      
-        .row {
-          margin: 0;
-          break-inside: avoid;
+        
+        .container-fluid {
+          width: 210mm;
+          padding: 0 !important;
+          margin: 0 !important;
         }
-      
+        
+        .row {
+          margin: 0 !important;
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        
         .col-md-6 {
-          padding: 0.3125rem;
+          width: 50%;
+          padding: 0.3125rem !important;
+          page-break-inside: avoid;
+        }
+        
+        .certificado {
+          break-inside: avoid;
+          background-color: white !important;
+          margin: 0.3125rem;
+        }
+        
+        .certificado::before {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          forced-color-adjust: none !important;
         }
       }
     </style>
   </head>
 
   <body>
-    <div class="container-fluid p-4">
+    <div class="container-fluid">
       <div class="row g-2">
         {% for registro in registros %}
           <div class="col-md-6">

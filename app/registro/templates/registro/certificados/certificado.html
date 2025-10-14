@@ -4,61 +4,74 @@
   <div class="certificado-title">Certificado Esterilización</div>
 
   <div class="certificado-details">
-    <div class="row">
-      <div class="col-sm-9">
-        <strong>Fecha:</strong> {{ registro.fecha_registro|date:'d/m/Y' }}
+    <div class="certificado-content">
+      <div class="row">
+        <div class="col-sm-9">
+          <strong>Fecha:</strong> {{ registro.fecha_registro|date:'d/m/Y' }}
+        </div>
+        <div class="col-sm-3 text-end">
+          <strong>N°:</strong> <span>{{ registro.numero_turno }}</span>
+        </div>
       </div>
-      <div class="col-sm-3 text-end">
-        <strong>N°:</strong> <span>{{ registro.numero_turno }}</span>
+      <div class="row">
+        <div class="col-sm-7">
+          <strong>Nombre:</strong> {{ registro.nombre }}
+        </div>
+        <div class="col-sm-2 text-end">
+          <strong>Especie:</strong>
+        </div>
+        <div class="col-sm-3 text-end">
+          <span>{{ registro.get_especie_display }}</span>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-7">
-        <strong>Nombre:</strong> {{ registro.nombre }}
+
+      <div class="row">
+        <div class="col-sm-7">
+          <strong>Peso:</strong> {{ registro.peso }} Kg
+        </div>
+        <div class="col-sm-2">
+          <strong>Sexo:</strong>
+        </div>
+        <div class="col-sm-3 text-end">
+          <span>{{ registro.get_sexo_display }}</span>
+        </div>
       </div>
-      <div class="col-sm-2 text-end">
-        <strong>Especie:</strong>
+      <div class="row">
+        <div class="col-sm-7">
+          <strong>Raza:</strong>
+          <span>{{ registro.raza_mascota }}</span>
+        </div>
+        <div class="col-sm-2">
+          <strong>Edad:</strong>
+        </div>
+        <div class="col-sm-3 text-end">
+          <span>{% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses completo=False %}</span>
+        </div>
       </div>
-      <div class="col-sm-3 text-end">
-        <span>{{ registro.get_especie_display }}</span>
+      <div class="row g-2">
+        <div class="col-sm-12 mb-2">
+          <strong>Responsable:</strong>
+          <span>{{ registro.nombres_tutor }}</span>
+        </div>
       </div>
     </div>
 
-    <div class="row">
-      <div class="col-sm-7">
-        <strong>Peso:</strong> {{ registro.peso }} Kg
-      </div>
-      <div class="col-sm-2">
-        <strong>Sexo:</strong>
-      </div>
-      <div class="col-sm-3 text-end">
-        <span>{{ registro.get_sexo_display }}</span>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-7">
-        <strong>Raza:</strong>
-        <span>{{ registro.raza_mascota }}</span>
-      </div>
-      <div class="col-sm-2">
-        <strong>Edad:</strong>
-      </div>
-      <div class="col-sm-3 text-end">
-        <span>{% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses completo=False %}</span>
-      </div>
-    </div>
-    <div class="row g-2">
-      <div class="col-sm-12 mb-2">
-        <strong>Responsable:</strong>
-        <span>{{ registro.nombres_tutor }}</span>
-      </div>
-    </div>
-    <div class="row redes-sociales">
-      <div class="col-sm-6">
-        <i class="bi bi-tiktok"></i> <i class="bi bi-instagram"></i>: @happypaws.pillaro
-      </div>
-      <div class="col-sm-6">
-        <i class="bi bi-facebook"></i> <i class="bi bi-youtube"></i>: Happy Paws Píllaro
+    <div class="redes-sociales">
+      <div class="row">
+        <div class="col-6">
+          <span class="social-item">
+            <i class="bi bi-tiktok"></i>
+            <i class="bi bi-instagram"></i>
+            @happypaws.pillaro
+          </span>
+        </div>
+        <div class="col-6 text-end">
+          <span class="social-item">
+            <i class="bi bi-facebook"></i>
+            <i class="bi bi-youtube"></i>
+            Happy Paws Píllaro
+          </span>
+        </div>
       </div>
     </div>
   </div>
