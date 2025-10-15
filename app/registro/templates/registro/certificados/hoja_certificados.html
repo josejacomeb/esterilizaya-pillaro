@@ -1,0 +1,179 @@
+{% load static %}
+{% load django_bootstrap5 %}
+
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Certificados Esterilización</title>
+    <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet" />
+    <style>
+      @page {
+        size: A4;
+        margin: 0;
+      }
+      
+      body {
+        background-color: white;
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      
+      .certificado {
+        position: relative;
+        width: 92mm;
+        height: 60mm;
+        border: 2px solid #212529;
+        border-radius: 10px;
+        padding: 0.625rem;
+        font-family: Arial, sans-serif;
+        margin: 0.625rem auto;
+        page-break-inside: avoid;
+        background-color: white;
+        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+
+      .certificado::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -45%);
+        width: 100%;
+        height: 100%;
+        background-image: url({% static 'images/happypaws.png' %});
+        background-size: contain;
+        background-position: center;
+        background-repeat: no-repeat;
+        opacity: 0.25;
+        z-index: 0;
+        clip-path: inset(0 0 10% 0);
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+      }
+      
+      .certificado > * {
+        position: relative;
+        z-index: 1;
+      }
+
+      .certificado-title {
+        font-size: 1.375rem;
+        font-weight: bold;
+        text-align: center;
+        margin: 0.3125rem 0;
+      }
+
+      .certificado-details {
+        font-size: 0.875rem;
+        line-height: 1.4;
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        margin: 0.625rem 0;
+      }
+
+      .certificado-content {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+      }
+
+      .certificado-content .row {
+        margin-bottom: 0.3125rem;
+      }
+
+      .certificado-content .row:last-child {
+        margin-bottom: 0;
+      }
+
+      .redes-sociales {
+        font-size: 0.7rem;
+        line-height: 1.2;
+        padding-top: 0.4rem;
+        border-top: 1px solid rgba(0,0,0,0.1);
+        margin-top: auto;
+        white-space: nowrap;
+      }
+
+      .redes-sociales .social-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.25rem;
+      }
+
+      .redes-sociales i {
+        font-size: 0.8rem;
+      }
+      
+      @media print {
+        html, body {
+          width: 210mm;
+          height: 297mm;
+          margin: 0;
+          padding: 0;
+        }
+        
+        .container-fluid {
+          width: 210mm;
+          padding: 0 !important;
+          margin: 0 !important;
+        }
+        
+        .row {
+          margin: 0 !important;
+          width: 100%;
+          display: flex;
+          flex-wrap: wrap;
+        }
+        
+        .col-md-6 {
+          width: 50%;
+          padding: 0.3125rem !important;
+          page-break-inside: avoid;
+        }
+        
+        .certificado {
+          break-inside: avoid;
+          background-color: white !important;
+          margin: 0.3125rem;
+        }
+        
+        .certificado::before {
+          -webkit-print-color-adjust: exact !important;
+          print-color-adjust: exact !important;
+          forced-color-adjust: none !important;
+        }
+        .no-print {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container-fluid">
+      {% include "registro/imprimir.html" %}
+      {% for registro in registros %}
+        {% if forloop.counter0|divisibleby:2 %}
+          <div class="row g-2">
+        {% endif %}
+          <div class="col-md-6">
+            {% include 'registro/certificados/certificado.html' %}
+          </div>
+        {% if not forloop.counter0|divisibleby:2 or forloop.last %}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+  </body>
+</html>

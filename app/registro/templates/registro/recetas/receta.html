@@ -16,7 +16,6 @@
           <!-- Left side -->
           <div class="col-6 border-end recipe-side">
             <img src="{% static 'images/happypaws.png' %}" alt="Background Logo" class="background-logo" />
-
             <div class="content-wrapper">
               <div class="professional-info">
                 <p class="mb-1">
@@ -47,8 +46,14 @@
                 </ul>
               </div>
             </div>
-
             {% include 'registro/recetas/firma.html' %}
+            <div class="redes-sociales">
+              <span class="social-item">
+                <i class="bi bi-tiktok"></i>
+                <i class="bi bi-instagram"></i>
+                @happypaws.pillaro
+              </span>
+            </div>
           </div>
 
           <!-- Right side -->
@@ -73,7 +78,7 @@
                   <strong>Dirección:</strong> {{ registro.barrio_tutor }} / {{ registro.get_parroquia_tutor_display }}
                 </p>
                 <p class="mb-1">
-                  <strong>Edad:</strong> {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses %}
+                  <strong>Edad:</strong> {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses completo=True %}
                 </p>
                 <p class="mb-1">
                   <strong>Posología:</strong> {{ patient.posology }}
@@ -91,6 +96,13 @@
             </div>
 
             {% include 'registro/recetas/firma.html' %}
+            <div class="redes-sociales">
+              <span class="social-item">
+                <i class="bi bi-facebook"></i>
+                <i class="bi bi-youtube"></i>
+                Happy Paws Píllaro
+              </span>
+            </div>
           </div>
         </div>
       </div>

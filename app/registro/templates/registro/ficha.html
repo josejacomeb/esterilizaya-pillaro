@@ -7,7 +7,8 @@
     <meta charset="UTF-8" />
     <title>Formulario de Consentimiento - {{ registro.nombre }}</title>
     <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
-
+    <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet" />
+    {% bootstrap_javascript %}
     {% bootstrap_css %}
     <style>
       @page {
@@ -22,25 +23,10 @@
       }
       
       .form-header {
-        border: 2px solid #212529;
+        border: 1px solid #212529;
         background: #fff;
         margin-bottom: 1rem;
         break-inside: avoid;
-      }
-      
-      .logos {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 2rem;
-      }
-      
-      .logos img {
-        height: 70px;
-        /* Remove margin to prevent overlap */
-        margin: 0;
-        /* Ensure images don't overlap */
-        display: block;
       }
       
       table {
@@ -119,30 +105,29 @@
       <!-- No-print buttons -->
       {% if not pdf_mode %}
         <div class="row text-center mb-3 no-print">
-          <div class="col-12 col-md-auto mb-1 mb-md-0">
-            <a href="{% url 'inscripcion:index' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm w-100 w-md-auto">Registrar otro Tutor</a>
-          </div>
-          <div class="col-12 col-md-auto mb-1 mb-md-0">
-            <a href="{% url 'registro:generar_pdf' registro.id %}" class="btn btn-primary btn-sm w-100 w-md-auto">Imprimir Ficha</a>
-          </div>
-          <div class="col-12 col-md-auto">
-            <a href="{% url 'registro:lista' registro.inscripcion.campana.id %}" class="btn btn-outline-secondary btn-sm w-100 w-md-auto">Ver todos los registros</a>
-          </div>
+          <li class="list-group-item d-flex align-items-center px-2 gap-2">
+            {% url 'inscripcion:index' registro.inscripcion.campana.id as url_inscripcion %}
+            {% bootstrap_button '<i class="bi bi-pencil-square"></i> Registrar otro' button_type='link' href=url_inscripcion button_class='btn btn-primary' %}
+            {% url 'registro:generar_pdf' registro.id as url_imprimir %}
+            {% bootstrap_button '<i class="bi bi-printer"></i> Imprimir' button_type='link' href=url_imprimir button_class='btn btn-primary' %}
+            {% url 'registro:lista' registro.inscripcion.campana.id as url_lista %}
+            {% bootstrap_button '<i class="bi bi-card-list"></i> Todos Registros' button_type='link' href=url_lista button_class='btn btn-primary' %}
+          </li>
         </div>
       {% endif %}
 
       <!-- Header with logos -->
-      <div class="form-header">
-        <div class="row align-items-center p-2">
-          <div class="col-3 text-center">
+      <div>
+        <div class="text-center form-header d-flex justify-content-between align-items-center p-2 mb-2">
+          <div style="text-align: center; flex: 1;">
             <h4><strong>Nº Ficha</strong></h4>
             <h3>{{ registro.numero_turno }}</h3>
           </div>
-          <div class="col-6 logos">
-            <img src="{% static 'images/animalzoo.png' %}" class="float-left" alt="Animal Zoo" />
-            <img src="{% static 'images/happypaws.png' %}" class="float-left" alt="Happy Paws" />
+          <div>
+            <img src="{% static 'images/animalzoo.png' %}" alt="Animal Zoo" style="height: 75px;" />
+            <img src="{% static 'images/happypaws.png' %}" alt="Happy Paws" style="height: 75px;" />
           </div>
-          <div class="col-3 text-center">
+          <div style="text-align: center; flex: 1;">
             <h4><strong>Peso (Kg)</strong></h4>
             <h3>{{ registro.peso }}</h3>
           </div>
@@ -181,7 +166,7 @@
                 <td>{{ registro.get_especie_display }}</td>
                 <td>{{ registro.get_sexo_display }}</td>
                 <td>
-                  {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses %}
+                  {% include 'registro/edad.html' with edad_anos=registro.edad_anos edad_meses=registro.edad_meses completo=True %}
                 </td>
                 <td>{{ registro.raza_mascota }}</td>
                 <td>{{ registro.get_carnet_display }}</td>

@@ -1,0 +1,10 @@
+{% load django_bootstrap5 %}
+
+<div class="no-print mb-3">
+  <li class="list-group-item d-flex align-items-center px-2 gap-2">
+    {% with url_anterior=request.META.HTTP_REFERER|default:'/' %}
+    {% bootstrap_button '<i class="bi bi-arrow-left"></i> Anterior' button_type='link' href=url_anterior button_class='btn btn-primary' %}
+    {% endwith %}
+    {% bootstrap_button '<i class="bi bi-printer"></i> Imprimir' button_type='link' href=url_rects button_class='btn btn-primary' onclick='window.print()' %}
+  </li>
+</div>
