@@ -4,6 +4,8 @@ services:
       - DEBUG=False
       - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
       - REQUESTS_CA_BUNDLE=/home/esterilizaya/code/ssl/happypaws.crt
+    build:
+      target: prod
     healthcheck:
       test:
         - CMD
@@ -22,8 +24,8 @@ services:
     depends_on:
       - web
     ports:
-      - "80:80"
-      - "443:443"
+      - "8080:80"
+      - "8443:443"
     volumes:
       - ./config/nginx:/etc/nginx/templates
       - ./app/uwsgi:/home/esterilizaya/code/uwsgi
