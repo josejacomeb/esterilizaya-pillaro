@@ -33,6 +33,10 @@ def lista(request, campana_id):
     todos_registros = Registro.objects.filter(inscripcion__campana=campana_id)
     # Dato del primer resultado
     campana = Campana.objects.filter(id=campana_id).first()
+    if not campana:
+        logger.warning("No existe la campaña seleccionada, abortando...")
+        messages.error(request, "¡No existe la campaña seleccionada, regresando al inicio!")
+        return redirect("inicio:index")
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]
