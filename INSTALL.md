@@ -8,7 +8,8 @@
 ## Instrucciones
 
 1. Por favor, copie las variables de entorno para iniciar el sistema `cp .env.example .env`, luego se pueden cambiar a discreción
-2. Cree los archivos con la información sensible en la carpeta `credenciales`, por ejemplo en Linux:
+2. Genera una clave segura, por ejemplo con `openssl rand -base64 32`, luego reemplaza el valor de `SECRET_KEY` con el generado
+3. Cree los archivos con la información sensible en la carpeta `credenciales`, por ejemplo en Linux:
 
    ```bash
        mkdir credenciales & mkdir credenciales/database
@@ -20,7 +21,7 @@
 
    ```
 
-3. Debido a que a veces el sistema no tendrá internet, es necesario descargar `bootstrap` >= 5 y `bootstrap-autocomplete` localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
+4. Debido a que a veces el sistema no tendrá internet, es necesario descargar `bootstrap` >= 5 y `bootstrap-autocomplete` localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
 
    ```bash
       # Descarga Bootstrap
@@ -54,10 +55,10 @@
       wget -P app/static/images https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/images/marker-shadow.png
    ```
 
-4. Descargue los contenedores con el siguiente comando: `docker compose build`.
+5. Descargue los contenedores con el siguiente comando: `docker compose build`.
    Por favor ejecute las migraciones de la base de datos a través del siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.migrate.yml up`.
-5. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
-6. Inicie el sistema con `docker compose up -d --build`, con el cual por defecto se podrá iniciar el desarrollo.
+6. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
+7. Inicie el sistema con `docker compose up -d --build`, con el cual por defecto se podrá iniciar el desarrollo.
 
 ### Configuración servidor local de producción en Linux
 
@@ -107,3 +108,17 @@ En caso de que no tengas permiso donde `100` es el user ID y `82` es el group ID
     alpine \
     chown -R 100:82 /data
 ```
+
+### Error 500
+
+Si tienes un error 500, puedes revisar los logs con `docker compose logs web`, pueden suceder los siguientes escenerios:
+
+#### Falta Secret Key
+
+Si puedes ver este error:
+
+```bash
+django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be empty.
+```
+
+Asegurate que añadiste una clave segura a tu variable `SECRET_KEY` en el archivo `.env`, revisa las instrucciones para saber cómo
