@@ -17,6 +17,9 @@ function inicializarMapa(locaciones, locacionesDataUrl, icono) {
       ) {
         [lat, lon] = data[canton][parroquia][barrio];
       }
+      else {
+        console.warn(`Ubicación no encontrada: ${canton} > ${parroquia} > ${barrio}, ¡añadela en locaciones.json!`);
+      }
       if (lat && lon) {
         L.marker([lat, lon], { icon: icono })
           .addTo(map)
