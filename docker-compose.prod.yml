@@ -1,35 +1,35 @@
 services:
-  web:
-    environment:
-      - DEBUG=False
-      - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
-      - REQUESTS_CA_BUNDLE=/home/esterilizaya/code/ssl/happypaws.crt
-    build:
-      target: prod
-    healthcheck:
-      test:
-        - CMD
-        - curl -k --fail http://${APP_URL} || exit 1
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
-    command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
-    volumes:
-      - ./app/uwsgi:/home/esterilizaya/code/uwsgi
+ web:
+  environment:
+   - DEBUG=False
+   - DJANGO_SETTINGS_MODULE=esterilizaya.settings.prod
+   - REQUESTS_CA_BUNDLE=/home/esterilizaya/code/ssl/happypaws.crt
+  build:
+   target: prod
+  healthcheck:
+   test:
+    - CMD
+    - curl -k --fail http://${APP_URL} || exit 1
+   interval: 1m30s
+   timeout: 30s
+   retries: 5
+   start_period: 30s
+  command: uwsgi --ini /home/esterilizaya/config/uwsgi/uwsgi.ini
+  volumes:
+   - ./app/uwsgi:/home/esterilizaya/code/uwsgi
 
-  nginx:
-    image: nginx:alpine
-    restart: always
-    depends_on:
-      - web
-    ports:
-      - "8080:80"
-      - "8443:443"
-    volumes:
-      - ./config/nginx:/etc/nginx/templates
-      - ./app/uwsgi:/home/esterilizaya/code/uwsgi
-      - ./app/ssl:/home/esterilizaya/code/ssl
-      - ./config/uwsgi/uwsgi.ini:/home/esterilizaya/code/uwsgi.ini
-      - ./app/static:/home/esterilizaya/code/static
-      - media-volume:/home/esterilizaya/code/media
+ nginx:
+  image: nginx:alpine
+  restart: always
+  depends_on:
+   - web
+  ports:
+   - "8080:80"
+   - "8443:443"
+  volumes:
+   - ./config/nginx:/etc/nginx/templates
+   - ./app/uwsgi:/home/esterilizaya/code/uwsgi
+   - ./app/ssl:/home/esterilizaya/code/ssl
+   - ./config/uwsgi/uwsgi.ini:/home/esterilizaya/code/uwsgi.ini
+   - ./app/static:/home/esterilizaya/code/static
+   - media-volume:/home/esterilizaya/code/media

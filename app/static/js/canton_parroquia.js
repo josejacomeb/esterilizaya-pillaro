@@ -1,4 +1,5 @@
 // eslint-disable-next-line no-unused-vars
+// biome-ignore lint/correctness/noUnusedVariables: This is a public API function where parameters are intentionally unused or only used in specific implementations not visible to Biome.
 function actualizarSelectorCantonParroquia(ciudadId, parroquiaId, url) {
 	const $ciudad = $(`#${ciudadId}`);
 	const $parroquia = $(`#${parroquiaId}`);

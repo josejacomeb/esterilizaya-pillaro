@@ -29,6 +29,7 @@ function generateColors(count) {
 }
 
 /* exported inicializarGraficos */
+// biome-ignore lint/correctness/noUnusedVariables: This is a public API function where parameters are intentionally unused or only used in specific implementations not visible to Biome.
 function inicializarGraficos(datos) {
 	// Especies
 	new Chart($("#graficoEspecie"), {

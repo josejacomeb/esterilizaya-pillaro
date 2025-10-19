@@ -1,79 +1,79 @@
 services:
-  web:
-    image: web:latest
-    build:
-      context: .
-      dockerfile: app/Dockerfile
-    restart: always
-    depends_on:
-      db:
-        condition: service_healthy
-    ports:
-      - "8000:8000"
-    volumes:
-      - media-volume:/home/esterilizaya/code/media
-      - ./pdfs:/tmp/pdfs
-    environment:
-      - DB_DATABASE=${DB_DATABASE}
-      - DB_PASSWORD_FILE=${DB_PASSWORD_FILE}
-      - DB_PORT=${DB_PORT}
-      - DB_USER=${DB_USER}
-      - DB_HOST=${DB_HOST}
-      - SECRET_KEY=${SECRET_KEY}
-      - DJANGO_SETTINGS_MODULE=esterilizaya.settings.local
-      - APP_URL=${APP_URL}
-      - LOCAL_URL=${LOCAL_URL}
-    healthcheck:
-      test:
-        - CMD
-        - curl --fail http://localhost:8000/ || exit 1
-      interval: 1m30s
-      timeout: 30s
-      retries: 5
-      start_period: 30s
-    command: python manage.py runserver 0.0.0.0:8000
-    secrets:
-      - db_password
-      - admin_password
+ web:
+  image: web:latest
+  build:
+   context: .
+   dockerfile: app/Dockerfile
+  restart: always
+  depends_on:
+   db:
+    condition: service_healthy
+  ports:
+   - "8000:8000"
+  volumes:
+   - media-volume:/home/esterilizaya/code/media
+   - ./pdfs:/tmp/pdfs
+  environment:
+   - DB_DATABASE=${DB_DATABASE}
+   - DB_PASSWORD_FILE=${DB_PASSWORD_FILE}
+   - DB_PORT=${DB_PORT}
+   - DB_USER=${DB_USER}
+   - DB_HOST=${DB_HOST}
+   - SECRET_KEY=${SECRET_KEY}
+   - DJANGO_SETTINGS_MODULE=esterilizaya.settings.local
+   - APP_URL=${APP_URL}
+   - LOCAL_URL=${LOCAL_URL}
+  healthcheck:
+   test:
+    - CMD
+    - curl --fail http://localhost:8000/ || exit 1
+   interval: 1m30s
+   timeout: 30s
+   retries: 5
+   start_period: 30s
+  command: python manage.py runserver 0.0.0.0:8000
+  secrets:
+   - db_password
+   - admin_password
 
-  db:
-    image: mariadb:11
-    restart: always
-    ports:
-      - ${DB_PORT}:3306
-    volumes:
-      - maria-db:/var/lib/mysql
-    environment:
-      - MARIADB_ROOT_PASSWORD_FILE=${DB_ROOT_PASSWORD_FILE}
-      - MARIADB_PASSWORD_FILE=${DB_PASSWORD_FILE}
-      - MARIADB_DATABASE=${DB_DATABASE}
-      - MARIADB_USER=${DB_USER}
-    healthcheck:
-      test:
-        - CMD
-        - healthcheck.sh
-        - "--su-mysql"
-        - "--connect"
-        - "--innodb_initialized"
-      interval: 5s
-      timeout: 3s
-      retries: 2
-      start_period: 30s
-    command: "--default-authentication-plugin=ed25519"
-    secrets:
-      - db_root_password
-      - db_password
+ db:
+  image: mariadb:11
+  restart: always
+  ports:
+   - ${DB_PORT}:3306
+  volumes:
+   - maria-db:/var/lib/mysql
+  environment:
+   - MARIADB_ROOT_PASSWORD_FILE=${DB_ROOT_PASSWORD_FILE}
+   - MARIADB_PASSWORD_FILE=${DB_PASSWORD_FILE}
+   - MARIADB_DATABASE=${DB_DATABASE}
+   - MARIADB_USER=${DB_USER}
+  healthcheck:
+   test:
+    - CMD
+    - healthcheck.sh
+    - "--su-mysql"
+    - "--connect"
+    - "--innodb_initialized"
+   interval: 5s
+   timeout: 3s
+   retries: 2
+   start_period: 30s
+  command: "--default-authentication-plugin=ed25519"
+  secrets:
+   - db_root_password
+   - db_password
 
 volumes:
-  maria-db:
-    driver: local
-  media-volume:
-    driver: local
+ maria-db:
+  driver: local
+ media-volume:
+  driver: local
 
 secrets:
-  db_root_password:
-    file: credenciales/database/root_password.txt
-  db_password:
-    file: credenciales/database/user_password.txt
-  admin_password:
-    file: credenciales/database/admin_password.txt
+ db_root_password:
+  file: credenciales/database/root_password.txt
+ db_password:
+  file: credenciales/database/user_password.txt
+ admin_password:
+  file: credenciales/database/admin_password.txt

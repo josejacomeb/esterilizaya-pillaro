@@ -2,47 +2,47 @@
 name: Comprobar formato de código
 
 on: # yamllint disable-line rule:truthy
-  push: null
-  pull_request: null
+ push: null
+ pull_request: null
 
 permissions: {}
 
 jobs:
-  build:
-    name: Lint
-    runs-on: ubuntu-latest
+ build:
+  name: Lint
+  runs-on: ubuntu-latest
 
-    permissions:
-      contents: read
-      packages: read
+  permissions:
+   contents: read
+   packages: read
+   # To report GitHub Actions status checks
+   statuses: write
+
+  steps:
+   - name: Checkout code
+     uses: actions/checkout@v5
+     with:
+      # super-linter needs the full git history to get the
+      # list of files that changed across commits
+      fetch-depth: 0
+      persist-credentials: false
+
+   - name: Super-linter
+     uses: super-linter/super-linter@2bdd90ed3262e023ac84bf8fe35dc480721fc1f2
+     env:
       # To report GitHub Actions status checks
-      statuses: write
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      DEFAULT_BRANCH: main
+      VALIDATE_PYTHON_MYPY: false
 
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v5
-        with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
-          fetch-depth: 0
-          persist-credentials: false
-
-      - name: Super-linter
-        uses: super-linter/super-linter@2bdd90ed3262e023ac84bf8fe35dc480721fc1f2
-        env:
-          # To report GitHub Actions status checks
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DEFAULT_BRANCH: main
-          VALIDATE_PYTHON_MYPY: false
-
-          LINTER_RULES_PATH: /
-          PYTHON_BLACK_CONFIG_FILE: pyproject.toml
-          PYTHON_ISORT_CONFIG_FILE: pyproject.toml
-          PYTHON_PYLINT_CONFIG_FILE: .pylintrc
-          JSCPD_CONFIG_FILE: .jscpd.json
-          JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
-          VALIDATE_HTML: false
-          VALIDATE_HTML_PRETTIER: false
-          VALIDATE_PYTHON_PYINK: false
-          VALIDATE_JSON: false # Disable JSON linting due to ESLint config incompatibility
-          VALIDATE_JAVASCRIPT_STANDARD: false # Only use ES linting
+      LINTER_RULES_PATH: /
+      PYTHON_BLACK_CONFIG_FILE: pyproject.toml
+      PYTHON_ISORT_CONFIG_FILE: pyproject.toml
+      PYTHON_PYLINT_CONFIG_FILE: .pylintrc
+      JSCPD_CONFIG_FILE: .jscpd.json
+      JAVASCRIPT_ES_CONFIG_FILE: eslint.config.mjs
+      VALIDATE_HTML: false
+      VALIDATE_HTML_PRETTIER: false
+      VALIDATE_PYTHON_PYINK: false
+      VALIDATE_JSON: false # Disable JSON linting due to ESLint config incompatibility
+      VALIDATE_JAVASCRIPT_STANDARD: false # Only use ES linting

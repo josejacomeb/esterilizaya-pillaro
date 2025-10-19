@@ -1,4 +1,5 @@
 /* exported inicializarMapa */
+// biome-ignore lint/correctness/noUnusedVariables: This is a public API function where parameters are intentionally unused or only used in specific implementations not visible to Biome.
 function inicializarMapa(locaciones, locacionesDataUrl, icono) {
 	$.getJSON(locacionesDataUrl, function (data) {
 		const map = L.map("mapa").setView([-1.1690711, -78.5168839], 11);

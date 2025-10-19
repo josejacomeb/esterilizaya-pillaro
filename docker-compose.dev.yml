@@ -1,8 +1,8 @@
 services:
-  web:
-    build:
-      target: debug
-    volumes:
-      - ./app/:/home/esterilizaya/code/
-    environment:
-      - DJANGO_DEBUG=True
+ web:
+  build:
+   target: debug
+  volumes:
+   - ./app/:/home/esterilizaya/code/
+  environment:
+   - DJANGO_DEBUG=True
