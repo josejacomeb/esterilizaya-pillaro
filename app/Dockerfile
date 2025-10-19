@@ -54,11 +54,12 @@ RUN mkdir -p /home/esterilizaya/code/media
 RUN chown -R www-data:www-data /home/esterilizaya/code /home/esterilizaya/code/media
 USER www-data
 
+FROM --platform=$BUILDPLATFORM base AS prod
+COPY ./config/uwsgi/uwsgi.ini /home/esterilizaya/config/uwsgi/uwsgi.ini
+EXPOSE 80 443
+
 FROM --platform=$BUILDPLATFORM base AS debug
 RUN pip install --no-cache-dir django-debug-toolbar==6.*
 HEALTHCHECK --interval=5m --timeout=3s \
   CMD curl -f http://localhost:8000/ || exit 1
 EXPOSE 8000
-FROM --platform=$BUILDPLATFORM base AS prod
-COPY ./config/uwsgi/uwsgi.ini /home/esterilizaya/config/uwsgi/uwsgi.ini
-EXPOSE 80 443
