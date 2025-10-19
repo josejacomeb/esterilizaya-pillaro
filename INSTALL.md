@@ -1,9 +1,12 @@
 # Instalación
+
 ## Prerequisitos
+
 1. Por favor, sigue las instrucciones de [instalación](https://docs.docker.com/engine/install/) de Docker
 2. Configura Docker para que corra em modo [rootless](https://docs.docker.com/engine/security/rootless/#install)
 
 ## Instrucciones
+
 1. Por favor, copie las variables de entorno para iniciar el sistema `cp .env.example .env`, luego se pueden cambiar a discreción
 2. Cree los archivos con la información sensible en la carpeta `credenciales`, por ejemplo en Linux:
 
@@ -93,8 +96,11 @@
    ```
 
 ## Preguntas frecuentes
+
 ### Cambiar permisos de los volumenes
+
 En caso de que no tengas permiso donde `100` es el user ID y `82` es el group ID del contenedor web.
+
 ```bash
   docker run --rm \
     -v esterilizaya-pillaro_media-volume:/data \
