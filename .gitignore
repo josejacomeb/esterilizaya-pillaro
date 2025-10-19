@@ -192,3 +192,8 @@ app/static/css/fonts/
 # Archivos de impresión 
 pdfs/*
 procesados/*
+
+# Archivos de desarrollo del programa
+node_modules/
+package.json
+package-lock.json

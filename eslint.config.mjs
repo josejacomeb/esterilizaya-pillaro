@@ -1,5 +1,6 @@
 // eslint.config.mjs
 import js from "@eslint/js";
+import globals from "globals";
 
 export default [
   // Base recommended config
@@ -8,13 +9,13 @@ export default [
   {
     languageOptions: {
       globals: {
-        ...globals.browser, // Uso de la aplicación en el navegador
         // Habilita jQuery globals para no tener quejas en el código
         $: "readonly",
         jQuery: "readonly",
         Chart: "readonly",
         L: "readonly",
         setTimeout: "readonly",
+        ...globals.browser, // Uso de la aplicación en el navegador
       },
     },
     rules: {
