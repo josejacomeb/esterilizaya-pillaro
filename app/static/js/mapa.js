@@ -16,9 +16,10 @@ function inicializarMapa(locaciones, locacionesDataUrl, icono) {
         data[canton][parroquia][barrio]
       ) {
         [lat, lon] = data[canton][parroquia][barrio];
-      }
-      else {
-        console.warn(`Ubicación no encontrada: ${canton} > ${parroquia} > ${barrio}, ¡añadela en locaciones.json!`);
+      } else {
+        console.warn(
+          `Ubicación no encontrada: ${canton} > ${parroquia} > ${barrio}, ¡añadela en locaciones.json!`,
+        );
       }
       if (lat && lon) {
         L.marker([lat, lon], { icon: icono })

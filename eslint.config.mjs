@@ -8,16 +8,16 @@ export default [
   {
     languageOptions: {
       globals: {
-        // Enable jQuery globals so ESLint doesn’t complain
+        ...globals.browser, // Uso de la aplicación en el navegador
+        // Habilita jQuery globals para no tener quejas en el código
         $: "readonly",
         jQuery: "readonly",
         Chart: "readonly",
         L: "readonly",
-        setTimeout: "readonly"
+        setTimeout: "readonly",
       },
     },
     rules: {
-      // Example overrides (adjust as needed)
       "no-unused-vars": "warn",
       "no-console": "off",
     },
