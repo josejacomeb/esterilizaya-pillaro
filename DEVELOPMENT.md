@@ -1,6 +1,6 @@
 # Desarrollo
 
-¡Gracias por contribuir al desarollo de Esteriliza-ya! Cualquier aportación de código es bienvenidad con el fin de mejorar cada vez más este proyecto.
+¡Gracias por contribuir al desarollo de Esteriliza-ya! Cualquier aportación de código es bienvenida con el fin de mejorar cada vez más este proyecto.
 
 ## Antes de contribuir
 
@@ -17,7 +17,7 @@ Crea un nuevo ambiente de Python e instala los formateadores con el siguiente
 ```bash
 python -m venv .venv
 source .venv/bin/activate
-pip install black flake8 isort pylint ruff
+pip install black flake8 isort pylint
 sudo chmod +x linters.sh
 ```
 
@@ -38,15 +38,15 @@ sudo apt update && sudo apt install nodejs
 Instala los formateadores necesarios, por ejemplo en Ubuntu
 
 ```bash
-npm install --save-dev --save-exact prettier @biomejs/biome eslint globals
+npm install --save-dev --save-exact @biomejs/biome prettier
 ```
 
 Puedes usar los formateadores de la siguiente forma
 
 ```bash
-npx prettier --write  app/static/js/file.js
+npx prettier --write DEVELOPMENT.md
+npx biome format app/static/js/file.js
 npx biome lint app/static/js/file.js
-npx eslint app/static/js/file.js
 ```
 
 ## Opciones de Desarrollo
