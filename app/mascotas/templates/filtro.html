@@ -4,7 +4,7 @@
 
 <div class="filter-wrapper">
   <!-- Botón collapsible (visible en móviles) -->
-  <button class="btn btn-primary d-md-none w-100 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
+  <button class="btn btn-primary d-md-none w-100 mb-1" type="button" data-bs-toggle="collapse" data-bs-target="#filterCollapse">
     <i class="bi bi-funnel"></i> Filtros
     <i class="bi bi-chevron-down ms-2"></i>
   </button>
@@ -12,6 +12,11 @@
   <!-- Forma Filtro Collapsable -->
   <div class="collapse d-md-block" id="filterCollapse">
     <form method="get" id="filterForm" class="d-flex flex-column gap-3">
+      <!-- Botones -->
+      <div class="d-flex gap-2">
+        {% bootstrap_button 'Resetear' button_type='link' button_class='btn-primary flex-grow-1' href=reset_url %}
+        <button type="button" class="btn btn-secondary d-md-none" data-bs-toggle="collapse" data-bs-target="#filterCollapse">Cerrar</button>
+      </div>
       <!-- Nombre -->
       <div>
         <label for="nombre" class="form-label">Nombre</label>
@@ -33,11 +38,6 @@
       {% include 'selector-dinamico.html' with texto='Barrio' valores=barrios elemento='barrio' actual=barrio_actual %}
       <!-- Vulnerable -->
       {% include 'selector-dinamico.html' with texto='Origen' valores=origen elemento='origen' actual=origen_actual %}
-      <!-- Botones -->
-      <div class="d-flex gap-2">
-        {% bootstrap_button 'Resetear' button_type='link' button_class='btn-primary flex-grow-1' href=reset_url %}
-        <button type="button" class="btn btn-secondary d-md-none" data-bs-toggle="collapse" data-bs-target="#filterCollapse">Cerrar</button>
-      </div>
     </form>
   </div>
 </div>

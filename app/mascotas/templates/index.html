@@ -3,246 +3,248 @@
 {% load static %}
 
 {% block title %}
-  Mostrar registros de todas las mascotas
+	Mostrar registros de todas las mascotas
 {% endblock %}
 
 {% block extra_head %}
-  <script src="{% static 'js/jquery.min.js' %}"></script>
-  <script src="{% static 'js/chart.umd.min.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
-  <script src="{% static 'js/leaflet.js' %}"></script>
-  <style>
-    .chart-container {
-      position: relative;
-      height: 250px;
-    }
-    @media (max-width: 768px) {
-      .chart-container {
-        height: 200px;
-      }
-      .col-md-3 {
-        min-height: unset !important;
-        padding: 1rem !important;
-      }
-      #mapa {
-        min-height: 200px !important;
-        height: 40vh !important;
-      }
-      .filter-wrapper {
-        position: sticky;
-        top: 0;
-        z-index: 1020;
-        background: white;
-        padding: 1rem;
-        margin: -1rem;
-        margin-bottom: 1rem;
-        border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-      }
-      #filterCollapse {
-        max-height: 80vh;
-        overflow-y: auto;
-      }
-    }
-    #mapa {
-      width: 100%;
-      height: 60vh;
-      min-height: 600px;
-      max-height: 900px;
-    }
-    canvas {
-      max-height: 100%;
-    }
-    /* Se asegura que el área de contenido principal tome todo el contenido vertical suficiente */
-    .main-content-area {
-      min-height: 85vh;
-    }
-    
-    /* Asegura que los contenedores de los gráficas tengan el mismo alto y centrado */
-    .chart-container {
-      /* flex-fill es usado en HTML, pero definimos flex-grow: 1 por claridad */
-      flex-grow: 1;
-      display: flex;
-      flex-direction: column;
-      justify-content: center; /* Centrar el contenido verticalmente */
-      align-items: center; /* Centrar el contenido horizontalmente */
-      width: 100%;
-      height: 100%;
-    }
-  </style>
+	<script src="{% static 'js/jquery.min.js' %}"></script>
+	<script src="{% static 'js/chart.umd.min.js' %}"></script>
+	<link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
+	<script src="{% static 'js/leaflet.js' %}"></script>
+	<style>
+		.chart-container {
+			position: relative;
+			height: 250px;
+		}
+		@media (max-width: 768px) {
+			.chart-container {
+				height: 200px;
+			}
+			.col-md-3 {
+				min-height: unset !important;
+				padding: 1rem !important;
+			}
+			#mapa {
+				min-height: 200px !important;
+				height: 40vh !important;
+			}
+			.filter-wrapper {
+				position: sticky;
+				top: 0;
+				z-index: 1020;
+				background: white;
+				padding: 1rem;
+				margin: -1rem;
+				margin-bottom: 1rem;
+				border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+			}
+			#filterCollapse {
+				max-height: 80vh;
+				overflow-y: auto;
+			}
+		}
+		#mapa {
+			width: 100%;
+			height: 60vh;
+			min-height: 600px;
+			max-height: 900px;
+		}
+		canvas {
+			max-height: 100%;
+		}
+		/* Se asegura que el área de contenido principal tome todo el contenido vertical suficiente */
+		.main-content-area {
+			min-height: 85vh;
+		}
+		
+		/* Asegura que los contenedores de los gráficas tengan el mismo alto y centrado */
+		.chart-container {
+			/* flex-fill es usado en HTML, pero definimos flex-grow: 1 por claridad */
+			flex-grow: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: center; /* Centrar el contenido verticalmente */
+			align-items: center; /* Centrar el contenido horizontalmente */
+			width: 100%;
+			height: 100%;
+		}
+	</style>
 {% endblock %}
 {% block content %}
-  <div class="row">
-    <!-- Filtro Sidebar -->
-    <div class="col-12 col-md-2 bg-white border-start min-vh-100 p-4">
-      {% include 'filtro.html' %}
-    </div>
-    <!-- Main Content -->
-    <div class="col-12 col-md-10">
-      <ul class="nav nav-tabs mb-3" id="mapaEstadisticasPestana" role="tablist">
-        <li class="nav-item" role="presentation">
-          <button class="nav-link" id="estadisticas-tab" data-bs-toggle="tab" data-bs-target="#estadisticas" type="button" role="tab" aria-controls="estadisticas" aria-selected="false">Estadísticas</button>
-        </li>
-        <li class="nav-item" role="presentation">
-          <button class="nav-link active" id="registros-tab" data-bs-toggle="tab" data-bs-target="#registros" type="button" role="tab" aria-controls="registros" aria-selected="true">Registros</button>
-        </li>
-      </ul>
-      <div class="tab-content" id="datosPestaña">
-        <!-- Registros Pestaña -->
-        <div class="tab-pane fade show active" id="registros" role="tabpanel" aria-labelledby="registros-tab">
-          {% if registros %}
-            {% if registros.has_other_pages %}
-              {% bootstrap_pagination registros extra=query_string %}
-            {% endif %}
-            <div class="table-responsive">
-              <table class="table table-bordered table-striped text-center mb-1 border-1px-dark">
-                <thead class="table-light">
-                  <tr>
-                    <th>ID</th>
-                    <th>Nº</th>
-                    <th>Nombre</th>
-                    <th>Foto</th>
-                    <th>Tutor</th>
-                    <th>Especie</th>
-                    <th>Género</th>
-                    <th>Raza</th>
-                    <th>Campaña</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for registro in registros %}
-                    <tr>
-                      <td>
-                        <span class="badge text-bg-warning">{{ registro.id }}</span>
-                      </td>
-                      <td>{{ forloop.counter }}</td>
-                      <td>
-                        <a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
-                      </td>
-                      <td>
-                        {% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='imagen-mascotas' thumbnail=True %}
-                      </td>
-                      <td>{{ registro.nombres_tutor }}</td>
-                      <td>{{ registro.especie }} {{ registro.get_especie_display }}</td>
-                      <td>
-                        {% include 'registro/genero.html' with sexo=registro.sexo get_sexo_display=registro.get_sexo_display %}
-                      </td>
-                      <td>{{ registro.raza_mascota }}</td>
-                      <td>{{ registro.inscripcion.campana }}</td>
-                    </tr>
-                  {% endfor %}
-                </tbody>
-              </table>
-            </div>
-          {% else %}
-            <p>No hay registros para mostrar</p>
-          {% endif %}
-        </div>
-        <!-- Pestaña Estadísticas -->
-        <div class="tab-pane fade p-3" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
-          <div class="row g-4 main-row h-100">
-            <!-- Especies, Razas y Barrios -->
-            <div class="col-12 col-lg-4 d-flex flex-column">
-              <!-- Gráfico 1: Especies -->
-              <div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
-                <h5 class="text-center fw-bold mb-2 text-secondary">1. Distribución Especies</h5>
-                <div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
-                  <canvas id="graficoEspecie"></canvas>
-                </div>
-              </div>
+	<div class="row">
+		<!-- Filtro Sidebar -->
+		<div class="col-12 col-md-2 bg-white border-start p-1">
+			{% include 'filtro.html' %}
+		</div>
+		<!-- Main Content -->
+		<div class="col-12 col-md-10">
+			<ul class="nav nav-tabs mb-1" id="mapaEstadisticasPestana" role="tablist">
+				<li class="nav-item" role="presentation">
+					<button class="nav-link" id="estadisticas-tab" data-bs-toggle="tab" data-bs-target="#estadisticas" type="button" role="tab" aria-controls="estadisticas" aria-selected="false">Estadísticas</button>
+				</li>
+				<li class="nav-item" role="presentation">
+					<button class="nav-link active" id="registros-tab" data-bs-toggle="tab" data-bs-target="#registros" type="button" role="tab" aria-controls="registros" aria-selected="true">Registros</button>
+				</li>
+			</ul>
+			<div class="tab-content" id="datosPestaña">
+				<!-- Registros Pestaña -->
+				<div class="tab-pane fade show active" id="registros" role="tabpanel" aria-labelledby="registros-tab">
+					{% if registros %}
+						{% if registros.has_other_pages %}
+							{% bootstrap_pagination registros extra=query_string %}
+						{% endif %}
+						<div class="table-responsive">
+							<table class="table table-bordered table-striped text-center mb-1 border-1px-dark">
+								<thead class="table-light">
+									<tr>
+										<th>ID</th>
+										<th>Nº</th>
+										<th>Nombre</th>
+										<th>Foto</th>
+										<th>Tutor</th>
+										<th>Especie</th>
+										<th>Género</th>
+										<th>Raza</th>
+										<th>Campaña</th>
+									</tr>
+								</thead>
+								<tbody>
+									{% for registro in registros %}
+										<tr>
+											<td>
+												<span class="badge text-bg-warning">{{ registro.id }}</span>
+											</td>
+											<td>{{ forloop.counter }}</td>
+											<td>
+												<a href="{{ registro.get_absolute_url }}">{{ registro.nombre }}</a>
+											</td>
+											<td>
+												{% include 'registro/foto.html' with foto=registro.foto nombre=registro.nombre especie=registro.especie clase='imagen-mascotas' thumbnail=True %}
+											</td>
+											<td>{{ registro.nombres_tutor }}</td>
+											<td>{{ registro.especie }} {{ registro.get_especie_display }}</td>
+											<td>
+												{% include 'registro/genero.html' with sexo=registro.sexo get_sexo_display=registro.get_sexo_display %}
+											</td>
+											<td>{{ registro.raza_mascota }}</td>
+											<td>{{ registro.inscripcion.campana }}</td>
+										</tr>
+									{% endfor %}
+								</tbody>
+							</table>
+						</div>
+					{% else %}
+						<p>No hay registros para mostrar</p>
+					{% endif %}
+				</div>
+				<!-- Pestaña Estadísticas -->
+				<div class="tab-pane fade p-3" id="estadisticas" role="tabpanel" aria-labelledby="estadisticas-tab">
+					<div class="row g-4 main-row h-100">
+						<!-- Especies, Razas y Barrios -->
+						<div class="col-12 col-lg-4 d-flex flex-column">
+							<!-- Gráfico 1: Especies -->
+							<div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
+								<h5 class="text-center fw-bold mb-2 text-secondary">1. Distribución Especies</h5>
+								<div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
+									<canvas id="graficoEspecie"></canvas>
+								</div>
+							</div>
 
-              <!-- Gráfico 2: Razas -->
-              <div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
-                <h5 class="text-center fw-bold mb-2 text-secondary">2. Distribución Razas</h5>
-                <div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
-                  <canvas id="graficoRaza"></canvas>
-                </div>
-              </div>
+							<!-- Gráfico 2: Razas -->
+							<div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
+								<h5 class="text-center fw-bold mb-2 text-secondary">2. Distribución Razas</h5>
+								<div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
+									<canvas id="graficoRaza"></canvas>
+								</div>
+							</div>
 
-              <!-- Gráfico 3: Barrios -->
-              <div class="chart-container bg-white p-3 rounded shadow-sm border d-flex flex-column flex-fill">
-                <h5 class="text-center fw-bold mb-2 text-secondary">3. Distribución Barrios</h5>
-                <div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
-                  <canvas id="graficoBarrios"></canvas>
-                </div>
-              </div>
-            </div>
+							<!-- Gráfico 3: Barrios -->
+							<div class="chart-container bg-white p-3 rounded shadow-sm border d-flex flex-column flex-fill">
+								<h5 class="text-center fw-bold mb-2 text-secondary">3. Distribución Barrios</h5>
+								<div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
+									<canvas id="graficoBarrios"></canvas>
+								</div>
+							</div>
+						</div>
 
-            <!-- Género, Parroquias y Porcentajes Esterilización -->
-            <div class="col-12 col-lg-4 d-flex flex-column">
-              <!-- GRáfico 4: Género -->
-              <div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
-                <h5 class="text-center fw-bold mb-2 text-secondary">4. Distribución Género</h5>
-                <div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
-                  <canvas id="graficoGenero"></canvas>
-                </div>
-              </div>
+						<!-- Género, Parroquias y Porcentajes Esterilización -->
+						<div class="col-12 col-lg-4 d-flex flex-column">
+							<!-- GRáfico 4: Género -->
+							<div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
+								<h5 class="text-center fw-bold mb-2 text-secondary">4. Distribución Género</h5>
+								<div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
+									<canvas id="graficoGenero"></canvas>
+								</div>
+							</div>
 
-              <!-- Gráfico 5: Parroquias -->
-              <div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
-                <h5 class="text-center fw-bold mb-2 text-secondary">5. Distribución Parroquias</h5>
-                <div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
-                  <canvas id="graficoParroquia"></canvas>
-                </div>
-              </div>
+							<!-- Gráfico 5: Parroquias -->
+							<div class="chart-container bg-white p-3 rounded shadow-sm border mb-3 d-flex flex-column flex-fill">
+								<h5 class="text-center fw-bold mb-2 text-secondary">5. Distribución Parroquias</h5>
+								<div class="w-100 h-100 p-2 d-flex justify-content-center align-items-center">
+									<canvas id="graficoParroquia"></canvas>
+								</div>
+							</div>
 
-              <!-- Gráfico 6: Esterilización -->
-              <div class="chart-container bg-white p-3 rounded shadow-sm border d-flex flex-column flex-fill">
-                <h5 class="text-center fw-bold mb-2 text-secondary">6. Estadísticas Tenencia</h5>
-                <div class="p-2 text-center my-auto">
-                  <small class="text-body-secondary"><i>Número Muestras:</i> {{ datos_mascotas_hogar.n_muestras }}</small>
-                  <p class="mb-0 mt-2">
-                    <strong>Porcentajes Esterilización:</strong> {{ datos_mascotas_hogar.porcentaje_esterilizacion }} % <br />
-                    <strong>Promedio Mascotas Hogar:</strong> {{ datos_mascotas_hogar.promedio_hogar }} mascotas
-                  </p>
-                </div>
-              </div>
-            </div>
+							<!-- Gráfico 6: Esterilización -->
+							<div class="chart-container bg-white p-3 rounded shadow-sm border d-flex flex-column flex-fill">
+								<h5 class="text-center fw-bold mb-2 text-secondary">6. Estadísticas Tenencia</h5>
+								<div class="p-2 text-center my-auto">
+									<small class="text-body-secondary"><i>Número Muestras:</i> {{ datos_mascotas_hogar.n_muestras }}</small>
+									<p class="mb-0 mt-2">
+										<strong>Porcentajes Esterilización:</strong> {{ datos_mascotas_hogar.porcentaje_esterilizacion }} % <br />
+										<strong>Promedio Mascotas Hogar:</strong> {{ datos_mascotas_hogar.promedio_hogar }} mascotas
+									</p>
+								</div>
+							</div>
+						</div>
 
-            <!-- Columna Mapa -->
-            <div class="col-12 col-lg-4">
-              <div class="bg-light p-3 rounded shadow-inner h-100">
-                <h5 class="text-center fw-bold mb-2 text-secondary">Ubicación Geográfica de Muestras</h5>
-                <div id="mapa" class="h-100"></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
+						<!-- Columna Mapa -->
+						<div class="col-12 col-lg-4">
+							<div class="bg-light p-3 rounded shadow-inner h-100">
+								<h5 class="text-center fw-bold mb-2 text-secondary">Ubicación Geográfica de Muestras</h5>
+								<div id="mapa" class="h-100"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 {% endblock %}
 
 {% block extra_body %}
-  <script src="{% static 'js/mapa.js' %}"></script>
-  <script src="{% static 'js/graficos.js' %}"></script>
-  <script>
-    $(function () {
-      // Auto-submit when select changes
-      $('#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id').on('change', function () {
-        $('#filterForm').submit()
-      })
-    
-      // Auto-submit when user types in the nombre field and pauses
-      let typingTimer
-      const typingDelay = 500 // ms
-    
-      $('#nombre-id').on('keyup', function () {
-        clearTimeout(typingTimer)
-        typingTimer = setTimeout(function () {
-          $('#filterForm').submit()
-        }, typingDelay)
-      })
-      // Colapsar el filtro en móviles cuando se envia la forma
-      $('#filterForm select').on('change', function () {
-        if (window.innerWidth < 768) {
-          setTimeout(function () {
-            $('#filterCollapse').collapse('hide')
-          }, 300)
-        }
-      })
-    })
-  </script>
-  <script>
+	<script src="{% static 'js/mapa.js' %}"></script>
+	<script src="{% static 'js/graficos.js' %}"></script>
+	<script>
+		$(function () {
+			// Auto-submit when select changes
+			$(
+				"#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id"
+			).on("change", function () {
+				$("#filterForm").submit();
+			});
+		
+			// Auto-submit when user types in the nombre field and pauses
+			let typingTimer;
+			const typingDelay = 500; // ms
+		
+			$("#nombre-id").on("keyup", function () {
+				clearTimeout(typingTimer);
+				typingTimer = setTimeout(function () {
+					$("#filterForm").submit();
+				}, typingDelay);
+			});
+			// Colapsar el filtro en móviles cuando se envia la forma
+			$("#filterForm select").on("change", function () {
+				if (window.innerWidth < 768) {
+					setTimeout(function () {
+						$("#filterCollapse").collapse("hide");
+					}, 300);
+				}
+			});
+		});
+	</script>
+	<script>
     $(function () {
       let hashTab = window.location.hash;
       let lastTab = localStorage.getItem('selectedTab');
