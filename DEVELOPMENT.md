@@ -45,7 +45,7 @@ Puedes usar los formateadores de la siguiente forma
 
 ```bash
 npx prettier --write  app/static/js/file.js
-npx biome lint app/static/js/file.js 
+npx biome lint app/static/js/file.js
 npx eslint app/static/js/file.js
 ```
 
