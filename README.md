@@ -40,7 +40,7 @@ Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo
 - [Leaflet](https://leafletjs.com/) >= 1.9.x
 - [easy-thumbnails](https://github.com/SmileyChris/easy-thumbnails) >=2.x
 
-## Instrucciones
+## Instalación
 
 Por favor, siga las instrucciones en el Archivo de [Instalación](INSTALL.md)
 
@@ -78,11 +78,9 @@ Se puede hacer el respaldo de los contenedores a través de estos comandos:
 
 #### Respaldo
 
-1. Reemplaza el campo `<rootpassword>` con tu contraseña de usuario `root`
-   `docker exec -i esterilizaya-pillaro-db-1 mariadb-dump -u root -p~RXPf@hi^3%5ns7FtcF7 --all-databases > backup.sql`
-2. Respalda el volumen que contiene la base de datos con el siguiente comando
+1. Respalda el volumen que contiene la base de datos con el siguiente comando
    `docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar czf /backup/mariadb_volume_backup.tar.gz -C /data .`
-3. Respalda el volumen que contiene las imágenes a través del comando.
+2. Respalda el volumen que contiene las imágenes a través del comando.
    `docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar czf /backup/django_media_backup.tar.gz -C /data .`
 
 ##### Restaurar
@@ -108,3 +106,7 @@ Se puede hacer el respaldo de los contenedores a través de estos comandos:
    `docker-compose up -d`
 
 _Nota_: Puede salir un mensaje de alerta que el volumen no ha sido creador por docker-compose, al final seguirá funcionando el programa.
+
+## Desarrollo
+
+Si quieres contribuir al proyecto, por favor revisa las instrucciones en el archivo [DEVELOPMENT.md](DEVELOPMENT.md)
