@@ -41,8 +41,13 @@ def index(request):
 
 def mostrar(request, anio, parroquia, mes, dia):
     campana = get_object_or_404(Campana, fecha__year=anio, parroquia=parroquia, fecha__month=mes, fecha__day=dia)
+    if not campana:
+        logger.warning("No existe la campaña seleccionada, abortando...")
+        messages.error(request, "¡No existe la campaña seleccionada, regresando al inicio!")
+        return redirect("inicio:index")
     n_inscritos = Inscripcion.objects.filter(campana_id=campana.id).aggregate(total=Sum("cupos_totales"))
     n_registrados = Registro.objects.filter(inscripcion__campana_id=campana.id).count()
+
     breadcrumbs = [
         {"titulo": campana.nombre, "url": campana.get_absolute_url()},
     ]

@@ -1,6 +1,6 @@
 services:
-  web:
-    restart: no
-    volumes:
-      - ./app:/home/esterilizaya/code
-    command: sh -c "python manage.py makemigrations campana inscripcion registro && python manage.py migrate"
+ web:
+  restart: no
+  volumes:
+   - ./app:/home/esterilizaya/code
+  command: sh -c "python manage.py makemigrations campana inscripcion registro && python manage.py migrate"

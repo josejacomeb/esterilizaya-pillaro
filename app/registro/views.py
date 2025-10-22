@@ -33,6 +33,10 @@ def lista(request, campana_id):
     todos_registros = Registro.objects.filter(inscripcion__campana=campana_id)
     # Dato del primer resultado
     campana = Campana.objects.filter(id=campana_id).first()
+    if not campana:
+        logger.warning("No existe la campaña seleccionada, abortando...")
+        messages.error(request, "¡No existe la campaña seleccionada, regresando al inicio!")
+        return redirect("inicio:index")
     query = ""
     if "query" in request.GET:
         query = request.GET["query"]
@@ -46,7 +50,9 @@ def lista(request, campana_id):
         {"titulo": "Todos Registros", "url": None},
     ]
     return render(
-        request, "registro/lista.html", {"registros": registros, "campana": campana, "breadcrumbs": breadcrumbs}
+        request,
+        "registro/lista.html",
+        {"registros": registros, "campana": campana, "breadcrumbs": breadcrumbs},
     )
 
 
@@ -55,7 +61,10 @@ def registrar(request, campana_id, inscripcion_id):
     inscripcion = get_object_or_404(Inscripcion, id=inscripcion_id, campana_id=campana_id)
     # Chequear si hay cupos disponibles
     if inscripcion.cupos_registrados >= inscripcion.cupos_totales:
-        messages.error(request, f"Lo siento, ya no hay más cupos disponibles para {inscripcion.nombres_tutor}")
+        messages.error(
+            request,
+            f"Lo siento, ya no hay más cupos disponibles para {inscripcion.nombres_tutor}",
+        )
         return redirect("inscripcion:index", campana_id=inscripcion.campana.id)
     breadcrumbs = []
     if request.method == "POST":
@@ -75,7 +84,8 @@ def registrar(request, campana_id, inscripcion_id):
     else:
         registro_anterior = (
             Registro.objects.filter(
-                inscripcion__campana_id=campana_id, inscripcion__nombres_tutor=inscripcion.nombres_tutor
+                inscripcion__campana_id=campana_id,
+                inscripcion__nombres_tutor=inscripcion.nombres_tutor,
             )
             .order_by("-id")
             .first()
@@ -87,9 +97,16 @@ def registrar(request, campana_id, inscripcion_id):
                 "n_animales_hogar": registro_anterior.n_animales_hogar,
                 "n_animales_hogar_esterilizadas": registro_anterior.n_animales_hogar_esterilizadas,
             }
-        forma = RegistroForm(instance=inscripcion, inscripcion_campana_id=campana_id, initial=initial_data)
+        forma = RegistroForm(
+            instance=inscripcion,
+            inscripcion_campana_id=campana_id,
+            initial=initial_data,
+        )
         breadcrumbs = [
-            {"titulo": inscripcion.campana.nombre, "url": inscripcion.campana.get_absolute_url()},
+            {
+                "titulo": inscripcion.campana.nombre,
+                "url": inscripcion.campana.get_absolute_url(),
+            },
             {"titulo": "Registro", "url": None},
         ]
     return render(request, "registro/nuevo.html", {"form": forma, "breadcrumbs": breadcrumbs})
@@ -104,7 +121,11 @@ def ver_ficha(request, campana_id, registro_id):
 # TODO: Simplificar todos los registros
 def ver_certificados(request, campana_id):
     registros = Registro.objects.filter(inscripcion__campana=campana_id)
-    return render(request, "registro/certificados/hoja_certificados.html", {"registros": registros})
+    return render(
+        request,
+        "registro/certificados/hoja_certificados.html",
+        {"registros": registros},
+    )
 
 
 def ver_recetas(request, campana_id):
@@ -182,7 +203,11 @@ def generar_pdf(request, registro_id):
     except Exception as e:
         logger.error(f"Error al guardar el PDF: {e}")
         messages.error(request, "Error al generar el PDF. Por favor, inténtelo de nuevo más tarde.")
-        return redirect("registro:ver_ficha", campana_id=registro.inscripcion.campana.id, registro_id=registro_id)
+        return redirect(
+            "registro:ver_ficha",
+            campana_id=registro.inscripcion.campana.id,
+            registro_id=registro_id,
+        )
     return redirect("registro:lista", campana_id=registro.inscripcion.campana.id)
 
 
@@ -191,7 +216,10 @@ def obtener_razas(request):
     # Obtener razas únicas de registros en campañas pasadas y que sus nombres hayan sido corregidos
     # para que coincidan con la consulta via AJAX
     raza_mascota = (
-        Registro.objects.filter(raza_mascota__icontains=query, inscripcion__campana__estado=Campana.Estado.PASADA)
+        Registro.objects.filter(
+            raza_mascota__icontains=query,
+            inscripcion__campana__estado=Campana.Estado.PASADA,
+        )
         .order_by("raza_mascota")
         .values_list("raza_mascota", flat=True)
         .distinct()
@@ -202,7 +230,10 @@ def obtener_razas(request):
 def obtener_barrios(request):
     query = request.GET.get("term", "")
     barrio_tutor = (
-        Registro.objects.filter(barrio_tutor__icontains=query, inscripcion__campana__estado=Campana.Estado.PASADA)
+        Registro.objects.filter(
+            barrio_tutor__icontains=query,
+            inscripcion__campana__estado=Campana.Estado.PASADA,
+        )
         .order_by("barrio_tutor")
         .values_list("barrio_tutor", flat=True)
         .distinct()
@@ -215,5 +246,5 @@ def ver_mascota(request, id):
         registro = get_object_or_404(Registro, id=id)
     except response.Http404:
         messages.error(request, f"Error, el registro {id} no existe")
-        return redirect(request.META.get("HTTP_REFERER", "inicio:index"))
+        return redirect("mascotas:index")
     return render(request, "mascota.html", {"registro": registro})

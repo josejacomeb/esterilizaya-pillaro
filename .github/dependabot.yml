@@ -1,22 +1,22 @@
 version: 2
 updates:
-  - package-ecosystem: pip
-    directories:
-      - "/app"
-      - "/impresion-automatica"
-    schedule:
-      interval: weekly
-    labels:
-      - dependencies
-      - python
-    ignore:
-      - dependency-name: Django
-        versions:
-          - "<5.0"
-  - package-ecosystem: docker
-    directory: "/"
-    schedule:
-      interval: weekly
-    labels:
-      - dependencies
-      - docker
+ - package-ecosystem: pip
+   directories:
+    - "/app"
+    - "/impresion-automatica"
+   schedule:
+    interval: weekly
+   labels:
+    - dependencies
+    - python
+   ignore:
+    - dependency-name: Django
+      versions:
+       - "<5.0"
+ - package-ecosystem: docker
+   directory: "/"
+   schedule:
+    interval: weekly
+   labels:
+    - dependencies
+    - docker

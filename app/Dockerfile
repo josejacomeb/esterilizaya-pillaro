@@ -1,7 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM python:3.12-alpine AS builder
-EXPOSE 8000
+FROM --platform=$BUILDPLATFORM python:3.13-alpine AS builder
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -26,7 +25,7 @@ RUN apk add --no-cache --virtual \
     pip install --no-cache-dir -r requirements.txt && \
     apk del build-deps
 
-FROM --platform=$BUILDPLATFORM python:3.12-alpine AS prod
+FROM --platform=$BUILDPLATFORM python:3.13-alpine AS base
 WORKDIR /home/esterilizaya/code
 RUN apk add --no-cache \ 
       cairo=~1 \
@@ -46,14 +45,21 @@ RUN apk add --no-cache \
       zlib~=1
 
 RUN adduser -S -G www-data www-data
-COPY --from=builder /usr/local/lib/python3.12/site-packages /usr/local/lib/python3.12/site-packages
-COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
+COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
 COPY ./app/ ./
-COPY ./config/uwsgi/uwsgi.ini /home/esterilizaya/config/uwsgi/uwsgi.ini
 # Crear los directorios iniciales
 RUN mkdir -p /home/esterilizaya/code/media
 # Cambiar los permisos de los archivos copiados
-#RUN chown -R www-data:www-data /home/esterilizaya/code /home/esterilizaya/code/media
+RUN chown -R www-data:www-data /home/esterilizaya/code /home/esterilizaya/code/media
+USER www-data
+
+FROM --platform=$BUILDPLATFORM base AS prod
+COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
+COPY ./config/uwsgi/uwsgi.ini /home/esterilizaya/config/uwsgi/uwsgi.ini
+EXPOSE 80 443
+
+FROM --platform=$BUILDPLATFORM base AS debug
+RUN pip install --no-cache-dir django-debug-toolbar==6.*
 HEALTHCHECK --interval=5m --timeout=3s \
   CMD curl -f http://localhost:8000/ || exit 1
-#USER www-data
+EXPOSE 8000

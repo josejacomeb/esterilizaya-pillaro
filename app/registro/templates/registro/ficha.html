@@ -151,18 +151,20 @@
       <!-- Pet Information -->
       <div class="col-12 py-2">
         <div class="table-responsive">
-          <table class="table table-bordered text-center mb-1 border-1px-dark">
-            <thead class="table-light">
+          <table class="table table-bordered text-center">
+            <thead>
               <tr>
+                <th>Nombre</th>
                 <th>Especie</th>
                 <th>Género</th>
                 <th>Edad</th>
                 <th>Raza</th>
-                <th>Carnet Vacunación</th>
+                <th>Carnet</th>
               </tr>
             </thead>
             <tbody>
               <tr>
+                <td>{{ registro.nombre }}</td>
                 <td>{{ registro.get_especie_display }}</td>
                 <td>{{ registro.get_sexo_display }}</td>
                 <td>
