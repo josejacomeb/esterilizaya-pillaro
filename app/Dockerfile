@@ -46,7 +46,6 @@ RUN apk add --no-cache \
 
 RUN adduser -S -G www-data www-data
 COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
-COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
 COPY ./app/ ./
 # Crear los directorios iniciales
 RUN mkdir -p /home/esterilizaya/code/media
@@ -55,6 +54,7 @@ RUN chown -R www-data:www-data /home/esterilizaya/code /home/esterilizaya/code/m
 USER www-data
 
 FROM --platform=$BUILDPLATFORM base AS prod
+COPY --from=builder /usr/local/bin/uwsgi /usr/local/bin/
 COPY ./config/uwsgi/uwsgi.ini /home/esterilizaya/config/uwsgi/uwsgi.ini
 EXPOSE 80 443
 
