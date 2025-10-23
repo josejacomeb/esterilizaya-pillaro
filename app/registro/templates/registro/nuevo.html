@@ -15,8 +15,15 @@
   </form>
   <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Volver</a>
 {% endblock %}
-{% block extra_body %}
+
+{% block domready %}
   {% include 'selector-cascada.html' with id_parroquia='id_parroquia_tutor' id_canton='id_canton_tutor' %}
+{% endblock %}
+  
+{% block extra_js %}
+  {% load static %}
+  <script src="{% static 'js/canton_parroquia.js' %}"></script>
+  {% include 'autocompletar-barrios.html' %}
   <script type="module">
     import Autocomplete from '/static/js/autocomplete.js'
     new Autocomplete(document.getElementById('id_raza_mascota'), {
@@ -28,5 +35,4 @@
       highlightTyped: true
     })
   </script>
-  {% include 'autocompletar-barrios.html' %}
 {% endblock %}

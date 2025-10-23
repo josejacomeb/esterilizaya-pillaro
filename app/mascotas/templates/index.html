@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block extra_head %}
-	<script src="{% static 'js/jquery.min.js' %}"></script>
 	<script src="{% static 'js/chart.umd.min.js' %}"></script>
 	<link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
 	<script src="{% static 'js/leaflet.js' %}"></script>
@@ -212,87 +211,82 @@
 	</div>
 {% endblock %}
 
-{% block extra_body %}
+
+{% block extra_js %}
 	<script src="{% static 'js/mapa.js' %}"></script>
 	<script src="{% static 'js/graficos.js' %}"></script>
-	<script>
-		$(function () {
-			// Auto-submit when select changes
-			$(
-				"#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id"
-			).on("change", function () {
-				$("#filterForm").submit();
-			});
-		
-			// Auto-submit when user types in the nombre field and pauses
-			let typingTimer;
-			const typingDelay = 500; // ms
-		
-			$("#nombre-id").on("keyup", function () {
-				clearTimeout(typingTimer);
-				typingTimer = setTimeout(function () {
-					$("#filterForm").submit();
-				}, typingDelay);
-			});
-			// Colapsar el filtro en móviles cuando se envia la forma
-			$("#filterForm select").on("change", function () {
-				if (window.innerWidth < 768) {
-					setTimeout(function () {
-						$("#filterCollapse").collapse("hide");
-					}, 300);
-				}
-			});
+{% endblock %}
+
+{% block domready %}
+	$(
+		"#campana-id, #especie-id, #genero-id, #raza-id, #canton-id, #parroquia-id, #barrio-id"
+	).on("change", function () {
+		$("#filterForm").submit();
+	});
+
+	// Auto-submit when user types in the nombre field and pauses
+	let typingTimer;
+	const typingDelay = 500; // ms
+
+	$("#nombre-id").on("keyup", function () {
+		clearTimeout(typingTimer);
+		typingTimer = setTimeout(function () {
+			$("#filterForm").submit();
+		}, typingDelay);
+	});
+	// Colapsar el filtro en móviles cuando se envia la forma
+	$("#filterForm select").on("change", function () {
+		if (window.innerWidth < 768) {
+			setTimeout(function () {
+				$("#filterCollapse").collapse("hide");
+			}, 300);
+		}
+	});
+	let hashTab = window.location.hash;
+	let lastTab = localStorage.getItem('selectedTab');
+	let initialTab = hashTab || lastTab || '#registros';
+
+	$('#mapaEstadisticasPestana button[data-bs-target="' + initialTab + '"]').tab('show');
+
+	$('#mapaEstadisticasPestana button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
+		const tabTarget = $(e.target).data('bs-target');
+		localStorage.setItem('selectedTab', tabTarget);
+		window.location.hash = tabTarget;
+	});
+
+	$(window).on('hashchange', function () {
+	const hash = window.location.hash;
+	if (hash) {
+		$('#mapaEstadisticasPestana button[data-bs-target="' + hash + '"]').tab('show');
+	}
+	});
+
+	let mapInitialized = false;
+	let chartsInitialized = false;
+	{% include "icono.html" %}
+	function loadEstadisticas() {
+	if (!mapInitialized) {
+		mapInitialized = true;
+		inicializarMapa(
+			{{ mascotas_ubicacion|safe }},
+			"{% static 'assets/locaciones.json' %}",
+			icono
+		);
+	}
+	if (!chartsInitialized) {
+		chartsInitialized = true;
+		inicializarGraficos({
+			estadisticasEspecie: {{ estadisticas_especie|safe }},
+			genderStats: {{ estadisticas_genero|safe }},
+			razaStats: {{ estadisticas_raza|safe }},
+			parroquiaStats: {{ estadisticas_parroquia|safe }},
+			barrioStats: {{ estadisticas_barrio|safe }}
 		});
-	</script>
-	<script>
-    $(function () {
-      let hashTab = window.location.hash;
-      let lastTab = localStorage.getItem('selectedTab');
-      let initialTab = hashTab || lastTab || '#registros';
+	}
+	}
 
-      $('#mapaEstadisticasPestana button[data-bs-target="' + initialTab + '"]').tab('show');
-
-      $('#mapaEstadisticasPestana button[data-bs-toggle="tab"]').on('shown.bs.tab', function (e) {
-        const tabTarget = $(e.target).data('bs-target');
-        localStorage.setItem('selectedTab', tabTarget);
-        window.location.hash = tabTarget;
-      });
-
-      $(window).on('hashchange', function () {
-        const hash = window.location.hash;
-        if (hash) {
-          $('#mapaEstadisticasPestana button[data-bs-target="' + hash + '"]').tab('show');
-        }
-      });
-
-      let mapInitialized = false;
-      let chartsInitialized = false;
-      {% include "icono.html" %}
-      function loadEstadisticas() {
-        if (!mapInitialized) {
-          mapInitialized = true;
-          inicializarMapa(
-            {{ mascotas_ubicacion|safe }},
-            "{% static 'assets/locaciones.json' %}",
-            icono
-          );
-        }
-        if (!chartsInitialized) {
-          chartsInitialized = true;
-          inicializarGraficos({
-            estadisticasEspecie: {{ estadisticas_especie|safe }},
-            genderStats: {{ estadisticas_genero|safe }},
-            razaStats: {{ estadisticas_raza|safe }},
-            parroquiaStats: {{ estadisticas_parroquia|safe }},
-            barrioStats: {{ estadisticas_barrio|safe }}
-          });
-        }
-      }
-
-      if (initialTab === '#estadisticas') {
-        loadEstadisticas();
-      }
-      $('#estadisticas-tab').on('shown.bs.tab', loadEstadisticas);
-    });
-  </script>
+	if (initialTab === '#estadisticas') {
+		loadEstadisticas();
+	}
+	$('#estadisticas-tab').on('shown.bs.tab', loadEstadisticas);
 {% endblock %}

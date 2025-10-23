@@ -7,7 +7,6 @@
 {% endblock %}
 
 {% block extra_head %}
-  <script src="{% static 'js/jquery.min.js' %}"></script>
   <link rel="stylesheet" href="{% static 'css/leaflet.css' %}" />
   <script src="{% static 'js/leaflet.js' %}"></script>
   <style>
@@ -185,17 +184,15 @@
   </div>
 {% endblock %}
 
-{% block extra_body %}
+{% block extra_js %}
   <script src="{% static 'js/mapa.js' %}"></script>
-  <script>
+{% endblock %}
+{% block domready %}
     {% include "icono.html" %}
-    $(function () {
-      let mapInitialized = false;
-      const locaciones = [['{{registro.canton_tutor}}', '{{registro.parroquia_tutor}}', '{{registro.barrio_tutor}}', 1]];
-      if (!mapInitialized) {
-        mapInitialized = true;
-        inicializarMapa(locaciones, "{% static 'assets/locaciones.json' %}", icono);
-      }
-    });
-  </script>
+    let mapInitialized = false;
+    const locaciones = [['{{registro.canton_tutor}}', '{{registro.parroquia_tutor}}', '{{registro.barrio_tutor}}', 1]];
+    if (!mapInitialized) {
+      mapInitialized = true;
+      inicializarMapa(locaciones, "{% static 'assets/locaciones.json' %}", icono);
+    }
 {% endblock %}

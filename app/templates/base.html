@@ -3,94 +3,103 @@
 {% load django_bootstrap5 %}
 
 <html lang="es">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>
-      {% block title %}
-      {% endblock %}- Esteriliza-ya
-    </title>
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>
+			{% block title %}
 
-    <!-- Offline-first resources -->
-    <link rel="icon" type="image/x-icon" href="{% static 'images/happypaws.ico' %}" />
-    {% bootstrap_css %}
-    {% bootstrap_javascript %}
-    <link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet" />
-    <link href="{% static 'css/base.css' %}" rel="stylesheet" />
-    <script src="{% static 'js/jquery.min.js' %}"></script>
-    {% block extra_head %}
-    {% endblock %}
-  </head>
+			{% endblock %}- Esteriliza-ya
+		</title>
 
-  <body>
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-      <div class="container-fluid">
-        <a class="navbar-brand" href="{% url 'inicio:index' %}">
-          <img src="{% static 'images/happypaws.png' %}" alt="Logo" height="30" class="d-inline-block align-text-top" />
-          Esteriliza-ya
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="navbar-nav me-auto">
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Campañas</a>
-              <ul class="dropdown-menu">
-                {% for campana in campanas_activas %}
-                  <li>
-                    <a class="dropdown-item" href="{{ campana.get_absolute_url }}">{{ campana.nombre }}</a>
-                  </li>
-                {% empty %}
-                  <li>
-                    <span class="dropdown-item text-muted">No hay campañas activas</span>
-                  </li>
-                {% endfor %}
-                <li>
-                  <hr class="dropdown-divider" />
-                </li>
-                <li>
-                  <a class="dropdown-item" href="{% url 'inicio:ver_campanas' %}">Todas</a>
-                </li>
-              </ul>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'mascotas:index' %}">Todas Mascotas</a>
-            </li>
-          </ul>
-          <div class="navbar-nav">
-            {% if user.is_authenticated %}
-              <span class="nav-item navbar-text me-3">Hola, {{ user.first_name|default:user.username }}</span>
-              <form class="nav-item" action="{% url 'cuenta:logout' %}" method="post">
-                {% csrf_token %}
-                <button type="submit" class="btn btn-outline-light btn-sm">Salir</button>
-              </form>
-            {% else %}
-              <a class="nav-link" href="{% url 'cuenta:login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
-            {% endif %}
-          </div>
-        </div>
-      </div>
-    </nav>
-    {% block breadcrumb %}
-    {% endblock %}
+		<!-- Offline-first resources -->
+		<link rel="icon" type="image/x-icon"  href="{% static 'images/happypaws.ico' %}" />
+		{% bootstrap_css %}
+		{% bootstrap_javascript %}
+		<link href="{% static 'css/bootstrap-icons.min.css' %}" rel="stylesheet" />
+		<link href="{% static 'css/base.css' %}" rel="stylesheet" />
+		<script src="{% static 'js/jquery.min.js' %}"></script>
+		{% block extra_head %}
 
-    <main>
-      <div class="content-wrapper">
-        {% bootstrap_messages %}
-        {% block content %}
+		{% endblock %}
+	</head>
+
+	<body>
+		<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+			<div class="container-fluid">
+				<a class="navbar-brand" href="{% url 'inicio:index' %}">
+					<img src="{% static 'images/happypaws.png' %}" alt="Logo" height="30" class="d-inline-block align-text-top" />
+					Esteriliza-ya
+				</a>
+				<button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+				<div class="collapse navbar-collapse" id="navbarNav">
+					<ul class="navbar-nav me-auto">
+						<li class="nav-item dropdown">
+							<a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown">Campañas</a>
+							<ul class="dropdown-menu">
+								{% for campana in campanas_activas %}
+									<li>
+										<a class="dropdown-item" href="{{ campana.get_absolute_url }}">{{ campana.nombre }}</a>
+									</li>
+								{% empty %}
+									<li>
+										<span class="dropdown-item text-muted">No hay campañas activas</span>
+									</li>
+								{% endfor %}
+								<li>
+									<hr class="dropdown-divider" />
+								</li>
+								<li>
+									<a class="dropdown-item" href="{% url 'inicio:ver_campanas' %}">Todas</a>
+								</li>
+							</ul>
+						</li>
+						<li class="nav-item">
+							<a class="nav-link" href="{% url 'mascotas:index' %}">Todas Mascotas</a>
+						</li>
+					</ul>
+					<div class="navbar-nav">
+						{% if user.is_authenticated %}
+							<span class="nav-item navbar-text me-3">Hola, {{ user.first_name|default:user.username }}</span>
+							<form class="nav-item" action="{% url 'cuenta:logout' %}" method="post">
+								{% csrf_token %}
+								<button type="submit" class="btn btn-outline-light btn-sm">Salir</button>
+							</form>
+						{% else %}
+							<a class="nav-link" href="{% url 'cuenta:login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</nav>
+		{% block breadcrumb %}
+
+		{% endblock %}
+
+		<main>
+			<div class="content-wrapper">
+				{% bootstrap_messages %}
+				{% block content %}
+
+				{% endblock %}
+			</div>
+		</main>
+
+		<footer class="py-3 mt-4">
+			<div class="content-wrapper text-center">
+				<p class="mb-0">
+					Desarrollado por <a href="https://github.com/josejacomeb/">josejacomeb</a> para
+					<a href="https://www.facebook.com/profile.php?id=61550626997105">Happy Paws Píllaro</a>
+				</p>
+			</div>
+		</footer>
+		<script>
+      $(function() {
+        {% block domready %}
         {% endblock %}
-      </div>
-    </main>
-
-    <footer class="py-3 mt-4">
-      <div class="content-wrapper text-center">
-        <p class="mb-0">
-          Desarrollado por <a href="https://github.com/josejacomeb/">josejacomeb</a> para
-          <a href="https://www.facebook.com/profile.php?id=61550626997105">Happy Paws Píllaro</a>
-        </p>
-      </div>
-    </footer>
-
-    {% block extra_body %}
-    {% endblock %}
-  </body>
+    });
+    </script>
+		{% block extra_js %}
+		{% endblock %}
+	</body>
 </html>
