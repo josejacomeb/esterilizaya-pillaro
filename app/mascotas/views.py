@@ -96,7 +96,7 @@ def obtener_valores_selector(queryset: QuerySet, key: str):
 
 
 def index(request):
-    lista_registros = Registro.objects.all().order_by("id")
+    lista_registros = Registro.objects.all().order_by("-id")
     filtros = {
         "campana": request.GET.get("campana", ""),
         "especie": request.GET.get("especie", ""),

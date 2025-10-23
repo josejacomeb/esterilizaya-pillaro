@@ -183,7 +183,7 @@ app/static/js/bootstrap*
 app/static/js/autocomplete.js
 app/static/js/jquery*
 app/static/js/chart*
-app/static/js/leaflet.js
+app/static/js/leaflet*
 
 # Archivos iniciales
 app/static/images/marker*
