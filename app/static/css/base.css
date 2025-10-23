@@ -66,11 +66,12 @@ a {
 }
 
 footer a {
-	color: var(--accent);
+	color: var(--secondary);
+	font-weight: bold;
 }
 
 a:hover {
-	color: var(--primary-dark);
+	color: var(--accent);
 }
 
 footer a:hover {
@@ -192,7 +193,7 @@ ul.messages li.warning {
 /* Footer */
 footer {
 	flex-shrink: 0;
-	background-color: var(--secondary);
+	background-color: var(--primary-dark);
 	color: var(--text-light);
 	padding: 15px;
 }
