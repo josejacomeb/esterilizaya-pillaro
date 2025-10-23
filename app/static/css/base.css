@@ -71,7 +71,7 @@ footer a {
 }
 
 a:hover {
-	color: var(--accent);
+	color: var(--primary-light);
 }
 
 footer a:hover {
