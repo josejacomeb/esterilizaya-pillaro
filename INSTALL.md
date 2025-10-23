@@ -53,8 +53,6 @@
       wget -P app/static/css https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.css
       wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js
       wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js.map
-      wget -P app/static/images https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/images/marker-icon.png
-      wget -P app/static/images https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/images/marker-shadow.png
    ```
 
 5. Descargue los contenedores con el siguiente comando: `docker compose build`.
