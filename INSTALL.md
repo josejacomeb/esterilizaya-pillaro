@@ -46,11 +46,13 @@
       # Descargar Chart.js
       CHART_JS_VERSION="4.5.0"
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js -O app/static/js/chart.umd.min.js
+      wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js.map -O app/static/js/chart.umd.min.js.map
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.js.map -O app/static/js/chart.umd.js.map
       # Descargar Leaflet
       LEAFLET_VERSION="1.9.4"
       wget -P app/static/css https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.css
       wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js
+      wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js.map
       wget -P app/static/images https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/images/marker-icon.png
       wget -P app/static/images https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/images/marker-shadow.png
    ```
