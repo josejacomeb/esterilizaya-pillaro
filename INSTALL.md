@@ -14,13 +14,12 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
 3. Cree los archivos con la información sensible en la carpeta `credenciales`, por ejemplo en Linux:
 
    ```bash
-       mkdir credenciales & mkdir credenciales/database
+       mkdir -p credenciales/database
        openssl rand -base64 32 > credenciales/database/root_password.txt
        openssl rand -base64 32 > credenciales/database/user_password.txt
        openssl rand -base64 32 > credenciales/database/admin_password.txt
-       mkdir credenciales/superuser
+       mkdir -p credenciales/superuser
        openssl rand -base64 32 > credenciales/superuser/password.txt
-
    ```
 
 4. Debido a que a veces el sistema no tendrá internet, es necesario descargar `bootstrap` >= 5 y `bootstrap-autocomplete` localmente para que todo el frontend funcione, es recomendable descargarlo de la página oficial con los siguientes comandos:
@@ -99,9 +98,9 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
 
 10. Colecciona los archivos estáticos de tu directorio con el siguiente comando
 
-   ```bash
-   docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
-   ```
+```bash
+docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
+```
 
 ### Adicional
 
