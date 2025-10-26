@@ -3,7 +3,7 @@
 [![Super-Linter](https://github.com/josejacomeb/esterilizaya-pillaro/actions/workflows/super-linter-slim.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo en Píllaro - Tungurahua, Ecuador
- ![Esterilizaya!](/docs/images/Esteriliza-ya.png)
+ ![Esterilizaya!](/docs/images/Esterilizaya.png)
 
 ## Características
 
@@ -55,7 +55,11 @@ En caso no tengas acceso a internet, debes hacer una configuración adicional pa
    docker compose -f docker-compose.yml -f docker-compose.prod.yml restart
    ```
 
-### Impresiones automáticas
+## Proceso
+
+Las jornadas de esterilización no son algo muy especializado o difícil de hacer, cualquier persona con convicción puede lograr organizar una. Si quieres incluir Esterilizaya en tu jornada, considera el siguiente [Proceso](docs/PROCESO.md) que hemos encontrado eficiente en nuestra experiencia
+
+## Impresiones automáticas
 
 Si la computadora donde corre este servidor tiene una impresora conectada, la puedes configurar en Linux para imprimir las fichas automáticamente.
 

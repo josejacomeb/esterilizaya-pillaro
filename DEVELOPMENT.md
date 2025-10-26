@@ -1,6 +1,6 @@
 # Desarrollo
 
-¡Gracias por contribuir al desarollo de Esteriliza-ya! Cualquier aportación de código es bienvenida con el fin de mejorar cada vez más este proyecto.
+¡Gracias por contribuir al desarollo de Esterilizaya! Cualquier aportación de código es bienvenida con el fin de mejorar cada vez más este proyecto.
 
 ## Antes de contribuir
 
