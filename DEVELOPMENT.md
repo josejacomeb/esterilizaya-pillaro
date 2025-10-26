@@ -113,4 +113,4 @@ Se puede hacer el respaldo de los contenedores a través de estos comandos:
 4. Inicializa normalmente los contenedores.
    `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`
 
-*Nota*: Puede salir un mensaje de alerta que el volumen no ha sido creado por `docker compose`, al final seguirá funcionando el programa.
+_Nota_: Puede salir un mensaje de alerta que el volumen no ha sido creado por `docker compose`, al final seguirá funcionando el programa.

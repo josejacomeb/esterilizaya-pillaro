@@ -3,31 +3,31 @@
 [![Super-Linter](https://github.com/josejacomeb/esterilizaya-pillaro/actions/workflows/super-linter-slim.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo en Píllaro - Tungurahua, Ecuador
- ![Esterilizaya!](/docs/images/Esterilizaya.png)
+![Esterilizaya!](/docs/images/Esterilizaya.png)
 
 ## Características
 
-Destinado a funcionar en lugares *sin conexión* a internet, sólo necesitas una laptop que haga de servidor, una impresora y conectar a los voluntarios a la red del servidor.
+Destinado a funcionar en lugares _sin conexión_ a internet, sólo necesitas una laptop que haga de servidor, una impresora y conectar a los voluntarios a la red del servidor.
 
-* 📝 Gestionar inscripciones, registros incluso con fotos desde tu celular
-* 🛠️ Generar fichas, carnets, recetas listas para imprimir instantáneamente
-* 🥼🐾 Provee datos de las mascotas a los veterinarios en tiempo real
-* 📊 Genera estadísticas de tenencia con varios filtros a elección
-* 🗃️ Genera un catastro digital de mascotas
+- 📝 Gestionar inscripciones, registros incluso con fotos desde tu celular
+- 🛠️ Generar fichas, carnets, recetas listas para imprimir instantáneamente
+- 🥼🐾 Provee datos de las mascotas a los veterinarios en tiempo real
+- 📊 Genera estadísticas de tenencia con varios filtros a elección
+- 🗃️ Genera un catastro digital de mascotas
 
 ## Herramientas Software
 
-* [Docker](https://www.docker.com/get-started/) >= 28.x
-* [Django](https://www.djangoproject.com/) >= 5.x
-* [MariaDB](https://mariadb.org/) >= 11.x
-* [Bootstrap](https://getbootstrap.com/) >= 5.x
-* [boostrap-autocomplete](https://bootstrap-autocomplete.readthedocs.io/en/latest/) >= 2.x
-* [jQuery](https://jquery.com/) >= v3.x
-* [WeasyPrint](https://weasyprint.org/) >= v63.x
-* [watchfiles](https://github.com/samuelcolvin/watchfiles) >= v1.x
-* [Chart.js](https://www.chartjs.org/) >= 4.5.x
-* [Leaflet](https://leafletjs.com/) >= 1.9.x
-* [easy-thumbnails](https://github.com/SmileyChris/easy-thumbnails) >=2.x
+- [Docker](https://www.docker.com/get-started/) >= 28.x
+- [Django](https://www.djangoproject.com/) >= 5.x
+- [MariaDB](https://mariadb.org/) >= 11.x
+- [Bootstrap](https://getbootstrap.com/) >= 5.x
+- [boostrap-autocomplete](https://bootstrap-autocomplete.readthedocs.io/en/latest/) >= 2.x
+- [jQuery](https://jquery.com/) >= v3.x
+- [WeasyPrint](https://weasyprint.org/) >= v63.x
+- [watchfiles](https://github.com/samuelcolvin/watchfiles) >= v1.x
+- [Chart.js](https://www.chartjs.org/) >= 4.5.x
+- [Leaflet](https://leafletjs.com/) >= 1.9.x
+- [easy-thumbnails](https://github.com/SmileyChris/easy-thumbnails) >=2.x
 
 ## Instalación
 
@@ -35,7 +35,7 @@ Por favor, siga las instrucciones en el Archivo de [Instalación](INSTALL.md)
 
 ## Servidor de forma local
 
-En caso de no tener una red Wifi, considera hacer un *hotspot* desde tu servidor hacia los dispositivos de tus voluntarios, luego sigue las instrucciones:
+En caso de no tener una red Wi-Fi, considera hacer un _hotspot_ desde tu servidor hacia los dispositivos de tus voluntarios, luego sigue las instrucciones:
 
 ### Configuraciones Django
 
@@ -69,9 +69,9 @@ Para saber cómo hacerlo por favor Instrucciones [Impresion Automática](impresi
 
 ¿Deseas saber más o como contribuir? ¡Síguenos! Si te gusta nuestro trabajo, por favor considera hacer una donación.
 
-| Facebook                                                                         | Instagram                                                          | TikTok                                                            | Youtube                                                                  |
-|----------------------------------------------------------------------------------|--------------------------------------------------------------------|-------------------------------------------------------------------|--------------------------------------------------------------------------|
-| [Happy Paws Píllaro]( https://www.facebook.com/profile.php?id=61550626997105 ) | [@happypaws.pillaro](https://www.instagram.com/happypaws.pillaro/) | [@happypaws.pillaro]( https://www.tiktok.com/@happypaws.pillaro ) | [Happy Paws Píllaro]( https://www.youtube.com/@HappyPawsP%C3%ADllaro ) |
+| Facebook                                                                     | Instagram                                                          | TikTok                                                          | YouTube                                                              |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [Happy Paws Píllaro](https://www.facebook.com/profile.php?id=61550626997105) | [@happypaws.pillaro](https://www.instagram.com/happypaws.pillaro/) | [@happypaws.pillaro](https://www.tiktok.com/@happypaws.pillaro) | [Happy Paws Píllaro](https://www.youtube.com/@HappyPawsP%C3%ADllaro) |
 
 ![Happy Paws Píllaro](app/static/images/happypaws.png)
 

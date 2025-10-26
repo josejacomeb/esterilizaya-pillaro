@@ -7,7 +7,7 @@
 
 ## Instrucciones
 
-Estas instrucciones están indicadas para usuarios que corran en sistemas basados en Debian como Ubuntu, por favor referirse a tu distribución en caso de hacer cambios. También estás instrucciones están dedicadas a configurar el sistema *sin conexión* como es el objetivo de las campañas
+Estas instrucciones están indicadas para usuarios que corran en sistemas basados en Debian como Ubuntu, por favor referirse a tu distribución en caso de hacer cambios. También estás instrucciones están dedicadas a configurar el sistema _sin conexión_ como es el objetivo de las campañas
 
 1. Por favor, copie las variables de entorno para iniciar el sistema `cp .env.example .env`, luego se pueden cambiar a discreción
 2. Genera una clave segura, por ejemplo con `openssl rand -base64 32`, luego reemplaza el valor de `SECRET_KEY` con el generado
@@ -70,7 +70,7 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
       docker compose -f docker-compose.yml -f docker-compose.migrate.yml up
    ```
 
-6. Crea un nuevo superusuario del sistema, con el siguiente comando:
+7. Crea un nuevo superusuario del sistema, con el siguiente comando:
 
 ```bash
    docker compose -f docker-compose.yml -f docker-compose.superuser.yml up
