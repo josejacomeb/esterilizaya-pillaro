@@ -60,35 +60,44 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
 5. Por favor cambia los permisos de tu carpeta de código, en Alpine Linux, el usuario y grupo `www-data` es diferente al de Debian/Ubuntu, en tal caso, usa la siguiente línea para modificar los permisos:
 
    ```bash
+   mkdir -p app/{ssl,uwsgi}
    sudo chown -R 100:82 app/
+   sudo chmod -R a+rwX ./app/{campana,inscripcion,registro,ssl,uwsgi}
    ```
 
 6. Descargue los contenedores y ejecuta las migraciones el siguiente comando:
 
    ```bash
       docker compose -f docker-compose.yml -f docker-compose.prod.yml build
-      docker compose -f docker-compose.yml -f docker-compose.migrate.yml up
+      docker compose -f docker-compose.yml -f docker-compose.migrate.yml up db -d
+      docker compose -f docker-compose.yml -f docker-compose.migrate.yml up web
    ```
 
 7. Crea un nuevo superusuario del sistema, con el siguiente comando:
 
-```bash
-   docker compose -f docker-compose.yml -f docker-compose.superuser.yml up
-```
+   ```bash
+      docker compose -f docker-compose.yml -f docker-compose.superuser.yml up web
+   ```
 
-7. Crea una nueva carpeta en `mkdir app/ssl` y genera el certificado SSL
+8. Genera el certificado SSL
 
    ```bash
-   mkdir app/ssl/
    openssl req -x509 -newkey rsa:2048 -sha256 -days 3650 -nodes \
        -keyout app/ssl/happypaws.key -out app/ssl/happypaws.crt \
        -subj '/CN=*.happypawspillaro.org' \
        -addext 'subjectAltName=DNS:*.happypawspillaro.org'
    ```
 
-8. Inicie el sistema con `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`, puedes acceder al servidor en [http://localhost:8443](http://localhost:8443), nota si quieres iniciarle en modo desarrollo refierete a las instrucciones en el [DEVELOPMENT.md](DEVELOPMENT.md)
+9. Inicie el sistema con el comando:
 
-9. Colecciona los archivos estáticos de tu directorio con el siguiente comando
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+   ```
+
+   Puedes acceder al servidor en [http://localhost:8443](http://localhost:8443), nota
+   si quieres iniciarle en modo desarrollo refierete a las instrucciones en el [DEVELOPMENT.md](DEVELOPMENT.md)
+
+10. Colecciona los archivos estáticos de tu directorio con el siguiente comando
 
    ```bash
    docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
