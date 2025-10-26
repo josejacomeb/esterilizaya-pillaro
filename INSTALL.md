@@ -3,9 +3,11 @@
 ## Prerequisitos
 
 1. Por favor, sigue las instrucciones de [instalación](https://docs.docker.com/engine/install/) de Docker
-2. Configura Docker para que corra em modo [rootless](https://docs.docker.com/engine/security/rootless/#install)
+2. Configura Docker para que corra en modo [rootless](https://docs.docker.com/engine/security/rootless/#install)
 
 ## Instrucciones
+
+Estas instrucciones están indicadas para usuarios que corran en sistemas basados en Debian como Ubuntu, por favor referirse a tu distribución en caso de hacer cambios. También estás instrucciones están dedicadas a configurar el sistema *sin conexión* como es el objetivo de las campañas
 
 1. Por favor, copie las variables de entorno para iniciar el sistema `cp .env.example .env`, luego se pueden cambiar a discreción
 2. Genera una clave segura, por ejemplo con `openssl rand -base64 32`, luego reemplaza el valor de `SECRET_KEY` con el generado
@@ -13,11 +15,11 @@
 
    ```bash
        mkdir credenciales & mkdir credenciales/database
-       echo ejemplo_contraseña_root_secreto > credenciales/database/root_password.txt
-       echo ejemplo_contraseña_user_secreto > credenciales/database/user_password.txt
-       echo ejemplo_contraseña_admin > credenciales/database/admin_password.txt
+       openssl rand -base64 32 > credenciales/database/root_password.txt
+       openssl rand -base64 32 > credenciales/database/user_password.txt
+       openssl rand -base64 32 > credenciales/database/admin_password.txt
        mkdir credenciales/superuser
-       echo ejemplo_contraseña_superuser > credenciales/superuser/password.txt
+       openssl rand -base64 32 > credenciales/superuser/password.txt
 
    ```
 
@@ -55,20 +57,26 @@
       wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js.map
    ```
 
-5. Descargue los contenedores con el siguiente comando: `docker compose build`.
-   Por favor ejecute las migraciones de la base de datos a través del siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.migrate.yml up`.
-6. Por favor, cree un nuevo superusuario del sistema, con el siguiente comando: `docker compose -f docker-compose.yml -f docker-compose.superuser.yml up`.
-7. Inicie el sistema con `docker compose up -d --build`, con el cual por defecto se podrá iniciar el desarrollo.
+5. Por favor cambia los permisos de tu carpeta de código, en Alpine Linux, el usuario y grupo `www-data` es diferente al de Debian/Ubuntu, en tal caso, usa la siguiente línea para modificar los permisos:
 
-### Configuración servidor local de producción en Linux
-
-1. Para poder usar un dominio reconocible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
-
-   ```text
-   127.0.0.1 happypawspillaro.org www.happypawspillaro.org
+   ```bash
+   sudo chown -R 100:82 app/
    ```
 
-2. Crea una nueva carpeta en `mkdir app/ssl` y genera el certificado SSL
+6. Descargue los contenedores y ejecuta las migraciones el siguiente comando:
+
+   ```bash
+      docker compose -f docker-compose.yml -f docker-compose.prod.yml build
+      docker compose -f docker-compose.yml -f docker-compose.migrate.yml up
+   ```
+
+6. Crea un nuevo superusuario del sistema, con el siguiente comando:
+
+```bash
+   docker compose -f docker-compose.yml -f docker-compose.superuser.yml up
+```
+
+7. Crea una nueva carpeta en `mkdir app/ssl` y genera el certificado SSL
 
    ```bash
    mkdir app/ssl/
@@ -78,29 +86,27 @@
        -addext 'subjectAltName=DNS:*.happypawspillaro.org'
    ```
 
-3. Por favor cambia los permisos de tu carpeta de código, en Alpine Linux, el usuario y grupo `www-data` es diferente al de Debian/Ubuntu, en tal caso, usa la siguiente línea para modificar los permisos:
-
-   ```bash
-   sudo chown -R 82:82 app/
-   ```
-
-4. Inicie el servidor de producción con el siguiente comando
-
-   ```bash
-      docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-   ```
-
-5. Colecciona los archivos estáticos de tu directorio con el siguiente comando
+8. Colecciona los archivos estáticos de tu directorio con el siguiente comando
 
    ```bash
    docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
+   ```
+
+9. Inicie el sistema con `docker compose -f docker-compose.yml -f docker-compose.prod up -d`, puedes acceder al servidor en [http://localhost:8443](http://localhost:8443), nota si quieres iniciarle en modo desarrollo refierete a las instrucciones en el [DEVELOPMENT.md](DEVELOPMENT.md)
+
+### Adicional
+
+1. Para poder usar un dominio reconocible, por favor añadir en tu archivo `/etc/hosts` la siguiente línea:
+
+   ```text
+   127.0.0.1 happypawspillaro.org www.happypawspillaro.org
    ```
 
 ## Preguntas frecuentes
 
 ### Cambiar permisos de los volumenes
 
-En caso de que no tengas permiso donde `100` es el user ID y `82` es el group ID del contenedor web.
+En caso de que no tengas permiso a acceder el volumen, usa este comando para cambiar el user ID a `100` y el grupo a`82` en el contenedor web.
 
 ```bash
   docker run --rm \
@@ -122,3 +128,13 @@ django.core.exceptions.ImproperlyConfigured: The SECRET_KEY setting must not be 
 ```
 
 Asegurate que añadiste una clave segura a tu variable `SECRET_KEY` en el archivo `.env`, revisa las instrucciones para saber cómo
+
+### Redireccionar el tráfico a puertos privilegiados
+
+Si quieres utilizar los puertos privilegiados de tu sistema para tus otros usuarios, usa `iptables` con los siguientes comando, por favor reemplaza la variable `HOTSPOT_IFACE` con tu adaptador de red actual.
+
+```bash
+HOTSPOT_IFACE=enp3s0
+sudo iptables -t nat -A PREROUTING -i $HOTSPOT_IFACE -p tcp --dport 443 -j REDIRECT --to-port 8443
+sudo iptables -t nat -A PREROUTING -i $HOTSPOT_IFACE -p tcp --dport 80 -j REDIRECT --to-port 8080
+```
