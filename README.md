@@ -12,7 +12,7 @@ Destinado a funcionar en lugares _sin conexión_ a internet, sólo necesitas una
 - 📝 Gestionar inscripciones, registros incluso con fotos desde tu celular
 - 🛠️ Generar fichas, carnets, recetas listas para imprimir instantáneamente
 - 🥼🐾 Provee datos de las mascotas a los veterinarios en tiempo real
-- 📊 Genera estadísticas de tenencia con varios filtros a elección
+- 📊 Genera estadísticas de jornadas y tenencia con varios filtros a elección
 - 🗃️ Genera un catastro digital de mascotas
 
 ## Herramientas Software
@@ -63,7 +63,7 @@ Las jornadas de esterilización no son algo muy especializado o difícil de hace
 
 Si la computadora donde corre este servidor tiene una impresora conectada, la puedes configurar en Linux para imprimir las fichas automáticamente.
 
-Para saber cómo hacerlo por favor Instrucciones [Impresion Automática](impresion-automatica/README.md)
+Para saber cómo hacerlo por favor dirígete a las instrucciones de [Impresion Automática](impresion-automatica/README.md)
 
 ## Happy Paws Píllaro
 

@@ -86,13 +86,13 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
        -addext 'subjectAltName=DNS:*.happypawspillaro.org'
    ```
 
-8. Colecciona los archivos estáticos de tu directorio con el siguiente comando
+8. Inicie el sistema con `docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d`, puedes acceder al servidor en [http://localhost:8443](http://localhost:8443), nota si quieres iniciarle en modo desarrollo refierete a las instrucciones en el [DEVELOPMENT.md](DEVELOPMENT.md)
+
+9. Colecciona los archivos estáticos de tu directorio con el siguiente comando
 
    ```bash
    docker compose exec web python /home/esterilizaya/code/manage.py collectstatic
    ```
-
-9. Inicie el sistema con `docker compose -f docker-compose.yml -f docker-compose.prod up -d`, puedes acceder al servidor en [http://localhost:8443](http://localhost:8443), nota si quieres iniciarle en modo desarrollo refierete a las instrucciones en el [DEVELOPMENT.md](DEVELOPMENT.md)
 
 ### Adicional
 
