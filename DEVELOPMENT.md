@@ -54,7 +54,7 @@ npx biome lint app/static/js/file.js
 Una vez que hayas construido los contenedores como describe la [Instalación](INSTALL.md), puedes iniciarlos en modo de desarrollo
 
 ```bash
-docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up -d --build
 ```
 
 Luego, podrás explorar las páginas del servidor en tu navegador en la dirección [http://localhost:8000/](http://localhost:8000/). Esta configuración activa la [Django Debug Toolbar](https://django-debug-toolbar.readthedocs.io/en/latest/) y sincroniza tu código local con el Contenedor.
