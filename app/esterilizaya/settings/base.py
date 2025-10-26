@@ -178,7 +178,8 @@ LOGOUT_URL = "cuenta:logout"
 
 # Media
 MEDIA_URL = "media/"
-MEDIA_ROOT = BASE_DIR / "media"
+# Nota: De esta forma no compartimos con la carpeta del código
+MEDIA_ROOT = BASE_DIR.parent / "media"
 
 # Default Boostrap settings
 BOOTSTRAP5 = {

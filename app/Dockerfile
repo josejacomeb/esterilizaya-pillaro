@@ -48,9 +48,9 @@ RUN adduser -S -G www-data www-data
 COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
 COPY ./app/ ./
 # Crear los directorios iniciales
-RUN mkdir -p /home/esterilizaya/code/media
+RUN mkdir -p /home/esterilizaya/media
 # Cambiar los permisos de los archivos copiados
-RUN chown -R www-data:www-data /home/esterilizaya/code /home/esterilizaya/code/media
+RUN chown -R www-data:www-data /home/esterilizaya/code /home/esterilizaya/media
 USER www-data
 
 FROM --platform=$BUILDPLATFORM base AS prod

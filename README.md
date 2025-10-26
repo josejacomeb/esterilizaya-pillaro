@@ -3,28 +3,17 @@
 [![Super-Linter](https://github.com/josejacomeb/esterilizaya-pillaro/actions/workflows/super-linter-slim.yml/badge.svg)](https://github.com/marketplace/actions/super-linter)
 
 Sistema de Gestión para automatizar las tareas de Esterilización de Bajo Costo en Píllaro - Tungurahua, Ecuador
+![Esterilizaya!](/docs/images/Esterilizaya.png)
 
-## Participantes
+## Características
 
-<a href="https://www.facebook.com/profile.php?id=61558304577721"><img align="left" src="https://raw.githubusercontent.com/gauravghongde/social-icons/master/SVG/Color/Facebook.svg" alt="Barrio Yacupamba | Facebook" height="21px"/></a>
-<a href="https://www.instagram.com/yacupamba/"><img align="left" src="https://raw.githubusercontent.com/gauravghongde/social-icons/master/SVG/Color/Instagram.svg" alt="Barrio Yacupamba | Instagram" height="21px"/></a>
-<a href="https://www.tiktok.com/@yacupamba"><img align="left" src="https://raw.githubusercontent.com/gauravghongde/social-icons/master/SVG/Color/Tik%20Tok.svg" alt="Yacupamba | Tiktok" height="21px"/></a>
-<a href="https://instagram.com/yushi.95"><img align="left" src="https://raw.githubusercontent.com/gauravghongde/social-icons/master/SVG/Color/Youtube.svg" alt="Yu Shi | Instagram" height="21px"/></a>
-</br>
+Destinado a funcionar en lugares _sin conexión_ a internet, sólo necesitas una laptop que haga de servidor, una impresora y conectar a los voluntarios a la red del servidor.
 
-- Barrio Yacupamba
-
-<a href="https://www.facebook.com/veterinaria.animal.zoo"><img align="left" src="https://raw.githubusercontent.com/gauravghongde/social-icons/master/SVG/Color/Facebook.svg" alt="Veterinaria Animal-Zoo | Facebook" height="21px"/></a>
-<a href="https://maps.app.goo.gl/B391JtNhJMbuY78J9"><img align="left" src="https://upload.wikimedia.org/wikipedia/commons/a/aa/Google_Maps_icon_%282020%29.svg" alt="Veterinaria Animal-Zoo Píllaro | Google Maps" height="21px"/></a>
-</br>
-
-- Veterinaria AnimalZoo
-
-<a href="https://www.facebook.com/profile.php?id=61550626997105"><img align="left" src="https://raw.githubusercontent.com/gauravghongde/social-icons/master/SVG/Color/Facebook.svg" alt="Happy Paws Píllaro | Facebook" height="21px"/></a>
-<a href="https://www.instagram.com/happypaws.pillaro/"><img align="left" src="https://raw.githubusercontent.com/gauravghongde/social-icons/master/SVG/Color/Instagram.svg" alt="Happy Paws Píllar | Instagram" height="21px"/></a>
-</br>
-
-- Happy Paws Píllaro
+- 📝 Gestionar inscripciones, registros incluso con fotos desde tu celular
+- 🛠️ Generar fichas, carnets, recetas listas para imprimir instantáneamente
+- 🥼🐾 Provee datos de las mascotas a los veterinarios en tiempo real
+- 📊 Genera estadísticas de jornadas y tenencia con varios filtros a elección
+- 🗃️ Genera un catastro digital de mascotas
 
 ## Herramientas Software
 
@@ -46,66 +35,45 @@ Por favor, siga las instrucciones en el Archivo de [Instalación](INSTALL.md)
 
 ## Servidor de forma local
 
-Estas instrucciones pueden servir cuando se genere una campaña en un lugar que no tenga acceso de internet.
+En caso de no tener una red Wi-Fi, considera hacer un _hotspot_ desde tu servidor hacia los dispositivos de tus voluntarios, luego sigue las instrucciones:
 
 ### Configuraciones Django
 
 En caso no tengas acceso a internet, debes hacer una configuración adicional para acceder al servidor, por ejemplo puedes consultar tu dirección de Red en Linux con `ip addr show _remplazar_dispositivo_red_`, luego:
 
-1. Añade el `hostname` y el IP en tu archivo `.env`
+1. Añade el `hostname` y el IP de tu servidor en tu archivo `.env`
 
    ```bash
    # URLs para correr localmente
    APP_URL=www.happypawspillaro.org # Hostname como lo configuraste en tu archivo /etc/hosts
-   LOCAL_URL=192.168.1.100 # IP local de tu adaptador de red
+   LOCAL_URL=192.168.1.100 # IP local de tu servidor en la red
    ```
 
-### Impresiones automáticas
+2. Haz efectiva tu configuración al reiniciar los contenedores con el comando
+
+   ```bash
+   docker compose -f docker-compose.yml -f docker-compose.prod.yml restart
+   ```
+
+## Proceso
+
+Las jornadas de esterilización no son algo muy especializado o difícil de hacer, cualquier persona con convicción puede lograr organizar una. Si quieres incluir Esterilizaya en tu jornada, considera el siguiente [Proceso](docs/PROCESO.md) que hemos encontrado eficiente en nuestra experiencia
+
+## Impresiones automáticas
 
 Si la computadora donde corre este servidor tiene una impresora conectada, la puedes configurar en Linux para imprimir las fichas automáticamente.
 
-Para saber cómo hacerlo por favor Instrucciones [Impresion Automática](impresion-automatica/README.md)
+Para saber cómo hacerlo por favor dirígete a las instrucciones de [Impresion Automática](impresion-automatica/README.md)
 
-## Generación respaldos
+## Happy Paws Píllaro
 
-### Exportar datos crudos
+¿Deseas saber más o como contribuir? ¡Síguenos! Si te gusta nuestro trabajo, por favor considera hacer una donación.
 
-Para exportar los datos de las esterilizaciones, por favor use: `python manage.py  dumpdata --exclude auth.permission > Xda_campana.json`
+| Facebook                                                                     | Instagram                                                          | TikTok                                                          | YouTube                                                              |
+| ---------------------------------------------------------------------------- | ------------------------------------------------------------------ | --------------------------------------------------------------- | -------------------------------------------------------------------- |
+| [Happy Paws Píllaro](https://www.facebook.com/profile.php?id=61550626997105) | [@happypaws.pillaro](https://www.instagram.com/happypaws.pillaro/) | [@happypaws.pillaro](https://www.tiktok.com/@happypaws.pillaro) | [Happy Paws Píllaro](https://www.youtube.com/@HappyPawsP%C3%ADllaro) |
 
-### Respaldo de datos y contenedores
-
-Se puede hacer el respaldo de los contenedores a través de estos comandos:
-
-#### Respaldo
-
-1. Respalda el volumen que contiene la base de datos con el siguiente comando
-   `docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar czf /backup/mariadb_volume_backup.tar.gz -C /data .`
-2. Respalda el volumen que contiene las imágenes a través del comando.
-   `docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar czf /backup/django_media_backup.tar.gz -C /data .`
-
-##### Restaurar
-
-1. Copia los contenedores generados anteriormente a la ruta donde está el archivo `docker-compose.yml`
-
-2. Para los contenedores y móntalos nuevamente, si es necesario iniciar de cero, bórralos.
-
-   ```bash
-   docker compose down
-   docker run --rm -v esterilizaya-pillaro_maria-db:/data -v $(pwd):/backup alpine tar xzf /backup/mariadb_volume_backup.tar.gz -C /data
-   docker run --rm -v esterilizaya-pillaro_media-volume:/data -v $(pwd):/backup alpine tar xzf /backup/django_media_backup.tar.gz -C /data
-   ```
-
-3. Crea de nuevo el contenedor de la base de datos e inicializa nuevamente el mismo con:
-
-   ```bash
-   docker compose up -d db
-   cat backup.sql | docker exec -i esterilizaya-pillaro-db-1 mariadb -u root -p<rootpassword>
-   ```
-
-4. Inicializa normalmente los contenedores.
-   `docker-compose up -d`
-
-_Nota_: Puede salir un mensaje de alerta que el volumen no ha sido creador por docker-compose, al final seguirá funcionando el programa.
+![Happy Paws Píllaro](app/static/images/happypaws.png)
 
 ## Desarrollo
 
