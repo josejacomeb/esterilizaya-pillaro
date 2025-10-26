@@ -11,7 +11,7 @@ services:
   ports:
    - "8000:8000"
   volumes:
-   - media-volume:/home/esterilizaya/code/media
+   - media-volume:/home/esterilizaya/media
    - ./pdfs:/tmp/pdfs
   environment:
    - DB_DATABASE=${DB_DATABASE}

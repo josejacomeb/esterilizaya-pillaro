@@ -23,6 +23,6 @@ server{
         alias /home/esterilizaya/code/static/;
     }
     location /media/ {
-        alias /home/esterilizaya/code/media/;
+        alias /home/esterilizaya/media/;
     }
 }

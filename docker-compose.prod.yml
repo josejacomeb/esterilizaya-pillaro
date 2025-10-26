@@ -32,4 +32,4 @@ services:
    - ./app/ssl:/home/esterilizaya/code/ssl
    - ./config/uwsgi/uwsgi.ini:/home/esterilizaya/code/uwsgi.ini
    - ./app/static:/home/esterilizaya/code/static
-   - media-volume:/home/esterilizaya/code/media
+   - media-volume:/home/esterilizaya/media
