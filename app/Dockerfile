@@ -11,6 +11,7 @@ RUN apk add --no-cache --virtual \
       cairo-dev=~1 \
       freetype-dev=~2 \
       gcc=~14 \
+      g++=~14 \
       gdk-pixbuf-dev=~2 \
       harfbuzz-dev=~11 \
       jpeg-dev=~9f \
@@ -45,7 +46,7 @@ RUN apk add --no-cache \
       zlib~=1
 
 RUN adduser -S -G www-data www-data
-COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY ./app/ ./
 # Crear los directorios iniciales
 RUN mkdir -p /home/esterilizaya/media
