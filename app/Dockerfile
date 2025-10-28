@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1.4
 
-FROM --platform=$BUILDPLATFORM python:3.13-alpine AS builder
+FROM --platform=$BUILDPLATFORM python:3.14-alpine AS builder
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
@@ -11,6 +11,7 @@ RUN apk add --no-cache --virtual \
       cairo-dev=~1 \
       freetype-dev=~2 \
       gcc=~14 \
+      g++=~14 \
       gdk-pixbuf-dev=~2 \
       harfbuzz-dev=~11 \
       jpeg-dev=~9f \
@@ -25,7 +26,7 @@ RUN apk add --no-cache --virtual \
     pip install --no-cache-dir -r requirements.txt && \
     apk del build-deps
 
-FROM --platform=$BUILDPLATFORM python:3.13-alpine AS base
+FROM --platform=$BUILDPLATFORM python:3.14-alpine AS base
 WORKDIR /home/esterilizaya/code
 RUN apk add --no-cache \ 
       cairo=~1 \
@@ -45,7 +46,7 @@ RUN apk add --no-cache \
       zlib~=1
 
 RUN adduser -S -G www-data www-data
-COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
+COPY --from=builder /usr/local/lib/python3.14/site-packages /usr/local/lib/python3.14/site-packages
 COPY ./app/ ./
 # Crear los directorios iniciales
 RUN mkdir -p /home/esterilizaya/media
