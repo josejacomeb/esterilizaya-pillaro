@@ -10,10 +10,10 @@ RUN apk add --no-cache --virtual \
       build-deps \ 
       cairo-dev=~1 \
       freetype-dev=~2 \
-      gcc=~14 \
-      g++=~14 \
+      gcc=~15 \
+      g++=~15 \
       gdk-pixbuf-dev=~2 \
-      harfbuzz-dev=~11 \
+      harfbuzz-dev=~12 \
       jpeg-dev=~9f \
       libffi-dev=~3 \
       libxml2-dev=~2 \
@@ -36,13 +36,13 @@ RUN apk add --no-cache \
       fontconfig=~2 \
       freetype=~2 \
       gdk-pixbuf=~2 \
-      harfbuzz=~11 \
+      harfbuzz=~12 \
       jpeg=~9f \
       libffi=~3 \
       libxml2=~2 \
       libxslt=~1 \
       mariadb-connector-c-dev=~3 \
-      weasyprint=~64 \
+      weasyprint=~66 \
       zlib~=1
 
 RUN adduser -S -G www-data www-data
