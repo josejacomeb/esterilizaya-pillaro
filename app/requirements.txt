@@ -1,5 +1,5 @@
 django-bootstrap5==25.*
-django==5.*
+django==6.*
 easy-thumbnails==2.*
 mysqlclient==2.*
 pillow==12.*
