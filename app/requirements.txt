@@ -1,4 +1,4 @@
-django-bootstrap5==25.*
+django-bootstrap5==26.*
 django==6.*
 easy-thumbnails==2.*
 mysqlclient==2.*
