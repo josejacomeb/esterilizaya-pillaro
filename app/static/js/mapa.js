@@ -4,7 +4,8 @@ function inicializarMapa(locaciones, locacionesDataUrl, icono) {
 	$.getJSON(locacionesDataUrl, function (data) {
 		const map = L.map("mapa").setView([-1.1690711, -78.5168839], 11);
 		L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
-			attribution: '&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
+			attribution:
+				'&copy; <a href="http://www.openstreetmap.org/copyright">OpenStreetMap</a>',
 		}).addTo(map);
 
 		$.each(locaciones, function (_, locacion) {
