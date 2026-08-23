@@ -26,7 +26,7 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
 
    ```bash
       # Descarga Bootstrap
-      BOOTSTRAP_VERSION="5.3.7"
+      BOOTSTRAP_VERSION="5.3.8"
       wget -P app/static https://github.com/twbs/bootstrap/releases/download/v$BOOTSTRAP_VERSION/bootstrap-$BOOTSTRAP_VERSION-dist.zip
       mkdir -p app/static/temp_bootstrap
       unzip app/static/bootstrap-$BOOTSTRAP_VERSION-dist.zip -d app/static/temp_bootstrap
@@ -42,10 +42,10 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
       # Descarga boostrap-autocomplete
       wget -P app/static/js/ https://cdn.jsdelivr.net/gh/lekoala/bootstrap5-autocomplete@master/autocomplete.js
       # Descarga jQuery
-      JQUERY_VERSION="3.7.1"
+      JQUERY_VERSION="4.0.0"
       wget https://code.jquery.com/jquery-$JQUERY_VERSION.min.js -O app/static/js/jquery.min.js
       # Descargar Chart.js
-      CHART_JS_VERSION="4.5.0"
+      CHART_JS_VERSION="4.5.1"
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js -O app/static/js/chart.umd.min.js
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.min.js.map -O app/static/js/chart.umd.min.js.map
       wget https://cdnjs.cloudflare.com/ajax/libs/Chart.js/$CHART_JS_VERSION/chart.umd.js.map -O app/static/js/chart.umd.js.map
@@ -55,7 +55,7 @@ Estas instrucciones están indicadas para usuarios que corran en sistemas basado
       wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js
       wget -P app/static/js https://unpkg.com/leaflet@$LEAFLET_VERSION/dist/leaflet.js.map
       # Descarga HTMX
-      HTMX_VERSION="2.0.8"
+      HTMX_VERSION="2.0.10"
       wget -P app/static/js https://cdn.jsdelivr.net/npm/htmx.org@$HTMX_VERSION/dist/htmx.min.js
    ```
 
